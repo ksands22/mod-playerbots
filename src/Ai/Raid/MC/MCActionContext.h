@@ -36,6 +36,11 @@ public:
         creators["mc move from lava"] = &RaidMcActionContext::move_from_lava;
         creators["mc golemagg back off"] = &RaidMcActionContext::golemagg_back_off;
         creators["mc golemagg healer position"] = &RaidMcActionContext::golemagg_healer_position;
+        creators["mc kill order mark"] = &RaidMcActionContext::kill_order_mark;
+        creators["mc sulfuron interrupt dark mending"] = &RaidMcActionContext::sulfuron_interrupt_dark_mending;
+        creators["mc majordomo stop attacking"] = &RaidMcActionContext::majordomo_stop_attacking;
+        creators["mc ragnaros move away"] = &RaidMcActionContext::ragnaros_move_away;
+        creators["mc ragnaros spread"] = &RaidMcActionContext::ragnaros_spread;
     }
 
 private:
@@ -58,6 +63,11 @@ private:
     static Action* move_from_lava(PlayerbotAI* botAI) { return new McMoveFromLavaAction(botAI); }
     static Action* golemagg_back_off(PlayerbotAI* botAI) { return new McGolemaggBackOffAction(botAI); }
     static Action* golemagg_healer_position(PlayerbotAI* botAI) { return new McGolemaggHealerPositionAction(botAI); }
+    static Action* kill_order_mark(PlayerbotAI* botAI) { return new McKillOrderMarkAction(botAI); }
+    static Action* sulfuron_interrupt_dark_mending(PlayerbotAI* botAI) { return new McSulfuronInterruptDarkMendingAction(botAI); }
+    static Action* majordomo_stop_attacking(PlayerbotAI* botAI) { return new McMajordomoStopAttackingAction(botAI); }
+    static Action* ragnaros_move_away(PlayerbotAI* botAI) { return new McRagnarosMoveAwayAction(botAI); }
+    static Action* ragnaros_spread(PlayerbotAI* botAI) { return new McRagnarosSpreadAction(botAI); }
 };
 
 #endif

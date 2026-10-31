@@ -82,4 +82,40 @@ public:
     bool IsActive() override;
 };
 
+class McKillOrderMarkTrigger : public Trigger
+{
+public:
+    McKillOrderMarkTrigger(PlayerbotAI* botAI) : Trigger(botAI, "mc kill order mark") {}
+    bool IsActive() override;
+};
+
+class McSulfuronDarkMendingTrigger : public Trigger
+{
+public:
+    McSulfuronDarkMendingTrigger(PlayerbotAI* botAI) : Trigger(botAI, "mc sulfuron dark mending") {}
+    bool IsActive() override;
+};
+
+class McMajordomoReflectionTrigger : public Trigger
+{
+public:
+    McMajordomoReflectionTrigger(PlayerbotAI* botAI) : Trigger(botAI, "mc majordomo reflection") {}
+    bool IsActive() override;
+};
+
+class McRagnarosRangedTooCloseTrigger : public Trigger
+{
+public:
+    McRagnarosRangedTooCloseTrigger(PlayerbotAI* botAI) : Trigger(botAI, "mc ragnaros ranged too close") {}
+    bool IsActive() override;
+};
+
+// Checked every 2s: finding the nearest raid member walks the whole group.
+class McRagnarosRangedSpreadTrigger : public Trigger
+{
+public:
+    McRagnarosRangedSpreadTrigger(PlayerbotAI* botAI) : Trigger(botAI, "mc ragnaros ranged spread", 2) {}
+    bool IsActive() override;
+};
+
 #endif
