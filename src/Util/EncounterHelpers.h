@@ -110,9 +110,12 @@ struct ClassRoleSlot
 };
 
 // Priority from ClassRoleChoiceReason. Ties go to the highest gear score, then the lowest GUID.
-ClassRoleChoice FindClassRoleChoice(PlayerbotAI* botAI, uint32 mapId, ClassRole const& role);
+// Players in excluded are skipped.
+ClassRoleChoice FindClassRoleChoice(
+    PlayerbotAI* botAI, uint32 mapId, ClassRole const& role, GuidSet const& excluded = {});
 // Out of encounters, picks every class role player again. During one, picks a player only if the
-// role is empty or its player has died or left, and announces the handover.
+// role is empty or its player has died or left, and announces the handover. A player holds at most
+// one of the roles in slots, so two roles of the same class go to different players.
 bool UpdateClassRoleAssignments(
     PlayerbotAI* botAI, uint32 mapId, std::initializer_list<ClassRoleSlot> slots);
 // Announces any unannounced choice once the bot is within 2D announceDistance of the boss's spawn
