@@ -30,7 +30,10 @@ public:
 
         creators["bwl firemaw fire resistance"] = &RaidBwlTriggerContext::bwl_firemaw_fire_resistance_trigger;
         creators["bwl firemaw not victim"] = &RaidBwlTriggerContext::bwl_firemaw_not_victim;
+        creators["bwl firemaw flame buffet"] = &RaidBwlTriggerContext::bwl_firemaw_flame_buffet;
+        creators["bwl firemaw healer position"] = &RaidBwlTriggerContext::bwl_firemaw_healer_position;
         creators["bwl ebonroc not victim"] = &RaidBwlTriggerContext::bwl_ebonroc_not_victim;
+        creators["bwl ebonroc shadow on other tank"] = &RaidBwlTriggerContext::bwl_ebonroc_shadow_on_other_tank;
         creators["bwl flamegor fire resistance"] = &RaidBwlTriggerContext::bwl_flamegor_fire_resistance_trigger;
         creators["bwl flamegor not victim"] = &RaidBwlTriggerContext::bwl_flamegor_not_victim;
 
@@ -38,6 +41,8 @@ public:
 
         creators["bwl nefarian positioning"] = &RaidBwlTriggerContext::bwl_nefarian_positioning;
         creators["bwl nefarian wild magic"] = &RaidBwlTriggerContext::bwl_nefarian_wild_magic;
+        creators["bwl nefarian corrupted healing"] = &RaidBwlTriggerContext::bwl_nefarian_corrupted_healing;
+        creators["bwl nefarian corrupted totem"] = &RaidBwlTriggerContext::bwl_nefarian_corrupted_totem;
 
         creators["bwl death talon wyrmguard tank"] = &RaidBwlTriggerContext::bwl_death_talon_wyrmguard_tank;
         creators["bwl death talon wyrmguard ranged"] = &RaidBwlTriggerContext::bwl_death_talon_wyrmguard_ranged;
@@ -60,6 +65,11 @@ private:
     static Trigger* bwl_affliction_bronze(PlayerbotAI* botAI) { return new BwlAfflictionBronzeTrigger(botAI); }
     static Trigger* bwl_nefarian_wild_magic(PlayerbotAI* botAI) { return new BwlNefarianWildMagicTrigger(botAI); }
     static Trigger* bwl_nefarian_positioning(PlayerbotAI* botAI) { return new BwlNefarianPositioningTrigger(botAI); }
+    static Trigger* bwl_firemaw_flame_buffet(PlayerbotAI* botAI) { return new BwlFiremawFlameBuffetTrigger(botAI); }
+    static Trigger* bwl_firemaw_healer_position(PlayerbotAI* botAI) { return new BwlFiremawHealerPositionTrigger(botAI); }
+    static Trigger* bwl_ebonroc_shadow_on_other_tank(PlayerbotAI* botAI) { return new BwlEbonrocShadowOnOtherTankTrigger(botAI); }
+    static Trigger* bwl_nefarian_corrupted_healing(PlayerbotAI* botAI) { return new BwlNefarianCorruptedHealingTrigger(botAI); }
+    static Trigger* bwl_nefarian_corrupted_totem(PlayerbotAI* botAI) { return new BwlNefarianCorruptedTotemTrigger(botAI); }
     static Trigger* bwl_death_talon_wyrmguard_tank(PlayerbotAI* botAI) { return new BwlDeathTalonWyrmguardTankTrigger(botAI); }
     static Trigger* bwl_death_talon_wyrmguard_ranged(PlayerbotAI* botAI) { return new BwlDeathTalonWyrmguardRangedTrigger(botAI); }
 };

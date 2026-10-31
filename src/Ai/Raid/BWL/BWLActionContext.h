@@ -32,12 +32,17 @@ public:
 
         creators["bwl firemaw fire resistance"] = &RaidBwlActionContext::bwl_firemaw_fire_resistance_action;
         creators["bwl firemaw avoid breath"] = &RaidBwlActionContext::bwl_firemaw_avoid_breath;
+        creators["bwl firemaw hide from flame buffet"] = &RaidBwlActionContext::bwl_firemaw_hide_from_flame_buffet;
+        creators["bwl firemaw healer position"] = &RaidBwlActionContext::bwl_firemaw_healer_position;
         creators["bwl ebonroc avoid breath"] = &RaidBwlActionContext::bwl_ebonroc_avoid_breath;
+        creators["bwl ebonroc taunt"] = &RaidBwlActionContext::bwl_ebonroc_taunt;
         creators["bwl flamegor fire resistance"] = &RaidBwlActionContext::bwl_flamegor_fire_resistance_action;
         creators["bwl flamegor avoid breath"] = &RaidBwlActionContext::bwl_flamegor_avoid_breath;
 
         creators["bwl use hourglass sand"] = &RaidBwlActionContext::bwl_use_hourglass_sand;
         creators["bwl nefarian rear flank"] = &RaidBwlActionContext::bwl_nefarian_rear_flank;
+        creators["bwl nefarian stop corrupted heal"] = &RaidBwlActionContext::bwl_nefarian_stop_corrupted_heal;
+        creators["bwl nefarian mark corrupted totem"] = &RaidBwlActionContext::bwl_nefarian_mark_corrupted_totem;
 
         creators["bwl death talon wyrmguard tank move away"] = &RaidBwlActionContext::bwl_death_talon_wyrmguard_tank_move_away;
         creators["bwl death talon wyrmguard ranged move away"] = &RaidBwlActionContext::bwl_death_talon_wyrmguard_ranged_move_away;
@@ -60,6 +65,11 @@ private:
     static Action* bwl_flamegor_avoid_breath(PlayerbotAI* botAI) { return new BwlBlackDrakeAvoidBreathAction(botAI, "flamegor"); }
     static Action* bwl_use_hourglass_sand(PlayerbotAI* botAI) { return new BwlUseHourglassSandAction(botAI); }
     static Action* bwl_nefarian_rear_flank(PlayerbotAI* botAI) { return new BossRearFlankAction(botAI, "nefarian"); }
+    static Action* bwl_firemaw_hide_from_flame_buffet(PlayerbotAI* botAI) { return new BwlFiremawHideFromFlameBuffetAction(botAI); }
+    static Action* bwl_firemaw_healer_position(PlayerbotAI* botAI) { return new BwlFiremawHideFromFlameBuffetAction(botAI, "bwl firemaw healer position", true); }
+    static Action* bwl_ebonroc_taunt(PlayerbotAI* botAI) { return new BwlEbonrocTauntAction(botAI); }
+    static Action* bwl_nefarian_stop_corrupted_heal(PlayerbotAI* botAI) { return new BwlNefarianStopCorruptedHealAction(botAI); }
+    static Action* bwl_nefarian_mark_corrupted_totem(PlayerbotAI* botAI) { return new BwlNefarianMarkCorruptedTotemAction(botAI); }
     static Action* bwl_death_talon_wyrmguard_tank_move_away(PlayerbotAI* botAI) { return new BwlDeathTalonWyrmguardTankMoveAwayAction(botAI); }
     static Action* bwl_death_talon_wyrmguard_ranged_move_away(PlayerbotAI* botAI) { return new BwlDeathTalonWyrmguardRangedMoveAwayAction(botAI); }
 };

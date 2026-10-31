@@ -39,8 +39,14 @@ void RaidBwlStrategy::InitTriggers(std::vector<TriggerNode*>& triggers)
         NextAction("bwl firemaw fire resistance", ACTION_RAID) }));
     triggers.push_back(new TriggerNode("bwl firemaw not victim", {
         NextAction("bwl firemaw avoid breath", ACTION_MOVE + 4) }));
+    triggers.push_back(new TriggerNode("bwl firemaw flame buffet", {
+        NextAction("bwl firemaw hide from flame buffet", ACTION_RAID) }));
+    triggers.push_back(new TriggerNode("bwl firemaw healer position", {
+        NextAction("bwl firemaw healer position", ACTION_RAID) }));
     triggers.push_back(new TriggerNode("bwl ebonroc not victim", {
         NextAction("bwl ebonroc avoid breath", ACTION_MOVE + 4) }));
+    triggers.push_back(new TriggerNode("bwl ebonroc shadow on other tank", {
+        NextAction("bwl ebonroc taunt", ACTION_RAID) }));
     triggers.push_back(new TriggerNode("bwl flamegor fire resistance", {
         NextAction("bwl flamegor fire resistance", ACTION_RAID) }));
     triggers.push_back(new TriggerNode("bwl flamegor not victim", {
@@ -53,6 +59,10 @@ void RaidBwlStrategy::InitTriggers(std::vector<TriggerNode*>& triggers)
         NextAction("bwl nefarian rear flank", ACTION_MOVE + 4) }));
     triggers.push_back(new TriggerNode("bwl nefarian wild magic", {
         NextAction("ice block", ACTION_RAID) }));
+    triggers.push_back(new TriggerNode("bwl nefarian corrupted healing", {
+        NextAction("bwl nefarian stop corrupted heal", ACTION_RAID) }));
+    triggers.push_back(new TriggerNode("bwl nefarian corrupted totem", {
+        NextAction("bwl nefarian mark corrupted totem", ACTION_RAID) }));
 
     triggers.push_back(new TriggerNode("bwl death talon wyrmguard tank", {
         NextAction("bwl death talon wyrmguard tank move away", ACTION_RAID) }));
@@ -65,6 +75,10 @@ void RaidBwlStrategy::InitMultipliers(std::vector<Multiplier*>& multipliers)
     multipliers.push_back(new RazorgoreTankMultiplier(botAI));
     multipliers.push_back(new VaelastraszTankMultiplier(botAI));
     multipliers.push_back(new VaelastraszBurningAdrenalineMultiplier(botAI));
+    multipliers.push_back(new FiremawFlameBuffetMultiplier(botAI));
+    multipliers.push_back(new FiremawHealerPositionMultiplier(botAI));
+    multipliers.push_back(new EbonrocShadowTankMultiplier(botAI));
+    multipliers.push_back(new NefarianCorruptedHealingMultiplier(botAI));
 }
 
 void RaidBwlStrategy::AppendTargetExclusions(GuidSet& exclusions, TargetValueExclusionType type)
