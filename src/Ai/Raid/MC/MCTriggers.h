@@ -118,4 +118,17 @@ public:
     bool IsActive() override;
 };
 
+// Each bot times Wrath of Ragnaros from the moment it sees him engage or emerge. A bot that joins
+// mid-phase (late arrival, battle rez) starts its clock late and may be knocked back that phase.
+class McRagnarosWrathSoonTrigger : public Trigger
+{
+public:
+    McRagnarosWrathSoonTrigger(PlayerbotAI* botAI) : Trigger(botAI, "mc ragnaros wrath soon") {}
+    bool IsActive() override;
+
+private:
+    uint32 _phaseStartMs = 0;
+    uint32 _lastSeenMs = 0;
+};
+
 #endif

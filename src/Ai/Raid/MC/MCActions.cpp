@@ -429,3 +429,19 @@ bool McRagnarosSpreadAction::Execute(Event /*event*/)
     return MoveTo(bot->GetMapId(), x, y, z, false, false, false, false, MovementPriority::MOVEMENT_COMBAT, true,
                   false);
 }
+
+bool McRagnarosMeleeStepOutAction::Execute(Event /*event*/)
+{
+    Unit* boss = AI_VALUE2(Unit*, "find target", "ragnaros");
+    if (!boss)
+        return false;
+
+    float const distToTravel = RAGNAROS_WRATH_SAFE_DISTANCE - bot->GetExactDist2d(boss);
+    if (distToTravel <= 0.0f || !MoveAway(boss, distToTravel))
+        return false;
+
+    // Hold the AI through the knockback so melee reach doesn't walk the bot straight back in;
+    // it re-engages on its own once the hold ends.
+    botAI->SetNextCheckDelay(RAGNAROS_WRATH_HOLD_MS);
+    return true;
+}

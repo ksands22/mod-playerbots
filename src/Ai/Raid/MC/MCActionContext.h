@@ -41,6 +41,7 @@ public:
         creators["mc majordomo stop attacking"] = &RaidMcActionContext::majordomo_stop_attacking;
         creators["mc ragnaros move away"] = &RaidMcActionContext::ragnaros_move_away;
         creators["mc ragnaros spread"] = &RaidMcActionContext::ragnaros_spread;
+        creators["mc ragnaros melee step out"] = &RaidMcActionContext::ragnaros_melee_step_out;
     }
 
 private:
@@ -68,6 +69,7 @@ private:
     static Action* majordomo_stop_attacking(PlayerbotAI* botAI) { return new McMajordomoStopAttackingAction(botAI); }
     static Action* ragnaros_move_away(PlayerbotAI* botAI) { return new McRagnarosMoveAwayAction(botAI); }
     static Action* ragnaros_spread(PlayerbotAI* botAI) { return new McRagnarosSpreadAction(botAI); }
+    static Action* ragnaros_melee_step_out(PlayerbotAI* botAI) { return new McRagnarosMeleeStepOutAction(botAI); }
 };
 
 #endif

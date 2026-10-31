@@ -109,6 +109,9 @@ void RaidMcStrategy::InitTriggers(std::vector<TriggerNode*>& triggers)
     triggers.push_back(
         new TriggerNode("mc ragnaros ranged spread",
                         { NextAction("mc ragnaros spread", ACTION_RAID) }));
+    triggers.push_back(
+        new TriggerNode("mc ragnaros wrath soon",
+                        { NextAction("mc ragnaros melee step out", ACTION_RAID) }));
 
     // Trash
     triggers.push_back(

@@ -40,6 +40,7 @@ public:
         creators["mc majordomo reflection"] = &RaidMcTriggerContext::majordomo_reflection;
         creators["mc ragnaros ranged too close"] = &RaidMcTriggerContext::ragnaros_ranged_too_close;
         creators["mc ragnaros ranged spread"] = &RaidMcTriggerContext::ragnaros_ranged_spread;
+        creators["mc ragnaros wrath soon"] = &RaidMcTriggerContext::ragnaros_wrath_soon;
     }
 
 private:
@@ -67,6 +68,7 @@ private:
     static Trigger* majordomo_reflection(PlayerbotAI* botAI) { return new McMajordomoReflectionTrigger(botAI); }
     static Trigger* ragnaros_ranged_too_close(PlayerbotAI* botAI) { return new McRagnarosRangedTooCloseTrigger(botAI); }
     static Trigger* ragnaros_ranged_spread(PlayerbotAI* botAI) { return new McRagnarosRangedSpreadTrigger(botAI); }
+    static Trigger* ragnaros_wrath_soon(PlayerbotAI* botAI) { return new McRagnarosWrathSoonTrigger(botAI); }
 };
 
 #endif

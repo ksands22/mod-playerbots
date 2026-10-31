@@ -76,6 +76,15 @@ constexpr float RAGNAROS_WRATH_SAFE_DISTANCE = 28.0f;
 // cannot be kept on the shore, so this only limits how many get caught.
 constexpr float RAGNAROS_SPREAD_DISTANCE = 10.0f;
 
+// Wrath of Ragnaros is instant, so melee step out on the core script's schedule:
+// first cast 30s after he engages or emerges, then every 25s.
+constexpr uint32 RAGNAROS_WRATH_FIRST_MS = 30000;
+constexpr uint32 RAGNAROS_WRATH_INTERVAL_MS = 25000;
+// Melee start at his hitbox edge and need ~2-3s at run speed to clear 28y.
+constexpr uint32 RAGNAROS_WRATH_LEAD_MS = 3000;
+// Covers the lead plus a second after the cast, so a late prediction still clears the knockback.
+constexpr uint32 RAGNAROS_WRATH_HOLD_MS = RAGNAROS_WRATH_LEAD_MS + 1000;
+
 // The add the raid should kill next in an add encounter, or null when the skull is already right.
 Unit* GetKillOrderMarkTarget(PlayerbotAI* botAI);
 Unit* GetDarkMendingCaster(PlayerbotAI* botAI);

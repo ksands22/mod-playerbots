@@ -15,17 +15,21 @@
 
 namespace MoltenCoreHelpers
 {
-// Healers mend everything else, so they die first; bosses come after their adds.
-static uint8 GetKillPriority(uint32 entry)
+constexpr uint32 MAJORDOMO_ELITE_COUNT = 4;
+
+// Adds before bosses. Majordomo follows the guides' "Follow the Leader" order:
+// one Elite, then all four Healers, then the remaining Elites.
+static uint8 GetKillPriority(uint32 entry, bool firstEliteDown)
 {
     switch (entry)
     {
+        case NPC_FLAMEWAKER_ELITE:
+            return firstEliteDown ? 2 : 3;
         case NPC_FLAMEWAKER_HEALER:
-            return 3;
+            return firstEliteDown ? 3 : 2;
         case NPC_FLAMEWAKER_PROTECTOR:
         case NPC_FLAMEWAKER:
         case NPC_FLAMEWAKER_PRIEST:
-        case NPC_FLAMEWAKER_ELITE:
         case NPC_SON_OF_FLAME:
             return 2;
         case NPC_LUCIFRON:
@@ -45,15 +49,26 @@ Unit* GetKillOrderMarkTarget(PlayerbotAI* botAI)
     if (!group)
         return nullptr;
 
+    GuidVector const attackers = botAI->GetAiObjectContext()->GetValue<GuidVector>("attackers")->Get();
+
+    uint32 elitesAlive = 0;
+    for (ObjectGuid const guid : attackers)
+    {
+        Unit* unit = botAI->GetUnit(guid);
+        if (unit && unit->IsAlive() && unit->GetEntry() == NPC_FLAMEWAKER_ELITE)
+            ++elitesAlive;
+    }
+    bool const firstEliteDown = elitesAlive < MAJORDOMO_ELITE_COUNT;
+
     Unit* best = nullptr;
     uint8 bestPriority = 0;
-    for (ObjectGuid const guid : botAI->GetAiObjectContext()->GetValue<GuidVector>("attackers")->Get())
+    for (ObjectGuid const guid : attackers)
     {
         Unit* unit = botAI->GetUnit(guid);
         if (!unit || !unit->IsAlive() || !bot->IsValidAttackTarget(unit))
             continue;
 
-        uint8 const priority = GetKillPriority(unit->GetEntry());
+        uint8 const priority = GetKillPriority(unit->GetEntry(), firstEliteDown);
         if (!priority)
             continue;
 
@@ -69,7 +84,7 @@ Unit* GetKillOrderMarkTarget(PlayerbotAI* botAI)
 
     // Keep a skull that is still in the top tier, so the raid doesn't split as add health values cross.
     Unit* skull = botAI->GetUnit(group->GetTargetIcon(RtiTargetValue::skullIndex));
-    if (skull && skull->IsAlive() && GetKillPriority(skull->GetEntry()) >= bestPriority)
+    if (skull && skull->IsAlive() && GetKillPriority(skull->GetEntry(), firstEliteDown) >= bestPriority)
         return nullptr;
 
     return best;

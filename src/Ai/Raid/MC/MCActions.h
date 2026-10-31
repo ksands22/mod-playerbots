@@ -144,4 +144,12 @@ public:
     bool Execute(Event event) override;
 };
 
+class McRagnarosMeleeStepOutAction : public MovementAction
+{
+public:
+    McRagnarosMeleeStepOutAction(PlayerbotAI* botAI, std::string const name = "mc ragnaros melee step out")
+        : MovementAction(botAI, name) {}
+    bool Execute(Event event) override;
+};
+
 #endif
