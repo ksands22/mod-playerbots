@@ -28,6 +28,7 @@ protected:
 
 bool CanBotUseToken(ItemTemplate const* proto, Player* bot);
 bool RollUniqueCheck(ItemTemplate const* proto, Player* bot);
+bool IsOffArmorType(ItemTemplate const* proto, Player* bot);
 
 class MasterLootRollAction : public LootRollAction
 {
