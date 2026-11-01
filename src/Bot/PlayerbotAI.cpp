@@ -1725,7 +1725,7 @@ void PlayerbotAI::ApplyInstanceStrategies(uint32 mapId, bool tellMaster)
 {
     static const std::vector<std::string> allInstanceStrategies =
     {
-        "aq20", "blacktemple", "bwl", "gruulslair", "hyjal", "icc", "karazhan", "magtheridon",
+        "aq20", "aq40" "blacktemple", "bwl", "gruulslair", "hyjal", "icc", "karazhan", "magtheridon",
         "moltencore", "naxx", "onyxia", "rs", "ssc", "tbc-ac", "tbc-arc", "tbc-bf", "tbc-bm",
         "tbc-bot", "tbc-mech", "tbc-mgt", "tbc-mt", "tbc-ohb", "tbc-ramp", "tbc-seth", "tbc-sl",
         "tbc-sp", "tbc-sv", "tbc-ub", "tempestkeep", "ulduar", "vanilla-brd", "vanilla-brs",
@@ -1792,6 +1792,9 @@ void PlayerbotAI::ApplyInstanceStrategies(uint32 mapId, bool tellMaster)
             break;
         case 509:
             strategyName = "aq20";  // Ruins of Ahn'Qiraj
+            break;
+        case 531:
+            strategyName = "aq40";  // Temple of Ahn'Qiraj
             break;
         case 532:
             strategyName = "karazhan";  // Karazhan

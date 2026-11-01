@@ -658,7 +658,8 @@ bool SayClassRoleChoice(
 
 } // end anonymous namespace (Class roles)
 
-ClassRoleChoice FindClassRoleChoice(PlayerbotAI* botAI, uint32 mapId, ClassRole const& role)
+ClassRoleChoice FindClassRoleChoice(
+    PlayerbotAI* botAI, uint32 mapId, ClassRole const& role, GuidSet const& excluded)
 {
     Group* group = botAI->GetBot()->GetGroup();
     if (!group)
@@ -676,6 +677,9 @@ ClassRoleChoice FindClassRoleChoice(PlayerbotAI* botAI, uint32 mapId, ClassRole 
         }
 
         ObjectGuid const guid = member->GetGUID();
+        if (excluded.contains(guid))
+            continue;
+
         bool const isAssistant = group->IsAssistant(guid);
         if (!isAssistant && !GET_PLAYERBOT_AI(member))
             continue;
@@ -711,13 +715,20 @@ bool UpdateClassRoleAssignments(
     Player* bot = botAI->GetBot();
     bool const isInEncounter = IsEncounterInProgress(bot, mapId);
     bool changed = false;
+    GuidSet taken;
     for (ClassRoleSlot const& slot : slots)
     {
         std::optional<ClassRoleChoice>& choice = slot.assignment.choice;
         if (isInEncounter && GetClassRolePlayer(bot, slot.assignment))
+        {
+            taken.insert(choice->guid);
             continue;
+        }
 
-        ClassRoleChoice const next = FindClassRoleChoice(botAI, mapId, slot.role);
+        ClassRoleChoice const next = FindClassRoleChoice(botAI, mapId, slot.role, taken);
+        if (!next.guid.IsEmpty())
+            taken.insert(next.guid);
+
         if (choice == next)
             continue;
 
