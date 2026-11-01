@@ -24,9 +24,23 @@ public:
         creators["emalon fall from floor action"] = &RaidVoAActionContext::emalon_fall_from_floor_action;
         creators["emalon nature resistance action"] = &RaidVoAActionContext::emalon_nature_resistance_action;
         creators["koralon fire resistance action"] = &RaidVoAActionContext::koralon_fire_resistance_action;
+        creators["archavon taunt action"] = &RaidVoAActionContext::archavon_taunt;
+        creators["archavon rock shards action"] = &RaidVoAActionContext::archavon_rock_shards;
+        creators["toravon taunt action"] = &RaidVoAActionContext::toravon_taunt;
+        creators["toravon attack frozen orb action"] = &RaidVoAActionContext::toravon_attack_frozen_orb;
     }
 
 private:
+    static Action* archavon_taunt(PlayerbotAI* botAI)
+    {
+        return new VoaTauntBossAction(botAI, "archavon taunt action", "archavon the stone watcher");
+    }
+    static Action* archavon_rock_shards(PlayerbotAI* botAI) { return new ArchavonRockShardsAction(botAI); }
+    static Action* toravon_taunt(PlayerbotAI* botAI)
+    {
+        return new VoaTauntBossAction(botAI, "toravon taunt action", "toravon the ice watcher");
+    }
+    static Action* toravon_attack_frozen_orb(PlayerbotAI* botAI) { return new ToravonAttackFrozenOrbAction(botAI); }
     static Action* emalon_mark_boss_action(PlayerbotAI* botAI) { return new EmalonMarkBossAction(botAI); }
     static Action* emalon_lighting_nova_action(PlayerbotAI* botAI) { return new EmalonLightingNovaAction(botAI); }
     static Action* emalon_overcharge_action(PlayerbotAI* botAI) { return new EmalonOverchargeAction(botAI); }

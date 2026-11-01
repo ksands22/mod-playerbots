@@ -1726,7 +1726,7 @@ void PlayerbotAI::ApplyInstanceStrategies(uint32 mapId, bool tellMaster)
     static const std::vector<std::string> allInstanceStrategies =
     {
         "aq20", "aq40", "blacktemple", "bwl", "gruulslair", "hyjal", "icc", "karazhan", "magtheridon",
-        "moltencore", "naxx", "onyxia", "rs", "ssc", "tbc-ac", "tbc-arc", "tbc-bf", "tbc-bm",
+        "moltencore", "naxx", "onyxia", "rs", "ssc", "sunwell", "tbc-ac", "tbc-arc", "tbc-bf", "tbc-bm",
         "tbc-bot", "tbc-mech", "tbc-mgt", "tbc-mt", "tbc-ohb", "tbc-ramp", "tbc-seth", "tbc-sl",
         "tbc-sp", "tbc-sv", "tbc-ub", "tempestkeep", "ulduar", "vanilla-brd", "vanilla-brs",
         "vanilla-dm", "vanilla-gnomer", "vanilla-mara", "vanilla-rfd", "vanilla-sm", "vanilla-st",
@@ -1873,6 +1873,9 @@ void PlayerbotAI::ApplyInstanceStrategies(uint32 mapId, bool tellMaster)
             break;
         case 578:
             strategyName = "wotlk-occ";  // The Oculus
+            break;
+        case 580:
+            strategyName = "sunwell";  // Sunwell Plateau
             break;
         case 585:
             strategyName = "tbc-mgt";  // Magisters' Terrace

@@ -23,6 +23,7 @@
 #include "OnyStrategy.h"
 #include "RSStrategy.h"
 #include "SSCStrategy.h"
+#include "SWPStrategy.h"
 #include "Strategy.h"
 #include "TKStrategy.h"
 #include "UldStrategy.h"
@@ -55,6 +56,7 @@ public:
         creators["onyxia"] = &RaidStrategyContext::onyxia;
         creators["icc"] = &RaidStrategyContext::icc;
         creators["rs"] = &RaidStrategyContext::rs;
+        creators["sunwell"] = &RaidStrategyContext::sunwell;
         creators["zulgurub"] = &RaidStrategyContext::zulgurub;
     }
 
@@ -79,6 +81,7 @@ private:
     static Strategy* ulduar(PlayerbotAI* botAI) { return new RaidUlduarStrategy(botAI); }
     static Strategy* icc(PlayerbotAI* botAI) { return new RaidIccStrategy(botAI); }
     static Strategy* rs(PlayerbotAI* botAI) { return new RaidRsStrategy(botAI); }
+    static Strategy* sunwell(PlayerbotAI* botAI) { return new RaidSunwellPlateauStrategy(botAI); }
     static Strategy* zulgurub(PlayerbotAI* botAI) { return new RaidZulGurubStrategy(botAI); }
 };
 
