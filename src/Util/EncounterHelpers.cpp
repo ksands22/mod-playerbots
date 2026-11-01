@@ -342,9 +342,6 @@ Player* GetGroupAssistTank(Player* bot, uint8 index)
     return nullptr;
 }
 
-// Return the nearest alive player (human or bot) within the specified radius. Distance is
-// measured by GetExactDist2d(), which does not take into account either player's CombatReach
-// (i.e., their hitboxes), which are 1.5y for all races (or 1.95y with Bloodlust/Heroism active).
 Player* GetTakeoverTank(Player* bot, Unit const* current, std::function<bool(Player const*)> const& skip)
 {
     for (Player* tank : { GetGroupMainTank(bot), GetGroupAssistTank(bot, 0), GetGroupAssistTank(bot, 1) })
@@ -362,6 +359,9 @@ uint32 GetAuraStackAmount(Unit const* unit, uint32 spellId)
     return aura ? aura->GetStackAmount() : 0;
 }
 
+// Return the nearest alive player (human or bot) within the specified radius. Distance is
+// measured by GetExactDist2d(), which does not take into account either player's CombatReach
+// (i.e., their hitboxes), which are 1.5y for all races (or 1.95y with Bloodlust/Heroism active).
 Player* GetNearestPlayerInRadius(Player* bot, float radius)
 {
     Group* group = bot->GetGroup();

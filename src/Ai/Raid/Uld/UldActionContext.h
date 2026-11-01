@@ -34,6 +34,7 @@ public:
         creators["iron assembly rune of power action"] = &RaidUlduarActionContext::iron_assembly_rune_of_power_action;
         creators["kologarn mark dps target action"] = &RaidUlduarActionContext::kologarn_mark_dps_target_action;
         creators["kologarn fall from floor action"] = &RaidUlduarActionContext::kologarn_fall_from_floor_action;
+        creators["thorim fall from floor action"] = &RaidUlduarActionContext::thorim_fall_from_floor_action;
         creators["kologarn nature resistance action"] = &RaidUlduarActionContext::kologarn_nature_resistance_action;
         creators["kologarn rubble slowdown action"] = &RaidUlduarActionContext::kologarn_rubble_slowdown_action;
         creators["kologarn eyebeam action"] = &RaidUlduarActionContext::kologarn_eyebeam_action;
@@ -124,6 +125,7 @@ private:
     static Action* iron_assembly_rune_of_power_action(PlayerbotAI* botAI) { return new IronAssemblyRuneOfPowerAction(botAI); }
     static Action* kologarn_mark_dps_target_action(PlayerbotAI* botAI) { return new KologarnMarkDpsTargetAction(botAI); }
     static Action* kologarn_fall_from_floor_action(PlayerbotAI* botAI) { return new KologarnFallFromFloorAction(botAI); }
+    static Action* thorim_fall_from_floor_action(PlayerbotAI* botAI) { return new ThorimFallFromFloorAction(botAI); }
     static Action* kologarn_nature_resistance_action(PlayerbotAI* botAI) { return new BossNatureResistanceAction(botAI, "kologarn"); }
     static Action* kologarn_rubble_slowdown_action(PlayerbotAI* botAI) { return new KologarnRubbleSlowdownAction(botAI); }
     static Action* kologarn_eyebeam_action(PlayerbotAI* botAI) { return new KologarnEyebeamAction(botAI); }

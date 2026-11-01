@@ -18,7 +18,9 @@ bool GizlockDragonGunTrigger::IsActive()
         return false;
 
     Unit* gizlock = AI_VALUE2(Unit*, "find target", "tinkerer gizlock");
-    if (!gizlock || !gizlock->HasAura(SPELL_GOBLIN_DRAGON_GUN))
+    // A channel may carry its aura on the targets rather than the caster, so check the channel too
+    if (!gizlock ||
+        (!gizlock->HasAura(SPELL_GOBLIN_DRAGON_GUN) && !gizlock->FindCurrentSpellBySpellId(SPELL_GOBLIN_DRAGON_GUN)))
         return false;
 
     return  bot->GetExactDist2d(gizlock) < GOBLIN_DRAGON_GUN_SAFE_DISTANCE &&
