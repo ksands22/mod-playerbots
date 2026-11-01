@@ -78,12 +78,56 @@ public:
     bool isUseful() override;
 };
 
+// Healers use the same search, but only take spots that keep Firemaw's current target in view and in heal range.
+class BwlFiremawHideFromFlameBuffetAction : public MovementAction
+{
+public:
+    BwlFiremawHideFromFlameBuffetAction(PlayerbotAI* botAI,
+                                        std::string const& name = "bwl firemaw hide from flame buffet",
+                                        bool keepTankInView = false)
+        : MovementAction(botAI, name), _keepTankInView(keepTankInView) {}
+    bool Execute(Event event) override;
+
+private:
+    bool IsHideSpot(Unit const* boss, Unit const* tank, Position const& spot) const;
+    bool FindHideSpot(Unit const* boss, Unit const* tank);
+
+    bool const _keepTankInView;
+
+    // Kept across ticks so the bot doesn't re-run the search on every step of its walk.
+    Position _hideSpot;
+    bool _hasHideSpot = false;
+};
+
+class BwlEbonrocTauntAction : public AttackAction
+{
+public:
+    BwlEbonrocTauntAction(PlayerbotAI* botAI) : AttackAction(botAI, "bwl ebonroc taunt") {}
+    bool Execute(Event event) override;
+};
+
 // Chromaggus
 
 class BwlUseHourglassSandAction : public Action
 {
 public:
     BwlUseHourglassSandAction(PlayerbotAI* botAI) : Action(botAI, "bwl use hourglass sand") {}
+    bool Execute(Event event) override;
+};
+
+// Nefarian
+
+class BwlNefarianStopCorruptedHealAction : public Action
+{
+public:
+    BwlNefarianStopCorruptedHealAction(PlayerbotAI* botAI) : Action(botAI, "bwl nefarian stop corrupted heal") {}
+    bool Execute(Event event) override;
+};
+
+class BwlNefarianMarkCorruptedTotemAction : public Action
+{
+public:
+    BwlNefarianMarkCorruptedTotemAction(PlayerbotAI* botAI) : Action(botAI, "bwl nefarian mark corrupted totem") {}
     bool Execute(Event event) override;
 };
 

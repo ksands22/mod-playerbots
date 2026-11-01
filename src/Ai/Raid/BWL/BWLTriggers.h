@@ -66,6 +66,28 @@ private:
     const std::string bossName;
 };
 
+class BwlFiremawFlameBuffetTrigger : public Trigger
+{
+public:
+    BwlFiremawFlameBuffetTrigger(PlayerbotAI* botAI) : Trigger(botAI, "bwl firemaw flame buffet") {}
+    bool IsActive() override;
+};
+
+// Checked every 2s: it casts several line-of-sight rays.
+class BwlFiremawHealerPositionTrigger : public Trigger
+{
+public:
+    BwlFiremawHealerPositionTrigger(PlayerbotAI* botAI) : Trigger(botAI, "bwl firemaw healer position", 2) {}
+    bool IsActive() override;
+};
+
+class BwlEbonrocShadowOnOtherTankTrigger : public Trigger
+{
+public:
+    BwlEbonrocShadowOnOtherTankTrigger(PlayerbotAI* botAI) : Trigger(botAI, "bwl ebonroc shadow on other tank") {}
+    bool IsActive() override;
+};
+
 // Chromaggus
 
 class BwlAfflictionBronzeTrigger : public Trigger
@@ -88,6 +110,20 @@ class BwlNefarianWildMagicTrigger : public Trigger
 {
 public:
     BwlNefarianWildMagicTrigger(PlayerbotAI* botAI) : Trigger(botAI, "bwl nefarian wild magic") {}
+    bool IsActive() override;
+};
+
+class BwlNefarianCorruptedHealingTrigger : public Trigger
+{
+public:
+    BwlNefarianCorruptedHealingTrigger(PlayerbotAI* botAI) : Trigger(botAI, "bwl nefarian corrupted healing") {}
+    bool IsActive() override;
+};
+
+class BwlNefarianCorruptedTotemTrigger : public Trigger
+{
+public:
+    BwlNefarianCorruptedTotemTrigger(PlayerbotAI* botAI) : Trigger(botAI, "bwl nefarian corrupted totem") {}
     bool IsActive() override;
 };
 
