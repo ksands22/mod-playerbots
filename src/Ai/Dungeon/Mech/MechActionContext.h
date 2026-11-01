@@ -24,6 +24,8 @@ public:
             &TbcDungeonMechanarActionContext::sepethrea_avoid_trail;
         creators["sepethrea focus boss"] =
             &TbcDungeonMechanarActionContext::sepethrea_focus_boss;
+        creators["ironhand avoid jackhammer"] =
+            &TbcDungeonMechanarActionContext::ironhand_avoid_jackhammer;
     }
 
 private:
@@ -31,6 +33,7 @@ private:
     static Action* sepethrea_avoid_flame(PlayerbotAI* botAI) { return new SepethreaAvoidFlameAction(botAI); }
     static Action* sepethrea_avoid_trail(PlayerbotAI* botAI) { return new SepethreaAvoidTrailAction(botAI); }
     static Action* sepethrea_focus_boss(PlayerbotAI* botAI) { return new SepethreaFocusBossAction(botAI); }
+    static Action* ironhand_avoid_jackhammer(PlayerbotAI* botAI) { return new IronhandAvoidJackhammerAction(botAI); }
 };
 
 #endif

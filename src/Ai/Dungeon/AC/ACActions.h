@@ -37,4 +37,12 @@ public:
     bool Execute(Event event) override;
 };
 
+class MaladaarMarkStolenSoulAction : public Action
+{
+public:
+    MaladaarMarkStolenSoulAction(PlayerbotAI* botAI)
+        : Action(botAI, "maladaar mark stolen soul") {}
+    bool Execute(Event event) override;
+};
+
 #endif

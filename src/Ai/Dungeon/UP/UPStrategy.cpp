@@ -11,6 +11,8 @@
 void WotlkDungeonUPStrategy::InitTriggers(std::vector<TriggerNode*>& triggers)
 {
     // Svala Sorrowgrave
+    triggers.push_back(new TriggerNode("svala is active",
+        { NextAction("svala mark ritual channeler", ACTION_RAID + 1) }));
 
     // Gortok Palehoof
 

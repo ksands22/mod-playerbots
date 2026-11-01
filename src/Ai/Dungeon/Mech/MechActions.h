@@ -47,4 +47,11 @@ public:
     bool Execute(Event event) override;
 };
 
+class IronhandAvoidJackhammerAction : public MovementAction
+{
+public:
+    IronhandAvoidJackhammerAction(PlayerbotAI* botAI) : MovementAction(botAI, "ironhand avoid jackhammer") {}
+    bool Execute(Event event) override;
+};
+
 #endif

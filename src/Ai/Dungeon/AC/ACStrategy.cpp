@@ -19,6 +19,10 @@ void TbcDungeonAuchenaiCryptsStrategy::InitTriggers(std::vector<TriggerNode*>& t
 
     triggers.push_back(new TriggerNode("shirrak ranged keep distance", {
         NextAction("shirrak ranged keep distance", ACTION_RAID) }));
+
+    // Exarch Maladaar
+    triggers.push_back(new TriggerNode("maladaar is active", {
+        NextAction("maladaar mark stolen soul", ACTION_RAID) }));
 }
 
 void TbcDungeonAuchenaiCryptsStrategy::InitMultipliers(std::vector<Multiplier*>& multipliers)

@@ -21,6 +21,10 @@ void WotlkDungeonToCStrategy::InitTriggers(std::vector<TriggerNode*>& triggers)
     triggers.push_back(new TriggerNode("toc eadric",
         { NextAction("toc eadric", ACTION_RAID + 3) }));
 
+    // The Black Knight
+    triggers.push_back(new TriggerNode("toc ghoul explode",
+        { NextAction("toc avoid ghoul explode", ACTION_EMERGENCY + 1) }));
+
 }
 
 void WotlkDungeonToCStrategy::InitMultipliers(std::vector<Multiplier*>& multipliers)

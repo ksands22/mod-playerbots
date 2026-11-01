@@ -53,3 +53,16 @@ float SepethreaFocusBossMultiplier::GetValue(Action* action)
 
     return 0.0f;
 }
+
+// He is rooted during Jackhammer, so keep chasing from walking bots back into it
+float IronhandJackhammerMultiplier::GetValue(Action* action)
+{
+    if (!dynamic_cast<MovementAction*>(action) || dynamic_cast<IronhandAvoidJackhammerAction*>(action))
+        return 1.0f;
+
+    Unit* ironhand = AI_VALUE2(Unit*, "find target", "gatewatcher iron-hand");
+    if (!ironhand || !ironhand->HasAura(MechanarIronhand::SPELL_JACKHAMMER))
+        return 1.0f;
+
+    return 0.0f;
+}

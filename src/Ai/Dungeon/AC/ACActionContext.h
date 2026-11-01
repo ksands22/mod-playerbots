@@ -23,6 +23,10 @@ public:
 
         creators["shirrak ranged keep distance"] =
             &TbcDungeonAuchenaiCryptsActionContext::shirrak_ranged_keep_distance;
+
+        // Exarch Maladaar
+        creators["maladaar mark stolen soul"] =
+            &TbcDungeonAuchenaiCryptsActionContext::maladaar_mark_stolen_soul;
     }
 private:
     static Action* shirrak_tank_position_boss(
@@ -33,6 +37,9 @@ private:
 
     static Action* shirrak_ranged_keep_distance(
         PlayerbotAI* botAI) { return new ShirrakRangedKeepDistanceAction(botAI); }
+
+    static Action* maladaar_mark_stolen_soul(
+        PlayerbotAI* botAI) { return new MaladaarMarkStolenSoulAction(botAI); }
 };
 
 #endif

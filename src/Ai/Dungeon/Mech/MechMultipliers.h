@@ -23,4 +23,11 @@ public:
     float GetValue(Action* action) override;
 };
 
+class IronhandJackhammerMultiplier : public Multiplier
+{
+public:
+    IronhandJackhammerMultiplier(PlayerbotAI* botAI) : Multiplier(botAI, "ironhand jackhammer") {}
+    float GetValue(Action* action) override;
+};
+
 #endif

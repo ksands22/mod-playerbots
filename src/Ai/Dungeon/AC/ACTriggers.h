@@ -17,6 +17,9 @@ inline constexpr float FLARE_SEARCH_RADIUS = 20.0f;
 inline Position const SHIRRAK_RANGED_POSITION = { -21.777f, -162.700f, 26.062f };
 inline Position const SHIRRAK_TANK_POSITION =   { -65.171f, -162.920f, 26.504f };
 
+inline constexpr uint32 AC_MAP_ID = 558;
+inline constexpr uint32 NPC_STOLEN_SOUL = 18441;  // Exarch Maladaar's add, a copy of a player
+
 class ShirrakTankPositionBossTrigger : public Trigger
 {
 public:
@@ -38,6 +41,14 @@ class ShirrakRangedKeepDistanceTrigger : public Trigger
 public:
     ShirrakRangedKeepDistanceTrigger(PlayerbotAI* botAI)
         : Trigger(botAI, "shirrak ranged keep distance") {}
+    bool IsActive() override;
+};
+
+class MaladaarIsActiveTrigger : public Trigger
+{
+public:
+    MaladaarIsActiveTrigger(PlayerbotAI* botAI)
+        : Trigger(botAI, "maladaar is active") {}
     bool IsActive() override;
 };
 

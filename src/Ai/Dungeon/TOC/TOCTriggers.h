@@ -128,4 +128,16 @@ public:
     bool IsActive() override;
 };
 
+// The Black Knight: his ghouls cast Explode, an 8 yd blast
+inline constexpr uint32 SPELL_GHOUL_EXPLODE_N = 67729;
+inline constexpr uint32 SPELL_GHOUL_EXPLODE_H = 67886;
+inline constexpr float GHOUL_EXPLODE_SAFE_DISTANCE = 11.0f;
+
+class ToCGhoulExplodeTrigger : public Trigger
+{
+public:
+    ToCGhoulExplodeTrigger(PlayerbotAI* botAI) : Trigger(botAI, "toc ghoul explode") {}
+    bool IsActive() override;
+};
+
 #endif

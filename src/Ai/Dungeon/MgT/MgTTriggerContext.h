@@ -34,6 +34,7 @@ public:
         creators["mgt kael focus target"] = &TbcDungeonMagistersTerraceTriggerContext::mgt_kael_focus_target;
         creators["mgt kael interrupt"] = &TbcDungeonMagistersTerraceTriggerContext::mgt_kael_interrupt;
         creators["mgt gravity lapse"] = &TbcDungeonMagistersTerraceTriggerContext::mgt_gravity_lapse;
+        creators["mgt vexallus active"] = &TbcDungeonMagistersTerraceTriggerContext::mgt_vexallus_active;
     }
 
 private:
@@ -59,6 +60,7 @@ private:
     static Trigger* mgt_kael_focus_target(PlayerbotAI* botAI) { return new MgTKaelFocusTargetTrigger(botAI); }
     static Trigger* mgt_kael_interrupt(PlayerbotAI* botAI) { return new MgTKaelInterruptTrigger(botAI); }
     static Trigger* mgt_gravity_lapse(PlayerbotAI* botAI) { return new MgTGravityLapseTrigger(botAI); }
+    static Trigger* mgt_vexallus_active(PlayerbotAI* botAI) { return new MgTVexallusActiveTrigger(botAI); }
 };
 
 #endif

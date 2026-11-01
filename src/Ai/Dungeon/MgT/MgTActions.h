@@ -165,4 +165,12 @@ private:
     MagistersTerrace::KiteState _kite;
 };
 
+// Pure Energies follow a random player; each kill stacks Energy Feedback on the killer
+class MgTVexallusMarkPureEnergyAction : public Action
+{
+public:
+    MgTVexallusMarkPureEnergyAction(PlayerbotAI* botAI) : Action(botAI, "mgt vexallus mark pure energy") {}
+    bool Execute(Event event) override;
+};
+
 #endif

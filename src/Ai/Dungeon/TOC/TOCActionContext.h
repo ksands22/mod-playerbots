@@ -20,6 +20,7 @@ class WotlkDungeonToCActionContext : public NamedObjectContext<Action>
             creators["toc mount"] = &WotlkDungeonToCActionContext::toc_mount;
             creators["toc mounted"] = &WotlkDungeonToCActionContext::toc_mounted;
             creators["toc eadric"] = &WotlkDungeonToCActionContext::toc_eadric;
+            creators["toc avoid ghoul explode"] = &WotlkDungeonToCActionContext::toc_avoid_ghoul_explode;
         }
     private:
         static Action* toc_lance(PlayerbotAI* botAI) { return new ToCLanceAction(botAI); }
@@ -27,6 +28,7 @@ class WotlkDungeonToCActionContext : public NamedObjectContext<Action>
         static Action* toc_mount(PlayerbotAI* botAI) { return new ToCMountAction(botAI); }
         static Action* toc_mounted(PlayerbotAI* botAI) { return new ToCMountedAction(botAI); }
         static Action* toc_eadric(PlayerbotAI* botAI) { return new ToCEadricAction(botAI); }
+        static Action* toc_avoid_ghoul_explode(PlayerbotAI* botAI) { return new ToCAvoidGhoulExplodeAction(botAI); }
 };
 
 #endif

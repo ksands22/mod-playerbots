@@ -58,6 +58,9 @@ void TbcDungeonMagistersTerraceStrategy::InitTriggers(std::vector<TriggerNode*>&
 
     triggers.push_back(new TriggerNode("mgt gravity lapse", {
         NextAction("mgt take lapse spot", ACTION_MOVE + 8) }));
+
+    triggers.push_back(new TriggerNode("mgt vexallus active", {
+        NextAction("mgt vexallus mark pure energy", ACTION_RAID) }));
 }
 
 void TbcDungeonMagistersTerraceStrategy::InitMultipliers(std::vector<Multiplier*>& multipliers)

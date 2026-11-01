@@ -49,3 +49,12 @@ bool SepethreaFocusBossTrigger::IsActive()
 {
     return MechanarFlames::GetSepethrea(bot) != nullptr;
 }
+
+bool IronhandJackhammerTrigger::IsActive()
+{
+    Unit* ironhand = AI_VALUE2(Unit*, "find target", "gatewatcher iron-hand");
+    if (!ironhand || !ironhand->HasAura(MechanarIronhand::SPELL_JACKHAMMER))
+        return false;
+
+    return bot->GetExactDist2d(ironhand) < MechanarIronhand::JACKHAMMER_SAFE_DISTANCE;
+}

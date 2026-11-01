@@ -24,6 +24,8 @@ public:
             &TbcDungeonMechanarTriggerContext::sepethrea_trail;
         creators["sepethrea focus boss"] =
             &TbcDungeonMechanarTriggerContext::sepethrea_focus_boss;
+        creators["ironhand jackhammer"] =
+            &TbcDungeonMechanarTriggerContext::ironhand_jackhammer;
     }
 
 private:
@@ -31,6 +33,7 @@ private:
     static Trigger* sepethrea_avoid_flame(PlayerbotAI* botAI) { return new SepethreaAvoidFlameTrigger(botAI); }
     static Trigger* sepethrea_trail(PlayerbotAI* botAI) { return new SepethreaTrailTrigger(botAI); }
     static Trigger* sepethrea_focus_boss(PlayerbotAI* botAI) { return new SepethreaFocusBossTrigger(botAI); }
+    static Trigger* ironhand_jackhammer(PlayerbotAI* botAI) { return new IronhandJackhammerTrigger(botAI); }
 };
 
 #endif

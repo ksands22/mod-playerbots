@@ -23,7 +23,13 @@ enum OldKingdomIDs
     // Forgotten One(s)
     SPELL_SHADOW_CRASH_N               = 60833,
     SPELL_SHADOW_CRASH_H               = 60848,
+
+    // Amanitar (heroic): killing a Healthy Mushroom cures Mini on players within 4 yd of it
+    SPELL_MINI                         = 57055,
+    NPC_HEALTHY_MUSHROOM               = 30391,
 };
+
+inline constexpr float POTENT_FUNGUS_RANGE = 3.0f;
 
 #define SPELL_SHADOW_CRASH             DUNGEON_MODE(bot, SPELL_SHADOW_CRASH_N, SPELL_SHADOW_CRASH_H)
 
@@ -45,6 +51,13 @@ class ShadowCrashTrigger : public Trigger
 {
 public:
     ShadowCrashTrigger(PlayerbotAI* botAI) : Trigger(botAI, "shadow crash") {}
+    bool IsActive() override;
+};
+
+class AmanitarMiniTrigger : public Trigger
+{
+public:
+    AmanitarMiniTrigger(PlayerbotAI* botAI) : Trigger(botAI, "amanitar mini") {}
     bool IsActive() override;
 };
 

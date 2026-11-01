@@ -7,6 +7,7 @@
 #include "TOCTriggers.h"
 #include "AiObject.h"
 #include "AiObjectContext.h"
+#include "DungeonHelpers.h"
 #include "Playerbots.h"
 
 bool ToCLanceTrigger::IsActive()
@@ -86,4 +87,13 @@ bool ToCEadricTrigger::IsActive()
         return false;
 
     return true;
+}
+
+bool ToCGhoulExplodeTrigger::IsActive()
+{
+    if (!AI_VALUE2(Unit*, "find target", "the black knight"))
+        return false;
+
+    return DungeonHelpers::FindNearbyCaster(botAI, {SPELL_GHOUL_EXPLODE_N, SPELL_GHOUL_EXPLODE_H},
+                                            GHOUL_EXPLODE_SAFE_DISTANCE);
 }

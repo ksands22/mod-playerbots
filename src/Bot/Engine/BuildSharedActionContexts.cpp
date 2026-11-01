@@ -25,6 +25,7 @@
 #include "TKActionContext.h"
 #include "TbcDungeonActionContext.h"
 #include "UldActionContext.h"
+#include "VanillaDungeonActionContext.h"
 #include "VoAActionContext.h"
 #include "WorldPacketActionContext.h"
 #include "WotlkDungeonActionContext.h"
@@ -57,12 +58,30 @@ void AiObjectContext::BuildSharedActionContexts(
     actionContexts.Add(new RaidOnyxiaActionContext());
     actionContexts.Add(new RaidIccActionContext());
     actionContexts.Add(new RaidRsActionContext());
+    actionContexts.Add(new VanillaDungeonGnomereganActionContext());
+    actionContexts.Add(new VanillaDungeonScarletMonasteryActionContext());
+    actionContexts.Add(new VanillaDungeonRazorfenDownsActionContext());
+    actionContexts.Add(new VanillaDungeonZulFarrakActionContext());
+    actionContexts.Add(new VanillaDungeonMaraudonActionContext());
+    actionContexts.Add(new VanillaDungeonSunkenTempleActionContext());
+    actionContexts.Add(new VanillaDungeonBlackrockDepthsActionContext());
+    actionContexts.Add(new VanillaDungeonBlackrockSpireActionContext());
+    actionContexts.Add(new VanillaDungeonDireMaulActionContext());
     actionContexts.Add(new TbcDungeonAuchenaiCryptsActionContext());
     actionContexts.Add(new TbcDungeonSethekkHallsActionContext());
     actionContexts.Add(new TbcDungeonMechanarActionContext());
     actionContexts.Add(new TbcDungeonUnderbogActionContext());
     actionContexts.Add(new TbcDungeonMagistersTerraceActionContext());
     actionContexts.Add(new TbcDungeonHellfireRampartsActionContext());
+    actionContexts.Add(new TbcDungeonBloodFurnaceActionContext());
+    actionContexts.Add(new TbcDungeonSlavePensActionContext());
+    actionContexts.Add(new TbcDungeonManaTombsActionContext());
+    actionContexts.Add(new TbcDungeonOldHillsbradActionContext());
+    actionContexts.Add(new TbcDungeonSteamvaultActionContext());
+    actionContexts.Add(new TbcDungeonShadowLabyrinthActionContext());
+    actionContexts.Add(new TbcDungeonBlackMorassActionContext());
+    actionContexts.Add(new TbcDungeonBotanicaActionContext());
+    actionContexts.Add(new TbcDungeonArcatrazActionContext());
     actionContexts.Add(new WotlkDungeonUKActionContext());
     actionContexts.Add(new WotlkDungeonNexActionContext());
     actionContexts.Add(new WotlkDungeonANActionContext());
@@ -78,4 +97,5 @@ void AiObjectContext::BuildSharedActionContexts(
     actionContexts.Add(new WotlkDungeonFoSActionContext());
     actionContexts.Add(new WotlkDungeonPoSActionContext());
     actionContexts.Add(new WotlkDungeonToCActionContext());
+    actionContexts.Add(new WotlkDungeonHallsOfReflectionActionContext());
 }

@@ -19,6 +19,7 @@ class Unit;
 namespace MagistersTerrace
 {
 constexpr uint32 MAP_MAGISTERS_TERRACE = 585;
+constexpr uint32 NPC_PURE_ENERGY = 24745;
 
 constexpr float SELIN_LEASH_X   = 216.0f;
 constexpr float SELIN_SAFE_X    = SELIN_LEASH_X + 4.0f;

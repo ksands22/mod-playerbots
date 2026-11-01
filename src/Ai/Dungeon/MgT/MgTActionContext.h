@@ -32,6 +32,8 @@ public:
         creators["mgt kael focus target"] = &TbcDungeonMagistersTerraceActionContext::mgt_kael_focus_target;
         creators["mgt kael interrupt"] = &TbcDungeonMagistersTerraceActionContext::mgt_kael_interrupt;
         creators["mgt take lapse spot"] = &TbcDungeonMagistersTerraceActionContext::mgt_take_lapse_spot;
+        creators["mgt vexallus mark pure energy"] =
+            &TbcDungeonMagistersTerraceActionContext::mgt_vexallus_mark_pure_energy;
     }
 
 private:
@@ -60,6 +62,10 @@ private:
     static Action* mgt_kael_focus_target(PlayerbotAI* botAI) { return new MgTKaelFocusTargetAction(botAI); }
     static Action* mgt_kael_interrupt(PlayerbotAI* botAI) { return new MgTKaelInterruptAction(botAI); }
     static Action* mgt_take_lapse_spot(PlayerbotAI* botAI) { return new MgTTakeLapseSpotAction(botAI); }
+    static Action* mgt_vexallus_mark_pure_energy(PlayerbotAI* botAI)
+    {
+        return new MgTVexallusMarkPureEnergyAction(botAI);
+    }
 };
 
 #endif

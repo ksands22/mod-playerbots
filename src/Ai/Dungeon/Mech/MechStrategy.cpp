@@ -5,6 +5,7 @@
  */
 
 #include "MechStrategy.h"
+#include "DungeonMultipliers.h"
 #include "MechMultipliers.h"
 #include "MechTriggers.h"
 
@@ -21,10 +22,16 @@ void TbcDungeonMechanarStrategy::InitTriggers(std::vector<TriggerNode*>& trigger
 
     triggers.push_back(new TriggerNode("sepethrea focus boss", {
         NextAction("sepethrea focus boss", ACTION_RAID + 2) }));
+
+    triggers.push_back(new TriggerNode("ironhand jackhammer", {
+        NextAction("ironhand avoid jackhammer", ACTION_EMERGENCY + 1) }));
 }
 
 void TbcDungeonMechanarStrategy::InitMultipliers(std::vector<Multiplier*>& multipliers)
 {
     multipliers.push_back(new SepethreaKiteFlameMultiplier(botAI));
     multipliers.push_back(new SepethreaFocusBossMultiplier(botAI));
+    multipliers.push_back(new IronhandJackhammerMultiplier(botAI));
+    multipliers.push_back(new ReflectingTargetMultiplier(botAI, "capacitus reflective magic shield",
+                                                         {MechanarCapacitus::SPELL_REFLECTIVE_MAGIC_SHIELD}));
 }
