@@ -30,6 +30,12 @@ void RaidOsStrategy::InitTriggers(std::vector<TriggerNode*>& triggers)
         { NextAction("enter twilight portal", ACTION_RAID + 1) }));
     triggers.push_back(new TriggerNode("twilight portal exit",
         { NextAction("exit twilight portal", ACTION_RAID + 1) }));
+
+    // Drakes fought on their own, and Sartharion's Lava Blazes
+    triggers.push_back(new TriggerNode("os drake melee positioning",
+        { NextAction("rear flank", ACTION_MOVE + 4) }));
+    triggers.push_back(new TriggerNode("os lava blaze",
+        { NextAction("os tank lava blaze", ACTION_RAID) }));
 }
 
 void RaidOsStrategy::InitMultipliers(std::vector<Multiplier*> &multipliers)

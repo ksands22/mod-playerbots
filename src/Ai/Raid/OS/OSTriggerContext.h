@@ -22,6 +22,8 @@ public:
         creators["sartharion melee positioning"] = &RaidOsTriggerContext::sartharion_melee;
         creators["twilight portal enter"] = &RaidOsTriggerContext::twilight_portal_enter;
         creators["twilight portal exit"] = &RaidOsTriggerContext::twilight_portal_exit;
+        creators["os drake melee positioning"] = &RaidOsTriggerContext::drake_melee;
+        creators["os lava blaze"] = &RaidOsTriggerContext::lava_blaze;
     }
 
 private:
@@ -32,6 +34,8 @@ private:
     static Trigger* sartharion_melee(PlayerbotAI* botAI) { return new SartharionMeleePositioningTrigger(botAI); }
     static Trigger* twilight_portal_enter(PlayerbotAI* botAI) { return new TwilightPortalEnterTrigger(botAI); }
     static Trigger* twilight_portal_exit(PlayerbotAI* botAI) { return new TwilightPortalExitTrigger(botAI); }
+    static Trigger* drake_melee(PlayerbotAI* botAI) { return new DrakeMeleePositioningTrigger(botAI); }
+    static Trigger* lava_blaze(PlayerbotAI* botAI) { return new LavaBlazeTrigger(botAI); }
 };
 
 #endif

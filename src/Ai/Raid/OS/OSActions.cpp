@@ -163,18 +163,19 @@ bool SartharionAttackPriorityAction::Execute(Event /*event*/)
     Unit* shadron = AI_VALUE2(Unit*, "find target", "shadron");
     Unit* tenebron = AI_VALUE2(Unit*, "find target", "tenebron");
     Unit* vesperon = AI_VALUE2(Unit*, "find target", "vesperon");
-    Unit* acolyte = AI_VALUE2(Unit*, "find target", "acolyte of shadron");
+    Unit* summon = IsInTwilightRealm(bot) ? GetTwilightSummon(bot) : nullptr;
 
+    // Guides: Tenebron first, then Shadron (his Gift shields Sartharion), then Vesperon.
     Unit* target = nullptr;
 
-    if (acolyte)
-        target = acolyte;
-    else if (vesperon)
-        target = vesperon;
+    if (summon)
+        target = summon;
     else if (tenebron)
         target = tenebron;
     else if (shadron)
         target = shadron;
+    else if (vesperon)
+        target = vesperon;
     else if (sartharion)
         target = sartharion;
 
@@ -186,9 +187,6 @@ bool SartharionAttackPriorityAction::Execute(Event /*event*/)
 
 bool EnterTwilightPortalAction::Execute(Event /*event*/)
 {
-    Unit* boss = AI_VALUE2(Unit*, "find target", "sartharion");
-    if (!boss || !boss->HasAura(SPELL_GIFT_OF_TWILIGHT_FIRE)) { return false; }
-
     GameObject* portal = bot->FindNearestGameObject(GO_TWILIGHT_PORTAL, 100.0f);
     if (!portal) { return false; }
 
@@ -218,4 +216,16 @@ bool ExitTwilightPortalAction::Execute(Event /*event*/)
     bot->GetSession()->HandleGameObjectUseOpcode(data1);
 
     return true;
+}
+
+bool OsTankLavaBlazeAction::Execute(Event event)
+{
+    Unit* blaze = GetUntankedLavaBlaze(botAI);
+    if (!blaze)
+        return false;
+
+    if (bot->GetVictim() != blaze)
+        return Attack(blaze);
+
+    return botAI->DoSpecificAction("taunt spell", event, true);
 }

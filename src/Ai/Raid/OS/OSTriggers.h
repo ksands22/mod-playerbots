@@ -70,6 +70,9 @@ enum ObsidianSanctumIDs
     GO_TWILIGHT_PORTAL                          = 193988,
     GO_NORMAL_PORTAL                            = 193989,
     SPELL_TWILIGHT_SHIFT                        = 57874,
+    // The portal's phase aura; 57874 above is the damage aura it triggers.
+    SPELL_TWILIGHT_SHIFT_PHASE                  = 57620,
+    SPELL_TWILIGHT_TORMENT_SARTHARION           = 58835,
 };
 
 const uint32 OS_MAP_ID = 615;
@@ -122,5 +125,23 @@ public:
     TwilightPortalExitTrigger(PlayerbotAI* botAI) : Trigger(botAI, "twilight portal exit") {}
     bool IsActive() override;
 };
+
+class DrakeMeleePositioningTrigger : public Trigger
+{
+public:
+    DrakeMeleePositioningTrigger(PlayerbotAI* botAI) : Trigger(botAI, "os drake melee positioning") {}
+    bool IsActive() override;
+};
+
+class LavaBlazeTrigger : public Trigger
+{
+public:
+    LavaBlazeTrigger(PlayerbotAI* botAI) : Trigger(botAI, "os lava blaze") {}
+    bool IsActive() override;
+};
+
+bool IsInTwilightRealm(Player const* bot);
+Unit* GetTwilightSummon(Player* bot);
+Unit* GetUntankedLavaBlaze(PlayerbotAI* botAI);
 
 #endif
