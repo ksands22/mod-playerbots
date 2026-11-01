@@ -29,6 +29,7 @@
 #include "WorldPacketActionContext.h"
 #include "WotlkDungeonActionContext.h"
 #include "ZAActionContext.h"
+#include "ZGActionContext.h"
 
 void AiObjectContext::BuildSharedActionContexts(
     SharedNamedObjectContextList<Action>& actionContexts)
@@ -47,6 +48,7 @@ void AiObjectContext::BuildSharedActionContexts(
     actionContexts.Add(new RaidHyjalActionContext());
     actionContexts.Add(new RaidBlackTempleActionContext());
     actionContexts.Add(new RaidZulAmanActionContext());
+    actionContexts.Add(new RaidZulGurubActionContext());
     actionContexts.Add(new RaidNaxxActionContext());
     actionContexts.Add(new RaidOsActionContext());
     actionContexts.Add(new RaidEoEActionContext());

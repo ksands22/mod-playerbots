@@ -27,6 +27,7 @@
 #include "UldStrategy.h"
 #include "VoAStrategy.h"
 #include "ZAStrategy.h"
+#include "ZGStrategy.h"
 
 class RaidStrategyContext : public NamedObjectContext<Strategy>
 {
@@ -52,6 +53,7 @@ public:
         creators["onyxia"] = &RaidStrategyContext::onyxia;
         creators["icc"] = &RaidStrategyContext::icc;
         creators["rs"] = &RaidStrategyContext::rs;
+        creators["zulgurub"] = &RaidStrategyContext::zulgurub;
     }
 
 private:
@@ -74,6 +76,7 @@ private:
     static Strategy* ulduar(PlayerbotAI* botAI) { return new RaidUlduarStrategy(botAI); }
     static Strategy* icc(PlayerbotAI* botAI) { return new RaidIccStrategy(botAI); }
     static Strategy* rs(PlayerbotAI* botAI) { return new RaidRsStrategy(botAI); }
+    static Strategy* zulgurub(PlayerbotAI* botAI) { return new RaidZulGurubStrategy(botAI); }
 };
 
 #endif

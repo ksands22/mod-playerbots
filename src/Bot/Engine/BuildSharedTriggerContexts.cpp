@@ -29,6 +29,7 @@
 #include "WorldPacketTriggerContext.h"
 #include "WotlkDungeonTriggerContext.h"
 #include "ZATriggerContext.h"
+#include "ZGTriggerContext.h"
 
 void AiObjectContext::BuildSharedTriggerContexts(
     SharedNamedObjectContextList<Trigger>& triggerContexts)
@@ -48,6 +49,7 @@ void AiObjectContext::BuildSharedTriggerContexts(
     triggerContexts.Add(new RaidHyjalTriggerContext());
     triggerContexts.Add(new RaidBlackTempleTriggerContext());
     triggerContexts.Add(new RaidZulAmanTriggerContext());
+    triggerContexts.Add(new RaidZulGurubTriggerContext());
     triggerContexts.Add(new RaidOsTriggerContext());
     triggerContexts.Add(new RaidEoETriggerContext());
     triggerContexts.Add(new RaidVoATriggerContext());
