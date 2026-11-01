@@ -70,6 +70,10 @@ namespace BlackwingLairHelpers
     // Guides break line of sight at 5-6 stacks; out of Firemaw's sight the stack expires instead of refreshing.
     constexpr uint32 FIREMAW_FLAME_BUFFET_HIDE_STACKS = 6;
 
+    // Ebonroc still on the cursed tank this long after the curse means the first taunt was resisted
+    // or out of range, so the next tank in line taunts too. Our number; the guide gives none.
+    constexpr uint32 EBONROC_BACKUP_TAUNT_DELAY_MS = 1500;
+
     bool IsActiveSuppressionDeviceInRange(GameObject const* go, Player const* bot);
     bool AreRazorgoreEggsAlive(PlayerbotAI* botAI);
     bool IsRazorgoreOffTank(Player* bot);

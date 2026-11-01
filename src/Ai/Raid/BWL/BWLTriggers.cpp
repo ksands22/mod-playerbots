@@ -8,6 +8,7 @@
 #include "BWLHelpers.h"
 #include "EncounterHelpers.h"
 #include "Playerbots.h"
+#include "SpellAuras.h"
 
 using namespace BlackwingLairHelpers;
 using namespace EncounterHelpers;
@@ -110,9 +111,7 @@ bool BwlFiremawHealerPositionTrigger::IsActive()
 
 bool BwlEbonrocShadowOnOtherTankTrigger::IsActive()
 {
-    // Main tank and both off-tanks: all uncursed ones taunt, so one resisted taunt does not leave him healing.
-    if (!PlayerbotAI::IsMainTank(bot) && !PlayerbotAI::IsAssistTankOfIndex(bot, 0, true) &&
-        !PlayerbotAI::IsAssistTankOfIndex(bot, 1, true))
+    if (!PlayerbotAI::IsTank(bot))
         return false;
 
     uint32 const shadow = static_cast<uint32>(BlackwingLairSpells::SPELL_SHADOW_OF_EBONROC);
@@ -121,7 +120,29 @@ bool BwlEbonrocShadowOnOtherTankTrigger::IsActive()
 
     Unit* boss = AI_VALUE2(Unit*, "find target", "ebonroc");
     Unit* victim = boss ? boss->GetVictim() : nullptr;
-    return victim && victim != bot && victim->HasAura(shadow);
+    Aura const* curse = victim && victim != bot ? victim->GetAura(shadow) : nullptr;
+    if (!curse)
+        return false;
+
+    // One designated taunter: the first uncursed of the main tank and both off-tanks. The next one
+    // joins only if Ebonroc is still on the cursed tank after a moment (the guide's backup for a
+    // resisted taunt), so the backup taunt isn't spent on every swap.
+    uint32 const cursedForMs = curse->GetMaxDuration() - curse->GetDuration();
+    uint8 const takers = cursedForMs >= EBONROC_BACKUP_TAUNT_DELAY_MS ? 2 : 1;
+
+    uint8 rank = 0;
+    for (Player* tank : { GetGroupMainTank(bot), GetGroupAssistTank(bot, 0), GetGroupAssistTank(bot, 1) })
+    {
+        if (!tank || tank == victim || tank->HasAura(shadow))
+            continue;
+
+        if (tank == bot)
+            return true;
+
+        if (++rank >= takers)
+            return false;
+    }
+    return false;
 }
 
 // Chromaggus
