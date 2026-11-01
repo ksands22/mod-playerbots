@@ -142,3 +142,21 @@ float GolemaggMultiplier::GetValue(Action* action)
     }
     return 1.0f;
 }
+
+float MajordomoReflectionMultiplier::GetValue(Action* action)
+{
+    if (PlayerbotAI::IsTank(bot) || !AI_VALUE2(Unit*, "find target", "majordomo executus"))
+        return 1.0f;
+
+    // Target picking resolves its own target, so judge it by the one the bot is already on.
+    Unit* target = nullptr;
+    if (dynamic_cast<CastSpellAction*>(action))
+        target = action->GetTarget();
+    else if (dynamic_cast<AttackAction*>(action))
+        target = AI_VALUE(Unit*, "current target");
+
+    if (target && IsReflectingAttacksFrom(target, bot))
+        return 0.0f;
+
+    return 1.0f;
+}

@@ -35,6 +35,12 @@ public:
         creators["mc in lava"] = &RaidMcTriggerContext::in_lava;
         creators["mc golemagg magma splash"] = &RaidMcTriggerContext::golemagg_magma_splash;
         creators["mc golemagg is healer"] = &RaidMcTriggerContext::golemagg_is_healer;
+        creators["mc kill order mark"] = &RaidMcTriggerContext::kill_order_mark;
+        creators["mc sulfuron dark mending"] = &RaidMcTriggerContext::sulfuron_dark_mending;
+        creators["mc majordomo reflection"] = &RaidMcTriggerContext::majordomo_reflection;
+        creators["mc ragnaros ranged too close"] = &RaidMcTriggerContext::ragnaros_ranged_too_close;
+        creators["mc ragnaros ranged spread"] = &RaidMcTriggerContext::ragnaros_ranged_spread;
+        creators["mc ragnaros wrath soon"] = &RaidMcTriggerContext::ragnaros_wrath_soon;
     }
 
 private:
@@ -57,6 +63,12 @@ private:
     static Trigger* in_lava(PlayerbotAI* botAI) { return new McInLavaTrigger(botAI); }
     static Trigger* golemagg_magma_splash(PlayerbotAI* botAI) { return new McGolemaggMagmaSplashTrigger(botAI); }
     static Trigger* golemagg_is_healer(PlayerbotAI* botAI) { return new McGolemaggIsHealerTrigger(botAI); }
+    static Trigger* kill_order_mark(PlayerbotAI* botAI) { return new McKillOrderMarkTrigger(botAI); }
+    static Trigger* sulfuron_dark_mending(PlayerbotAI* botAI) { return new McSulfuronDarkMendingTrigger(botAI); }
+    static Trigger* majordomo_reflection(PlayerbotAI* botAI) { return new McMajordomoReflectionTrigger(botAI); }
+    static Trigger* ragnaros_ranged_too_close(PlayerbotAI* botAI) { return new McRagnarosRangedTooCloseTrigger(botAI); }
+    static Trigger* ragnaros_ranged_spread(PlayerbotAI* botAI) { return new McRagnarosRangedSpreadTrigger(botAI); }
+    static Trigger* ragnaros_wrath_soon(PlayerbotAI* botAI) { return new McRagnarosWrathSoonTrigger(botAI); }
 };
 
 #endif

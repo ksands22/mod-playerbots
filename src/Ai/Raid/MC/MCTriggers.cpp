@@ -5,10 +5,13 @@
  */
 
 #include "MCTriggers.h"
+#include "EncounterHelpers.h"
 #include "MCHelpers.h"
 #include "SharedDefines.h"
 #include "SpellAuras.h"
+#include "Timer.h"
 
+using namespace EncounterHelpers;
 using namespace MoltenCoreHelpers;
 
 bool McLivingBombDebuffTrigger::IsActive()
@@ -90,4 +93,76 @@ bool McGolemaggIsHealerTrigger::IsActive()
 bool McCoreHoundMarkTrigger::IsActive()
 {
     return PlayerbotAI::IsMainTank(bot) && AI_VALUE2(Unit*, "find target", "core hound");
+}
+
+bool McKillOrderMarkTrigger::IsActive()
+{
+    // One marker per raid; encounter-only, so trash packs with the same adds keep normal targeting.
+    return bot->IsInCombat() && IsEncounterInProgress(bot, MAP_MOLTEN_CORE) &&
+           IsMechanicTrackerBot(bot, MAP_MOLTEN_CORE) && GetKillOrderMarkTarget(botAI);
+}
+
+bool McSulfuronDarkMendingTrigger::IsActive()
+{
+    return AI_VALUE2(Unit*, "find target", "sulfuron harbinger") && GetDarkMendingCaster(botAI);
+}
+
+bool McMajordomoReflectionTrigger::IsActive()
+{
+    if (PlayerbotAI::IsTank(bot) || !AI_VALUE2(Unit*, "find target", "majordomo executus"))
+        return false;
+
+    return GetReflectedAttackTarget(bot) != nullptr;
+}
+
+bool McRagnarosRangedTooCloseTrigger::IsActive()
+{
+    if (!PlayerbotAI::IsRanged(bot) || PlayerbotAI::IsTank(bot))
+        return false;
+
+    Unit* boss = AI_VALUE2(Unit*, "find target", "ragnaros");
+    return IsRagnarosEmerged(boss) && bot->GetExactDist2d(boss) < RAGNAROS_WRATH_SAFE_DISTANCE;
+}
+
+bool McRagnarosRangedSpreadTrigger::IsActive()
+{
+    if (!PlayerbotAI::IsRanged(bot) || PlayerbotAI::IsTank(bot))
+        return false;
+
+    if (!IsRagnarosEmerged(AI_VALUE2(Unit*, "find target", "ragnaros")))
+        return false;
+
+    return GetNearestPlayerInRadius(bot, RAGNAROS_SPREAD_DISTANCE) != nullptr;
+}
+
+bool McRagnarosWrathSoonTrigger::IsActive()
+{
+    if (!PlayerbotAI::IsMelee(bot))
+        return false;
+
+    Unit* boss = AI_VALUE2(Unit*, "find target", "ragnaros");
+    bool const engaged = IsRagnarosEmerged(boss) && boss->IsInCombat();
+    uint32 const now = getMSTime();
+
+    // A gap in evaluation (out of combat, dead) means the old phase start no longer applies.
+    constexpr uint32 MAX_EVALUATION_GAP_MS = 5000;
+    if (!engaged || (_lastSeenMs && getMSTimeDiff(_lastSeenMs, now) > MAX_EVALUATION_GAP_MS))
+        _phaseStartMs = 0;
+    _lastSeenMs = now;
+
+    if (!engaged)
+        return false;
+
+    if (!_phaseStartMs)
+        _phaseStartMs = now;
+
+    // His current target holds him in melee: without it he starts casting Magma Blast at the raid.
+    if (boss->GetVictim() == bot || bot->GetExactDist2d(boss) >= RAGNAROS_WRATH_SAFE_DISTANCE)
+        return false;
+
+    uint32 const elapsed = getMSTimeDiff(_phaseStartMs, now);
+    uint32 const untilWrath = elapsed < RAGNAROS_WRATH_FIRST_MS
+        ? RAGNAROS_WRATH_FIRST_MS - elapsed
+        : RAGNAROS_WRATH_INTERVAL_MS - (elapsed - RAGNAROS_WRATH_FIRST_MS) % RAGNAROS_WRATH_INTERVAL_MS;
+    return untilWrath <= RAGNAROS_WRATH_LEAD_MS;
 }

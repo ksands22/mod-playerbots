@@ -103,4 +103,53 @@ public:
     bool Execute(Event event) override;
 };
 
+class McKillOrderMarkAction : public Action
+{
+public:
+    McKillOrderMarkAction(PlayerbotAI* botAI, std::string const name = "mc kill order mark")
+        : Action(botAI, name) {}
+    bool Execute(Event event) override;
+};
+
+class McSulfuronInterruptDarkMendingAction : public Action
+{
+public:
+    McSulfuronInterruptDarkMendingAction(PlayerbotAI* botAI,
+                                         std::string const name = "mc sulfuron interrupt dark mending")
+        : Action(botAI, name) {}
+    bool Execute(Event event) override;
+};
+
+class McMajordomoStopAttackingAction : public Action
+{
+public:
+    McMajordomoStopAttackingAction(PlayerbotAI* botAI, std::string const name = "mc majordomo stop attacking")
+        : Action(botAI, name) {}
+    bool Execute(Event event) override;
+};
+
+class McRagnarosMoveAwayAction : public MovementAction
+{
+public:
+    McRagnarosMoveAwayAction(PlayerbotAI* botAI, std::string const name = "mc ragnaros move away")
+        : MovementAction(botAI, name) {}
+    bool Execute(Event event) override;
+};
+
+class McRagnarosSpreadAction : public MovementAction
+{
+public:
+    McRagnarosSpreadAction(PlayerbotAI* botAI, std::string const name = "mc ragnaros spread")
+        : MovementAction(botAI, name) {}
+    bool Execute(Event event) override;
+};
+
+class McRagnarosMeleeStepOutAction : public MovementAction
+{
+public:
+    McRagnarosMeleeStepOutAction(PlayerbotAI* botAI, std::string const name = "mc ragnaros melee step out")
+        : MovementAction(botAI, name) {}
+    bool Execute(Event event) override;
+};
+
 #endif
