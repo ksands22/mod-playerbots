@@ -41,6 +41,9 @@ public:
         creators["high king maulgar back away from krosh"] =
             &RaidGruulsLairActionContext::high_king_maulgar_back_away_from_krosh;
 
+        creators["high king maulgar interrupt blindeye"] =
+            &RaidGruulsLairActionContext::high_king_maulgar_interrupt_blindeye;
+
         creators["high king maulgar banish fel stalker"] =
             &RaidGruulsLairActionContext::high_king_maulgar_banish_fel_stalker;
 
@@ -101,6 +104,11 @@ private:
     {
         return new HighKingMaulgarBackAwayFromKroshAction(botAI);
     }
+    static Action* high_king_maulgar_interrupt_blindeye(PlayerbotAI* botAI)
+    {
+        return new HighKingMaulgarInterruptBlindeyeAction(botAI);
+    }
+
     static Action* high_king_maulgar_banish_fel_stalker(PlayerbotAI* botAI)
     {
         return new HighKingMaulgarBanishFelStalkerAction(botAI);

@@ -10,6 +10,7 @@
 #include "Playerbots.h"
 #include "RtiTargetValue.h"
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <iterator>
 #include <vector>
@@ -240,6 +241,25 @@ bool HighKingMaulgarBackAwayFromKroshAction::Execute(Event /*event*/)
 
     bot->CastStop();
     return FleePosition(krosh->GetPosition(), KROSH_BLAST_WAVE_SAFE_DISTANCE);
+}
+
+bool HighKingMaulgarInterruptBlindeyeAction::Execute(Event /*event*/)
+{
+    static constexpr std::array interruptSpells = {
+        "kick", "pummel", "shield bash", "wind shear", "earth shock", "counterspell", "silencing shot",
+        "silence", };
+
+    Unit* blindeye = AI_VALUE2(Unit*, "find target", "blindeye the seer");
+    if (!blindeye)
+        return false;
+
+    for (char const* name : interruptSpells)
+    {
+        if (botAI->CanCastSpell(name, blindeye) && botAI->CastSpell(name, blindeye))
+            return true;
+    }
+
+    return false;
 }
 
 bool HighKingMaulgarBanishFelStalkerAction::Execute(Event /*event*/)

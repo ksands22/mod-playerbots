@@ -108,6 +108,16 @@ protected:
     bool IsActiveInEncounter() override;
 };
 
+class HighKingMaulgarBlindeyeCastsHealTrigger : public GruulsLairEncounterTrigger
+{
+public:
+    HighKingMaulgarBlindeyeCastsHealTrigger(PlayerbotAI* botAI)
+        : GruulsLairEncounterTrigger(botAI, "high king maulgar blindeye casts heal") {}
+
+protected:
+    bool IsActiveInEncounter() override;
+};
+
 class HighKingMaulgarWildFelStalkerSpawnedTrigger : public GruulsLairEncounterTrigger
 {
 public:
