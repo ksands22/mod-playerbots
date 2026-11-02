@@ -40,6 +40,9 @@ public:
         creators["moroes should prioritize adds"] =
             &RaidKarazhanTriggerContext::moroes_should_prioritize_adds;
 
+        creators["moroes gouged the tank"] =
+            &RaidKarazhanTriggerContext::moroes_gouged_the_tank;
+
         // Maiden of Virtue
         creators["maiden of virtue boss engaged by tanks"] =
             &RaidKarazhanTriggerContext::maiden_of_virtue_boss_engaged_by_tanks;
@@ -60,6 +63,9 @@ public:
         // Romulo and Julianne
         creators["romulo and julianne both bosses revived"] =
             &RaidKarazhanTriggerContext::romulo_and_julianne_both_bosses_revived;
+
+        creators["julianne casts eternal affection"] =
+            &RaidKarazhanTriggerContext::julianne_casts_eternal_affection;
 
         // The Wizard of Oz
         creators["wizard of oz need target priority"] =
@@ -94,6 +100,15 @@ public:
 
         creators["shade of aran boss casts counterspell nearby"] =
             &RaidKarazhanTriggerContext::shade_of_aran_boss_casts_counterspell_nearby;
+
+        creators["shade of aran blizzard is nearby"] =
+            &RaidKarazhanTriggerContext::shade_of_aran_blizzard_is_nearby;
+
+        creators["shade of aran is drinking"] =
+            &RaidKarazhanTriggerContext::shade_of_aran_is_drinking;
+
+        creators["wizard of oz cyclone is nearby"] =
+            &RaidKarazhanTriggerContext::wizard_of_oz_cyclone_is_nearby;
 
         // Netherspite
         creators["netherspite red beam is active"] =
@@ -179,6 +194,31 @@ private:
     static Trigger* moroes_should_prioritize_adds(PlayerbotAI* botAI)
     {
         return new MoroesShouldPrioritizeAddsTrigger(botAI);
+    }
+
+    static Trigger* moroes_gouged_the_tank(PlayerbotAI* botAI)
+    {
+        return new MoroesGougedTheTankTrigger(botAI);
+    }
+
+    static Trigger* julianne_casts_eternal_affection(PlayerbotAI* botAI)
+    {
+        return new JulianneCastsEternalAffectionTrigger(botAI);
+    }
+
+    static Trigger* wizard_of_oz_cyclone_is_nearby(PlayerbotAI* botAI)
+    {
+        return new WizardOfOzCycloneIsNearbyTrigger(botAI);
+    }
+
+    static Trigger* shade_of_aran_blizzard_is_nearby(PlayerbotAI* botAI)
+    {
+        return new ShadeOfAranBlizzardIsNearbyTrigger(botAI);
+    }
+
+    static Trigger* shade_of_aran_is_drinking(PlayerbotAI* botAI)
+    {
+        return new ShadeOfAranIsDrinkingTrigger(botAI);
     }
 
     // Maiden of Virtue

@@ -236,6 +236,23 @@ float TerestianIllhoofDontDotFiendishImpsMultiplier::GetValue(Action* action)
 
 // Shade of Aran
 
+float ShadeOfAranWaitOutDrinkMultiplier::GetValue(Action* action)
+{
+    if (!dynamic_cast<AttackAction*>(action) && !dynamic_cast<CastSpellAction*>(action))
+        return 1.0f;
+
+    Unit* aran = AI_VALUE2(Unit*, "find target", "shade of aran");
+    if (!aran || !IsAranDrinking(aran))
+        return 1.0f;
+
+    Unit* target = dynamic_cast<CastSpellAction*>(action) ? action->GetTarget() : AI_VALUE(Unit*, "current target");
+    constexpr float healthyPct = 90.0f;
+    if (target == aran && !IsGroupHealthy(bot, healthyPct))
+        return 0.0f;
+
+    return 1.0f;
+}
+
 float ShadeOfAranArcaneExplosionRunAwayMultiplier::GetValue(Action* action)
 {
     if (dynamic_cast<AttackAction*>(action) ||

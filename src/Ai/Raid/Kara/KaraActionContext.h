@@ -40,6 +40,21 @@ public:
         creators["moroes mark target"] =
             &RaidKarazhanActionContext::moroes_mark_target;
 
+        creators["moroes taunt boss"] =
+            &RaidKarazhanActionContext::moroes_taunt_boss;
+
+        creators["julianne interrupt eternal affection"] =
+            &RaidKarazhanActionContext::julianne_interrupt_eternal_affection;
+
+        creators["wizard of oz avoid cyclone"] =
+            &RaidKarazhanActionContext::wizard_of_oz_avoid_cyclone;
+
+        creators["shade of aran avoid blizzard"] =
+            &RaidKarazhanActionContext::shade_of_aran_avoid_blizzard;
+
+        creators["shade of aran stop attacking while drinking"] =
+            &RaidKarazhanActionContext::shade_of_aran_stop_attacking_while_drinking;
+
         // Maiden of Virtue
         creators["maiden of virtue tank position boss"] =
             &RaidKarazhanActionContext::maiden_of_virtue_tank_position_boss;
@@ -179,6 +194,31 @@ private:
     static Action* moroes_mark_target(PlayerbotAI* botAI)
     {
         return new MoroesMarkTargetAction(botAI);
+    }
+
+    static Action* moroes_taunt_boss(PlayerbotAI* botAI)
+    {
+        return new MoroesTauntBossAction(botAI);
+    }
+
+    static Action* julianne_interrupt_eternal_affection(PlayerbotAI* botAI)
+    {
+        return new JulianneInterruptEternalAffectionAction(botAI);
+    }
+
+    static Action* wizard_of_oz_avoid_cyclone(PlayerbotAI* botAI)
+    {
+        return new WizardOfOzAvoidCycloneAction(botAI);
+    }
+
+    static Action* shade_of_aran_avoid_blizzard(PlayerbotAI* botAI)
+    {
+        return new ShadeOfAranAvoidBlizzardAction(botAI);
+    }
+
+    static Action* shade_of_aran_stop_attacking_while_drinking(PlayerbotAI* botAI)
+    {
+        return new ShadeOfAranStopAttackingWhileDrinkingAction(botAI);
     }
 
     // Maiden of Virtue

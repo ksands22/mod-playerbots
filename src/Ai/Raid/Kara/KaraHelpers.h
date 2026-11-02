@@ -18,6 +18,7 @@
 #include <vector>
 
 class Player;
+class PlayerbotAI;
 class Unit;
 
 namespace KaraHelpers
@@ -31,11 +32,16 @@ constexpr uint32 Id(T value)
 
 enum class KaraSpells : uint32
 {
+    // Moroes
+    SPELL_GOUGE                   = 29425,
+
     // Maiden of Virtue
     SPELL_REPENTANCE              = 29511,
 
     // Opera Event
     SPELL_LITTLE_RED_RIDING_HOOD  = 30756,
+    SPELL_ETERNAL_AFFECTION       = 30878,
+    SPELL_CYCLONE_KNOCKBACK       = 32334,
 
     // The Curator
     SPELL_CURATOR_EVOCATION       = 30254,
@@ -78,8 +84,12 @@ enum class KaraNpcs : uint32
     // Attumen the Huntsman
     NPC_ATTUMEN_THE_HUNTSMAN      = 16152, // ID for mounted version
 
+    // Opera Event
+    NPC_CYCLONE                   = 18412,
+
     // Shade of Aran
     NPC_CONJURED_ELEMENTAL        = 17167,
+    NPC_ARAN_BLIZZARD             = 17161,
 
     // Netherspite
     NPC_VOID_ZONE                 = 16697,
@@ -94,6 +104,9 @@ enum class KaraNpcs : uint32
 // Shared
 inline constexpr uint32 KARA_MAP_ID = 532;
 bool IsSafePosition (float x, float y, std::vector<Unit*> const& hazards, float hazardRadius);
+Unit* GetNearestNpcOfEntry(PlayerbotAI* botAI, uint32 entry, float maxDistance);
+// The largest area radius of the spell or the spell it triggers, or the fallback without one.
+float GetSpellRadiusOrFallback(uint32 spellId, float fallback);
 
 // Attumen the Huntsman
 inline Position const ATTUMEN_TANK_POSITION = { -11123.762f, -1926.619f, 49.215f };
@@ -137,6 +150,11 @@ inline Position const THE_CURATOR_TANK_POSITION = { -11139.463f, -1884.645f, 165
 // Shade of Aran
 bool IsAranCastingArcaneExplosion(Unit* aran);
 bool IsFlameWreathActive(Player* bot);
+// Aran turns passive from his Mass Polymorph until he stands up from drinking; a direct hit in that
+// window breaks the drink and he casts Pyroblast on the raid a second later.
+bool IsAranDrinking(Unit* aran);
+// Every living group member at or above the given health percent.
+bool IsGroupHealthy(Player* bot, float minHealthPct);
 
 // Netherspite
 extern std::unordered_map<uint32, time_t> netherspiteDpsWaitTimer;

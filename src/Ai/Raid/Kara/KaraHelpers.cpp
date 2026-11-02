@@ -6,6 +6,8 @@
 
 #include "KaraHelpers.h"
 #include "Playerbots.h"
+#include "SpellInfo.h"
+#include "SpellMgr.h"
 #include <algorithm>
 #include <limits>
 #include <list>
@@ -444,5 +446,65 @@ bool TryFindSafePositionWithSafePath(
 
 std::unordered_map<uint32, time_t> nightbaneDpsWaitTimer;
 std::unordered_map<uint32, time_t> nightbaneFlightPhaseStartTimer;
+
+Unit* GetNearestNpcOfEntry(PlayerbotAI* botAI, uint32 entry, float maxDistance)
+{
+    Player* bot = botAI->GetBot();
+    Unit* nearest = nullptr;
+    float nearestDistance = maxDistance;
+    for (ObjectGuid const guid : botAI->GetAiObjectContext()->GetValue<GuidVector>("nearest npcs")->Get())
+    {
+        Unit* unit = botAI->GetUnit(guid);
+        if (!unit || !unit->IsAlive() || unit->GetEntry() != entry)
+            continue;
+
+        float const distance = bot->GetExactDist2d(unit);
+        if (distance < nearestDistance)
+        {
+            nearest = unit;
+            nearestDistance = distance;
+        }
+    }
+    return nearest;
+}
+
+float GetSpellRadiusOrFallback(uint32 spellId, float fallback)
+{
+    SpellInfo const* info = sSpellMgr->GetSpellInfo(spellId);
+    if (!info)
+        return fallback;
+
+    float radius = 0.0f;
+    for (uint8 i = 0; i < MAX_SPELL_EFFECTS; ++i)
+    {
+        radius = std::max(radius, info->Effects[i].CalcRadius());
+        if (uint32 const triggered = info->Effects[i].TriggerSpell)
+            if (SpellInfo const* triggeredInfo = sSpellMgr->GetSpellInfo(triggered))
+                for (uint8 j = 0; j < MAX_SPELL_EFFECTS; ++j)
+                    radius = std::max(radius, triggeredInfo->Effects[j].CalcRadius());
+    }
+    return radius > 0.0f ? radius : fallback;
+}
+
+bool IsAranDrinking(Unit* aran)
+{
+    Creature* creature = aran ? aran->ToCreature() : nullptr;
+    return creature && creature->GetReactState() == REACT_PASSIVE;
+}
+
+bool IsGroupHealthy(Player* bot, float minHealthPct)
+{
+    Group* group = bot->GetGroup();
+    if (!group)
+        return bot->GetHealthPct() >= minHealthPct;
+
+    for (GroupReference* ref = group->GetFirstMember(); ref; ref = ref->next())
+    {
+        Player* member = ref->GetSource();
+        if (member && member->IsAlive() && member->GetHealthPct() < minHealthPct)
+            return false;
+    }
+    return true;
+}
 
 }

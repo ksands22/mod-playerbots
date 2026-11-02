@@ -89,6 +89,14 @@ public:
     float GetValue(Action* action) override;
 };
 
+class ShadeOfAranWaitOutDrinkMultiplier : public Multiplier
+{
+public:
+    ShadeOfAranWaitOutDrinkMultiplier(PlayerbotAI* botAI)
+        : Multiplier(botAI, "shade of aran wait out drink") {}
+    float GetValue(Action* action) override;
+};
+
 class ShadeOfAranArcaneExplosionRunAwayMultiplier : public Multiplier
 {
 public:
