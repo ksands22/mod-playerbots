@@ -21,6 +21,11 @@ namespace UlduarExtraHelpers
 
 enum UlduarExtraNPCs
 {
+    // Flame Leviathan's towers: the ground markers their strikes land on
+    NPC_HODIRS_FURY_TARGET = 33108,
+    NPC_THORIMS_HAMMER_TARGET = 33364,
+    NPC_MIMIRONS_INFERNO_TARGET = 33369,
+
     // Ignis the Furnace Master
     NPC_IRON_CONSTRUCT = 33121,
     NPC_SCORCHED_GROUND = 33123,
@@ -36,6 +41,14 @@ enum UlduarExtraNPCs
     NPC_FLASH_FREEZE_HELPER = 32938,
     NPC_TOASTY_FIRE = 33342,
 
+    // Thorim's hard mode: Sif, and the moving Blizzard she summons
+    NPC_SIF = 33196,
+    NPC_SIF_BLIZZARD = 32879,
+
+    // General Vezax
+    NPC_SARONITE_VAPORS = 33488,
+    NPC_SARONITE_ANIMUS = 33524,
+
     // Freya and her Elders
     NPC_IRON_ROOTS = 33088,
     NPC_STRENGTHENED_IRON_ROOTS = 33168,
@@ -44,6 +57,9 @@ enum UlduarExtraNPCs
 
     // Mimiron
     NPC_MIMIRON_PROXIMITY_MINE = 34362,
+    NPC_MIMIRON_FLAMES = 34121,
+    NPC_MIMIRON_FROST_BOMB = 34149,
+    NPC_EMERGENCY_FIRE_BOT = 34147,
 
     // Yogg-Saron
     NPC_YOGG_OMINOUS_CLOUD = 33292,
@@ -53,6 +69,8 @@ enum UlduarExtraNPCs
     NPC_XS013_SCRAPBOT = 33343,
     NPC_XM024_PUMMELLER = 33344,
     NPC_XE321_BOOMBOT = 33346,
+    NPC_XT_VOID_ZONE = 34001,
+    NPC_XT_LIFE_SPARK = 34004,
 
     // Auriaya
     NPC_SANCTUM_SENTRY = 34014,
@@ -66,6 +84,11 @@ enum UlduarExtraNPCs
 
 enum UlduarExtraSpells
 {
+    // Flame Leviathan's towers
+    SPELL_HODIRS_FURY = 62533,
+    SPELL_MIMIRONS_INFERNO_DAMAGE = 62910,
+    SPELL_THORIMS_HAMMER = 62911,
+
     // Ignis; the core swaps in the 25-player versions by difficulty.
     SPELL_IGNIS_MOLTEN = 62373,
     SPELL_IGNIS_BRITTLE = 62382,
@@ -86,12 +109,19 @@ enum UlduarExtraSpells
 
     // Thorim
     SPELL_UNBALANCING_STRIKE = 62130,
+    SPELL_SIF_BLIZZARD = 62577,
+    SPELL_SIF_FROST_NOVA = 62597,
 
     // Freya and her Elders
     SPELL_NATURES_FURY = 62589,
     SPELL_UNSTABLE_ENERGY_FREYA = 62451,
     SPELL_GROUND_TREMOR_FREYA = 62437,
     SPELL_GROUND_TREMOR_STONEBARK = 62325,
+
+    // Mimiron's hard mode
+    SPELL_MIMIRON_FLAMES = 64561,
+    SPELL_FROST_BOMB_EXPLOSION_10 = 64626,
+    SPELL_FROST_BOMB_EXPLOSION_25 = 65333,
 
     // General Vezax
     SPELL_VEZAX_SEARING_FLAMES = 62661,
@@ -102,6 +132,7 @@ enum UlduarExtraSpells
     // XT-002
     SPELL_SEARING_LIGHT = 63018,
     SPELL_GRAVITY_BOMB = 63024,
+    SPELL_XT_CONSUMPTION = 64209,
 
     // Auriaya
     SPELL_SENTINEL_BLAST = 64389,
@@ -131,18 +162,25 @@ constexpr float MIMIRON_MINE_AVOID_DISTANCE = 1.9f + 2.5f;
 constexpr float YOGG_CLOUD_AVOID_DISTANCE = 6.0f + 3.0f;
 constexpr float ULDUAR_EXTRA_SEARCH_DISTANCE = 80.0f;
 
+// The "uld hard mode" strategy, added with "co +uld hard mode", has bots start the hard modes they control.
+bool IsUlduarHardMode(PlayerbotAI* botAI);
 Unit* GetNearestNpc(PlayerbotAI* botAI, uint32 entry, float maxDistance);
 bool HasDifficultyAura(Unit const* unit, uint32 baseSpellId, Unit const* caster);
 bool IsCastingDifficultySpell(Unit* caster, uint32 baseSpellId, int32* remainingMs = nullptr);
-// Skull: Ignis' Brittle constructs, XT-002's exposed heart, Auriaya's Sanctum Sentries, and the
-// Iron Council in the guides' normal-mode order (Steelbreaker, Molgeim, Brundir).
+// Skull: Ignis' Brittle constructs, XT-002's exposed heart and hard-mode Life Sparks, Auriaya's Sanctum
+// Sentries, General Vezax's Saronite Animus, Mimiron's hard-mode Emergency Fire Bots, and the Iron Council in
+// the guides' normal-mode order (Steelbreaker, Molgeim, Brundir), or in hard mode with Steelbreaker last
+// (Brundir, Molgeim, Steelbreaker).
 Unit* GetKillOrderMarkTarget(PlayerbotAI* botAI);
-// An add the first off-tank should hold: Pummellers, Sentries, Feral Defenders, Constellations, Constructs.
+// An add the first off-tank should hold: Pummellers, Life Sparks, Sentries, Feral Defenders, Constellations,
+// Constructs, the Saronite Animus.
 Unit* GetUntankedOffTankAdd(PlayerbotAI* botAI);
 // Where Ignis' off-tank takes its constructs: Scorch until Molten, then water until Brittle.
 bool GetIgnisConstructDestination(PlayerbotAI* botAI, Position& destination);
 // How far XT-002's Searing Light or Gravity Bomb reaches from the bot, or 0 without either.
 float GetXtDebuffRadius(Player* bot);
+// How far to keep from a hard-mode XT-002 Void Zone.
+float GetXtVoidZoneAvoidDistance();
 Position GetAuriayaStackSpot(Unit const* auriaya);
 // A boss casting what guides interrupt: Auriaya's Sentinel Blast, Brundir's Chain Lightning and
 // Lightning Whirl, General Vezax's Searing Flames, and the Guardians of Yogg-Saron's Dark Volley.
@@ -153,6 +191,18 @@ Unit* GetAssignedCouncilMember(PlayerbotAI* botAI);
 uint32 GetCrunchArmorStacks(Unit const* unit);
 // Hodir: a Flash Freeze ice block to break, frozen players first, then the frozen helpers.
 Unit* GetHodirIceBlock(PlayerbotAI* botAI);
+// Thorim's hard mode: Sif, when the bot is inside her Frost Nova range, with the distance it must get to.
+// She only comes down into the arena to cast it.
+Unit* GetSifInNovaRange(PlayerbotAI* botAI, float& safeDistance);
+// Thorim's hard mode: Sif's moving Blizzard the bot stands in, with the distance it must get to.
+Unit* GetSifBlizzardInRange(PlayerbotAI* botAI, float& safeDistance);
+// Flame Leviathan's towers: the nearest Hodir's Fury, Thorim's Hammer or Mimiron's Inferno marker the
+// vehicle is inside the strike of, with the distance the vehicle must get to.
+Unit* GetLeviathanTowerHazard(PlayerbotAI* botAI, Unit const* vehicle, float& safeDistance);
+// Mimiron's hard mode: the nearest fire patch the bot stands in, with the distance it must get to.
+Unit* GetMimironFlamesInRange(PlayerbotAI* botAI, float& safeDistance);
+// Mimiron's hard mode: a Frost Bomb the bot is inside the blast of, with the distance it must get to.
+Unit* GetMimironFrostBombInRange(PlayerbotAI* botAI, float& safeDistance);
 // Freya: the nearest Iron Roots or Strengthened Iron Roots holding a player, within spell range.
 Unit* GetFreyaIronRoots(PlayerbotAI* botAI);
 // How far Nature's Fury reaches from the bot, or 0 without it.

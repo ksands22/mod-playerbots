@@ -23,6 +23,7 @@
 #include "ServerFacade.h"
 #include "TankAssistStrategy.h"
 #include "UldBossHelper.h"
+#include "UldExtraHelpers.h"
 #include "UldScripts.h"
 #include "Unit.h"
 #include "Vehicle.h"
@@ -76,12 +77,19 @@ bool FlameLeviathanVehicleAction::Execute(Event /*event*/)
         if (!target || bot->GetExactDist(target) > bot->GetExactDist(unit))
             target = unit;
     }
+    uint32 entry = vehicleBase_->GetEntry();
+    bool const isDriver = entry == NPC_SALVAGED_DEMOLISHER || entry == NPC_SALVAGED_SIEGE_ENGINE ||
+                          entry == NPC_VEHICLE_CHOPPER;
+
+    // Towers left up: drivers steer clear of the beams before they strike.
+    if (isDriver && MoveAwayFromTowerHazard())
+        return true;
+
     // Flame Leviathan is chasing me
     if (flame && flame->GetVictim() == vehicleBase_)
         if (MoveAvoidChasing(flame))
             return true;
 
-    uint32 entry = vehicleBase_->GetEntry();
     switch (entry)
     {
         case NPC_SALVAGED_DEMOLISHER:
@@ -98,6 +106,20 @@ bool FlameLeviathanVehicleAction::Execute(Event /*event*/)
             break;
     }
     return false;
+}
+
+bool FlameLeviathanVehicleAction::MoveAwayFromTowerHazard()
+{
+    float safeDistance = 0.0f;
+    Unit* hazard = UlduarExtraHelpers::GetLeviathanTowerHazard(botAI, vehicleBase_, safeDistance);
+    if (!hazard)
+        return false;
+
+    float const angle = hazard->GetAngle(vehicleBase_);
+    float const x = hazard->GetPositionX() + safeDistance * std::cos(angle);
+    float const y = hazard->GetPositionY() + safeDistance * std::sin(angle);
+    return MoveTo(bot->GetMapId(), x, y, vehicleBase_->GetPositionZ(), false, false, false, false,
+                  MovementPriority::MOVEMENT_COMBAT);
 }
 
 bool FlameLeviathanVehicleAction::MoveAvoidChasing(Unit* target)

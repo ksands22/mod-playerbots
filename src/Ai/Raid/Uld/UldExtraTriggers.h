@@ -39,6 +39,13 @@ public:
     bool IsActive() override;
 };
 
+class UldXtVoidZoneTrigger : public Trigger
+{
+public:
+    UldXtVoidZoneTrigger(PlayerbotAI* botAI) : Trigger(botAI, "uld xt void zone") {}
+    bool IsActive() override;
+};
+
 // Kologarn
 class UldKologarnCrunchArmorTrigger : public Trigger
 {
@@ -52,6 +59,43 @@ class UldThorimUnbalancingStrikeTrigger : public Trigger
 {
 public:
     UldThorimUnbalancingStrikeTrigger(PlayerbotAI* botAI) : Trigger(botAI, "uld thorim unbalancing strike") {}
+    bool IsActive() override;
+};
+
+class UldThorimSifFrostNovaTrigger : public Trigger
+{
+public:
+    UldThorimSifFrostNovaTrigger(PlayerbotAI* botAI) : Trigger(botAI, "uld thorim sif frost nova") {}
+    bool IsActive() override;
+};
+
+class UldThorimSifBlizzardTrigger : public Trigger
+{
+public:
+    UldThorimSifBlizzardTrigger(PlayerbotAI* botAI) : Trigger(botAI, "uld thorim sif blizzard") {}
+    bool IsActive() override;
+};
+
+// Mimiron
+class UldMimironFlamesTrigger : public Trigger
+{
+public:
+    UldMimironFlamesTrigger(PlayerbotAI* botAI) : Trigger(botAI, "uld mimiron flames") {}
+    bool IsActive() override;
+};
+
+class UldMimironFrostBombTrigger : public Trigger
+{
+public:
+    UldMimironFrostBombTrigger(PlayerbotAI* botAI) : Trigger(botAI, "uld mimiron frost bomb") {}
+    bool IsActive() override;
+};
+
+// General Vezax
+class UldVezaxSaroniteVaporsTrigger : public Trigger
+{
+public:
+    UldVezaxSaroniteVaporsTrigger(PlayerbotAI* botAI) : Trigger(botAI, "uld vezax saronite vapors") {}
     bool IsActive() override;
 };
 

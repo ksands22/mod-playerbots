@@ -155,6 +155,41 @@ bool UldTauntBossAction::Execute(Event event)
     return boss->GetVictim() != bot && botAI->DoSpecificAction("taunt spell", event, true);
 }
 
+bool UldThorimAvoidSifFrostNovaAction::Execute(Event /*event*/)
+{
+    float safeDistance = 0.0f;
+    Unit* sif = GetSifInNovaRange(botAI, safeDistance);
+    return sif && MoveAway(sif, safeDistance);
+}
+
+bool UldThorimAvoidSifBlizzardAction::Execute(Event /*event*/)
+{
+    float safeDistance = 0.0f;
+    Unit* blizzard = GetSifBlizzardInRange(botAI, safeDistance);
+    return blizzard && MoveAway(blizzard, safeDistance);
+}
+
+bool UldMimironAvoidFlamesAction::Execute(Event /*event*/)
+{
+    // The fire spreads in patches, so pick a spot clear of them rather than just backing off.
+    float safeDistance = 0.0f;
+    Unit* flames = GetMimironFlamesInRange(botAI, safeDistance);
+    return flames && FleePosition(flames->GetPosition(), safeDistance);
+}
+
+bool UldMimironAvoidFrostBombAction::Execute(Event /*event*/)
+{
+    float safeDistance = 0.0f;
+    Unit* bomb = GetMimironFrostBombInRange(botAI, safeDistance);
+    return bomb && MoveAway(bomb, safeDistance);
+}
+
+bool UldVezaxKillVaporsAction::Execute(Event /*event*/)
+{
+    Unit* vapors = GetNearestNpc(botAI, NPC_SARONITE_VAPORS, botAI->GetRange("spell"));
+    return vapors && Attack(vapors);
+}
+
 bool UldHodirToastyFireAction::Execute(Event /*event*/)
 {
     Unit* fire = GetNearestNpc(botAI, NPC_TOASTY_FIRE, ULDUAR_EXTRA_SEARCH_DISTANCE);
@@ -204,6 +239,13 @@ bool UldFreyaAvoidSunBeamAction::Execute(Event /*event*/)
     float safeDistance = 0.0f;
     Unit* beam = GetFreyaSunBeamInRange(botAI, safeDistance);
     return beam && MoveAway(beam, safeDistance);
+}
+
+bool UldXtAvoidVoidZoneAction::Execute(Event /*event*/)
+{
+    float const distance = GetXtVoidZoneAvoidDistance();
+    Unit* zone = GetNearestNpc(botAI, NPC_XT_VOID_ZONE, distance);
+    return zone && MoveAway(zone, distance);
 }
 
 bool UldMimironAvoidMineAction::Execute(Event /*event*/)

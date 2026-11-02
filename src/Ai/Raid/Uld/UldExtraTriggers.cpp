@@ -158,6 +158,13 @@ bool UldRazorscaleMeleeTrigger::IsActive()
     return razorscale && razorscale->GetPositionZ() < RAZORSCALE_GROUNDED_Z && bot->GetVictim() == razorscale;
 }
 
+bool UldXtVoidZoneTrigger::IsActive()
+{
+    // Hard mode: Gravity Bomb leaves a Void Zone that guides get out of at once.
+    return AI_VALUE2(Unit*, "find target", "xt-002 deconstructor") &&
+           GetNearestNpc(botAI, NPC_XT_VOID_ZONE, GetXtVoidZoneAvoidDistance());
+}
+
 bool UldKologarnCrunchArmorTrigger::IsActive()
 {
     if (!PlayerbotAI::IsTank(bot))
@@ -185,6 +192,45 @@ bool UldThorimUnbalancingStrikeTrigger::IsActive()
 
     return GetTakeoverTank(bot, victim, [](Player const* tank) { return tank->HasAura(SPELL_UNBALANCING_STRIKE); }) ==
            bot;
+}
+
+bool UldThorimSifFrostNovaTrigger::IsActive()
+{
+    // Hard mode: guides get away from Sif before her Frost Nova lands.
+    float safeDistance = 0.0f;
+    return AI_VALUE2(Unit*, "find target", "thorim") && GetSifInNovaRange(botAI, safeDistance);
+}
+
+bool UldThorimSifBlizzardTrigger::IsActive()
+{
+    // Hard mode: guides stay out of Sif's Blizzard as it moves around the arena.
+    float safeDistance = 0.0f;
+    return AI_VALUE2(Unit*, "find target", "thorim") && GetSifBlizzardInRange(botAI, safeDistance);
+}
+
+bool UldMimironFlamesTrigger::IsActive()
+{
+    // Hard mode: the fire patches burn whoever stands in them; they exist only in this encounter.
+    float safeDistance = 0.0f;
+    return bot->IsInCombat() && GetMimironFlamesInRange(botAI, safeDistance);
+}
+
+bool UldMimironFrostBombTrigger::IsActive()
+{
+    // Hard mode: guides get clear of a Frost Bomb before it goes off.
+    float safeDistance = 0.0f;
+    return bot->IsInCombat() && GetMimironFrostBombInRange(botAI, safeDistance);
+}
+
+bool UldVezaxSaroniteVaporsTrigger::IsActive()
+{
+    // Normal mode: guides kill each Saronite Vapor, so six never live at once to form the Animus. The
+    // vapors never join the fight, so nothing else targets them.
+    if (!PlayerbotAI::IsRangedDps(bot) || IsUlduarHardMode(botAI) || !AI_VALUE2(Unit*, "find target", "general vezax"))
+        return false;
+
+    Unit* vapors = GetNearestNpc(botAI, NPC_SARONITE_VAPORS, botAI->GetRange("spell"));
+    return vapors && bot->GetVictim() != vapors && bot->IsValidAttackTarget(vapors);
 }
 
 bool UldHodirToastyFireTrigger::IsActive()

@@ -350,6 +350,18 @@ void RaidUlduarStrategy::InitTriggers(std::vector<TriggerNode*>& triggers)
     triggers.push_back(new TriggerNode("uld ignis melee", { NextAction("rear flank", ACTION_MOVE + 4) }));
     triggers.push_back(new TriggerNode("uld xt debuff", { NextAction("uld xt spread", ACTION_RAID + 2) }));
     triggers.push_back(new TriggerNode("uld xt bot add", { NextAction("uld xt attack bot add", ACTION_RAID) }));
+    triggers.push_back(new TriggerNode("uld xt void zone",
+        { NextAction("uld xt avoid void zone", ACTION_MOVE + 5) }));
+    triggers.push_back(new TriggerNode("uld thorim sif frost nova",
+        { NextAction("uld thorim avoid sif frost nova", ACTION_MOVE + 5) }));
+    triggers.push_back(new TriggerNode("uld thorim sif blizzard",
+        { NextAction("uld thorim avoid sif blizzard", ACTION_MOVE + 5) }));
+    triggers.push_back(new TriggerNode("uld mimiron frost bomb",
+        { NextAction("uld mimiron avoid frost bomb", ACTION_MOVE + 6) }));
+    triggers.push_back(new TriggerNode("uld mimiron flames",
+        { NextAction("uld mimiron avoid flames", ACTION_MOVE + 5) }));
+    triggers.push_back(new TriggerNode("uld vezax saronite vapors",
+        { NextAction("uld vezax kill vapors", ACTION_RAID) }));
     triggers.push_back(new TriggerNode("uld auriaya stack", { NextAction("uld auriaya stack", ACTION_MOVE + 4) }));
     triggers.push_back(new TriggerNode("uld interrupt", { NextAction("uld interrupt", ACTION_RAID + 2) }));
     triggers.push_back(new TriggerNode("uld council tank", { NextAction("uld council tank", ACTION_RAID + 1) }));

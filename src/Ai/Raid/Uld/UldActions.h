@@ -29,6 +29,7 @@ public:
 
 protected:
     bool MoveAvoidChasing(Unit* target);
+    bool MoveAwayFromTowerHazard();
     bool DemolisherAction(Unit* target);
     bool DemolisherTurretAction(Unit* target);
     bool SiegeEngineAction(Unit* target);

@@ -53,6 +53,7 @@ public:
         creators["wotlk-eoe"] = &RaidStrategyContext::wotlk_eoe;
         creators["voa"] = &RaidStrategyContext::voa;
         creators["ulduar"] = &RaidStrategyContext::ulduar;
+        creators["uld hard mode"] = &RaidStrategyContext::uld_hard_mode;
         creators["onyxia"] = &RaidStrategyContext::onyxia;
         creators["icc"] = &RaidStrategyContext::icc;
         creators["rs"] = &RaidStrategyContext::rs;
@@ -79,6 +80,7 @@ private:
     static Strategy* voa(PlayerbotAI* botAI) { return new RaidVoAStrategy(botAI); }
     static Strategy* onyxia(PlayerbotAI* botAI) { return new RaidOnyxiaStrategy(botAI); }
     static Strategy* ulduar(PlayerbotAI* botAI) { return new RaidUlduarStrategy(botAI); }
+    static Strategy* uld_hard_mode(PlayerbotAI* botAI) { return new UlduarHardModeStrategy(botAI); }
     static Strategy* icc(PlayerbotAI* botAI) { return new RaidIccStrategy(botAI); }
     static Strategy* rs(PlayerbotAI* botAI) { return new RaidRsStrategy(botAI); }
     static Strategy* sunwell(PlayerbotAI* botAI) { return new RaidSunwellPlateauStrategy(botAI); }

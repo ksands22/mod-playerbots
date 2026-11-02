@@ -48,6 +48,13 @@ public:
     bool Execute(Event event) override;
 };
 
+class UldXtAvoidVoidZoneAction : public MovementAction
+{
+public:
+    UldXtAvoidVoidZoneAction(PlayerbotAI* botAI) : MovementAction(botAI, "uld xt avoid void zone") {}
+    bool Execute(Event event) override;
+};
+
 class UldAuriayaStackAction : public MovementAction
 {
 public:
@@ -66,6 +73,41 @@ class UldCouncilTankAction : public AttackAction
 {
 public:
     UldCouncilTankAction(PlayerbotAI* botAI) : AttackAction(botAI, "uld council tank") {}
+    bool Execute(Event event) override;
+};
+
+class UldThorimAvoidSifFrostNovaAction : public MovementAction
+{
+public:
+    UldThorimAvoidSifFrostNovaAction(PlayerbotAI* botAI) : MovementAction(botAI, "uld thorim avoid sif frost nova") {}
+    bool Execute(Event event) override;
+};
+
+class UldThorimAvoidSifBlizzardAction : public MovementAction
+{
+public:
+    UldThorimAvoidSifBlizzardAction(PlayerbotAI* botAI) : MovementAction(botAI, "uld thorim avoid sif blizzard") {}
+    bool Execute(Event event) override;
+};
+
+class UldMimironAvoidFlamesAction : public MovementAction
+{
+public:
+    UldMimironAvoidFlamesAction(PlayerbotAI* botAI) : MovementAction(botAI, "uld mimiron avoid flames") {}
+    bool Execute(Event event) override;
+};
+
+class UldMimironAvoidFrostBombAction : public MovementAction
+{
+public:
+    UldMimironAvoidFrostBombAction(PlayerbotAI* botAI) : MovementAction(botAI, "uld mimiron avoid frost bomb") {}
+    bool Execute(Event event) override;
+};
+
+class UldVezaxKillVaporsAction : public AttackAction
+{
+public:
+    UldVezaxKillVaporsAction(PlayerbotAI* botAI) : AttackAction(botAI, "uld vezax kill vapors") {}
     bool Execute(Event event) override;
 };
 

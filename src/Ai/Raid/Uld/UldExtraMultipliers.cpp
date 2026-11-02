@@ -92,6 +92,14 @@ float UlduarExtraMultiplier::GetValue(Action* action)
         }
     }
 
+    // General Vezax: hard mode needs six Saronite Vapors alive at once to form the Animus.
+    if (IsUlduarHardMode(botAI) && (dynamic_cast<AttackAction*>(action) || dynamic_cast<CastSpellAction*>(action)))
+    {
+        Unit* target = dynamic_cast<CastSpellAction*>(action) ? action->GetTarget() : AI_VALUE(Unit*, "current target");
+        if (target && target->GetEntry() == NPC_SARONITE_VAPORS)
+            return 0.0f;
+    }
+
     if (PlayerbotAI::IsTank(bot))
         return 1.0f;
 
@@ -110,7 +118,7 @@ float UlduarExtraMultiplier::GetValue(Action* action)
             return HasDifficultyAura(target, SPELL_IGNIS_BRITTLE, target) ? 1.0f : 0.0f;
         case NPC_HEART_OF_THE_DECONSTRUCTOR:
             // Killing the heart starts hard mode.
-            return target->GetHealthPct() > XT_HEART_STOP_PCT ? 1.0f : 0.0f;
+            return IsUlduarHardMode(botAI) || target->GetHealthPct() > XT_HEART_STOP_PCT ? 1.0f : 0.0f;
         case NPC_FERAL_DEFENDER:
             // It revives on death with a void zone; guides leave it to the off-tank.
             return 0.0f;
