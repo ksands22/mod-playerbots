@@ -76,6 +76,16 @@ protected:
     bool IsActiveInEncounter() override;
 };
 
+class MagtheridonChannelerCastingTrigger : public MagtheridonEncounterTrigger
+{
+public:
+    MagtheridonChannelerCastingTrigger(PlayerbotAI* botAI)
+        : MagtheridonEncounterTrigger(botAI, "magtheridon channeler casting") {}
+
+protected:
+    bool IsActiveInEncounter() override;
+};
+
 class MagtheridonBurningAbyssalSpawnedTrigger : public MagtheridonEncounterTrigger
 {
 public:

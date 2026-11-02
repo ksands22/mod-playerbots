@@ -52,6 +52,14 @@ public:
     bool Execute(Event event) override;
 };
 
+class MagtheridonInterruptChannelerAction : public Action
+{
+public:
+    MagtheridonInterruptChannelerAction(PlayerbotAI* botAI)
+        : Action(botAI, "magtheridon interrupt channeler") {}
+    bool Execute(Event event) override;
+};
+
 class MagtheridonWarlockCcBurningAbyssalAction : public Action
 {
 public:
