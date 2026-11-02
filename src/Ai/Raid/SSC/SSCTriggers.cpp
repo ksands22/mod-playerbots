@@ -83,6 +83,14 @@ bool HydrossTheUnstableRangedShouldSpreadInFrostPhaseTrigger::IsActiveInEncounte
     return nearestPlayer && !PlayerbotAI::IsTank(nearestPlayer);
 }
 
+bool HydrossTheUnstableSpawnsOfHydrossSummonedTrigger::IsActiveInEncounter()
+{
+    if (!PlayerbotAI::IsDps(bot) || !AI_VALUE2(Unit*, "find target", "hydross the unstable"))
+        return false;
+
+    return !IsSpawnOfHydross(AI_VALUE(Unit*, "current target")) && GetNearestSpawnOfHydross(botAI);
+}
+
 bool HydrossTheUnstableShouldMisdirectUponPhaseChangeTrigger::IsActiveInEncounter()
 {
     if (bot->getClass() != CLASS_HUNTER)
@@ -102,6 +110,10 @@ bool HydrossTheUnstableAggroResetsUponPhaseChangeTrigger::IsActiveInEncounter()
 
     Unit* hydross = AI_VALUE2(Unit*, "find target", "hydross the unstable");
     if (!hydross)
+        return false;
+
+    // Bots on the Spawns of Hydross keep killing them; the hold is for Hydross' threat reset.
+    if (IsSpawnOfHydross(AI_VALUE(Unit*, "current target")))
         return false;
 
     HydrossDpsHoldWindow const window = GetHydrossDpsHoldWindow(hydross);
@@ -387,6 +399,25 @@ bool LeotherasTheBlindShouldManageDpsWaitTimersTrigger::IsActiveInEncounter()
 }
 
 // Fathom-Lord Karathress
+
+bool FathomLordKarathressCaribdisCastsHealingWaveTrigger::IsActiveInEncounter()
+{
+    // Guides interrupt every Healing Wave Caribdis casts, or the fight drags on.
+    switch (bot->getClass())
+    {
+        case CLASS_WARRIOR:
+        case CLASS_ROGUE:
+        case CLASS_SHAMAN:
+        case CLASS_MAGE:
+        case CLASS_HUNTER:
+            break;
+        default:
+            return false;
+    }
+
+    Unit* caribdis = AI_VALUE2(Unit*, "find target", "fathom-guard caribdis");
+    return caribdis && caribdis->FindCurrentSpellBySpellId(Id(SscSpells::SPELL_CARIBDIS_HEALING_WAVE));
+}
 
 bool FathomLordKarathressTargetsShouldBeTankedTrigger::IsActiveInEncounter()
 {

@@ -15,6 +15,7 @@
 #include "RtiTargetValue.h"
 #include "SSCHelpers.h"
 #include <algorithm>
+#include <array>
 #include <cmath>
 
 using namespace SscHelpers;
@@ -190,6 +191,12 @@ bool HydrossTheUnstablePositionAndSwapTanksAction::StepTo(Position const& positi
     return MoveTo(
         SSC_MAP_ID, moveX, moveY, bot->GetPositionZ(), false, false, false, false,
         MovementPriority::MOVEMENT_COMBAT, true, backwards);
+}
+
+bool HydrossTheUnstableAttackSpawnOfHydrossAction::Execute(Event /*event*/)
+{
+    Unit* spawn = GetNearestSpawnOfHydross(botAI);
+    return spawn && Attack(spawn);
 }
 
 bool HydrossTheUnstableMisdirectToTankAction::Execute(Event /*event*/)
@@ -1030,6 +1037,24 @@ bool FathomLordKarathressPositionCaribdisTankHealerAction::Execute(Event /*event
 }
 
 // Misdirect priority: (1) Caribdis tank, (2) Tidalvess tank, (3) Sharkkis tank.
+bool FathomLordKarathressInterruptCaribdisAction::Execute(Event /*event*/)
+{
+    static constexpr std::array interruptSpells = {
+        "kick", "pummel", "shield bash", "wind shear", "earth shock", "counterspell", "silencing shot", };
+
+    Unit* caribdis = AI_VALUE2(Unit*, "find target", "fathom-guard caribdis");
+    if (!caribdis)
+        return false;
+
+    for (char const* name : interruptSpells)
+    {
+        if (botAI->CanCastSpell(name, caribdis) && botAI->CastSpell(name, caribdis))
+            return true;
+    }
+
+    return false;
+}
+
 bool FathomLordKarathressMisdirectToTanksAction::Execute(Event /*event*/)
 {
     Group* group = bot->GetGroup();
