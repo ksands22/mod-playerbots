@@ -18,12 +18,16 @@ enum EyeOfEternityIDs
     NPC_NEXUS_LORD                      = 30245,
     NPC_SCION_OF_ETERNITY               = 30249,
     NPC_WYRMREST_SKYTALON               = 30161,
+    NPC_ARCANE_OVERLOAD                 = 30282,
+    NPC_STATIC_FIELD                    = 30592,
 
     SPELL_POWER_SPARK_VISUAL            = 55845,
     SPELL_POWER_SPARK_GROUND_BUFF       = 55852,
     SPELL_POWER_SPARK_MALYGOS_BUFF      = 56152,
 
     SPELL_TELEPORT_VISUAL               = 52096,
+
+    SPELL_STATIC_FIELD_DAMAGE           = 57429,
 
     SPELL_SCION_ARCANE_BARRAGE          = 56397,
     SPELL_ARCANE_SHOCK_N                = 57058,
@@ -46,6 +50,14 @@ enum EyeOfEternityIDs
 
 const uint32 EOE_MAP_ID = 616;
 
+// Phase 1: a Power Spark close to Malygos. Guides kill them there, so the raid gets the damage buff the
+// spark leaves on the ground, before it reaches him and buffs him.
+Unit* GetPowerSparkNearMalygos(PlayerbotAI* botAI, Unit* malygos);
+// Phase 2: the newest Arcane Overload bubble, which halves magic damage inside and shrinks with age.
+Unit* GetNewestArcaneOverload(PlayerbotAI* botAI);
+// Phase 2: a Static Field the bot stands in, with the distance it must get to.
+Unit* GetStaticFieldInRange(PlayerbotAI* botAI, float& safeDistance);
+
 class MalygosTrigger : public Trigger
 {
 public:
@@ -58,6 +70,27 @@ class PowerSparkTrigger : public Trigger
 {
 public:
     PowerSparkTrigger(PlayerbotAI* botAI) : Trigger(botAI, "power spark") {}
+    bool IsActive() override;
+};
+
+class MalygosPowerSparkNearBossTrigger : public Trigger
+{
+public:
+    MalygosPowerSparkNearBossTrigger(PlayerbotAI* botAI) : Trigger(botAI, "malygos power spark near boss") {}
+    bool IsActive() override;
+};
+
+class MalygosOutsideArcaneOverloadTrigger : public Trigger
+{
+public:
+    MalygosOutsideArcaneOverloadTrigger(PlayerbotAI* botAI) : Trigger(botAI, "malygos outside arcane overload") {}
+    bool IsActive() override;
+};
+
+class MalygosStaticFieldTrigger : public Trigger
+{
+public:
+    MalygosStaticFieldTrigger(PlayerbotAI* botAI) : Trigger(botAI, "malygos static field") {}
     bool IsActive() override;
 };
 

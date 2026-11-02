@@ -17,11 +17,23 @@ public:
     {
         creators["malygos"] = &RaidEoETriggerContext::malygos;
         creators["power spark"] = &RaidEoETriggerContext::power_spark;
+        creators["malygos power spark near boss"] = &RaidEoETriggerContext::malygos_power_spark_near_boss;
+        creators["malygos outside arcane overload"] = &RaidEoETriggerContext::malygos_outside_arcane_overload;
+        creators["malygos static field"] = &RaidEoETriggerContext::malygos_static_field;
     }
 
 private:
     static Trigger* power_spark(PlayerbotAI* botAI) { return new PowerSparkTrigger(botAI); }
     static Trigger* malygos(PlayerbotAI* botAI) { return new MalygosTrigger(botAI); }
+    static Trigger* malygos_power_spark_near_boss(PlayerbotAI* botAI)
+    {
+        return new MalygosPowerSparkNearBossTrigger(botAI);
+    }
+    static Trigger* malygos_outside_arcane_overload(PlayerbotAI* botAI)
+    {
+        return new MalygosOutsideArcaneOverloadTrigger(botAI);
+    }
+    static Trigger* malygos_static_field(PlayerbotAI* botAI) { return new MalygosStaticFieldTrigger(botAI); }
 };
 
 #endif

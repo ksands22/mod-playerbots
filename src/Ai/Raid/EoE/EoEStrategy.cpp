@@ -14,6 +14,12 @@ void RaidEoEStrategy::InitTriggers(std::vector<TriggerNode*>& triggers)
         { NextAction("malygos position", ACTION_MOVE) }));
     triggers.push_back(new TriggerNode("malygos",
         { NextAction("malygos target", ACTION_RAID + 1) }));
+    triggers.push_back(new TriggerNode("malygos power spark near boss",
+        { NextAction("malygos kill power spark", ACTION_RAID + 2) }));
+    triggers.push_back(new TriggerNode("malygos static field",
+        { NextAction("malygos avoid static field", ACTION_MOVE + 6) }));
+    triggers.push_back(new TriggerNode("malygos outside arcane overload",
+        { NextAction("malygos move into arcane overload", ACTION_MOVE + 5) }));
 
     triggers.push_back(new TriggerNode("group flying",
         { NextAction("eoe fly drake", ACTION_NORMAL + 1) }));
