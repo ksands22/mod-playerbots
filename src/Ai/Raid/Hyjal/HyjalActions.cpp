@@ -9,6 +9,7 @@
 #include "HyjalHelpers.h"
 #include "Playerbots.h"
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <iterator>
 #include <limits>
@@ -18,6 +19,24 @@ using namespace HyjalHelpers;
 using namespace EncounterHelpers;
 
 // Shared
+
+bool HyjalInterruptWaveCasterAction::Execute(Event /*event*/)
+{
+    static constexpr std::array interruptSpells = {
+        "kick", "pummel", "shield bash", "wind shear", "earth shock", "counterspell", "silencing shot", };
+
+    Unit* caster = GetWaveCasterToInterrupt(botAI);
+    if (!caster)
+        return false;
+
+    for (char const* name : interruptSpells)
+    {
+        if (botAI->CanCastSpell(name, caster) && botAI->CastSpell(name, caster))
+            return true;
+    }
+
+    return false;
+}
 
 bool HyjalResetEncounterStatesAction::Execute(Event /*event*/)
 {

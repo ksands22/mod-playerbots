@@ -14,6 +14,27 @@ using namespace EncounterHelpers;
 
 // Shared
 
+bool HyjalWaveCasterCastingTrigger::IsActive()
+{
+    // Guides interrupt the Necromancers and stop the Fel Stalkers' Mana Burn.
+    if (bot->GetMapId() != HYJAL_MAP_ID || !bot->IsInCombat())
+        return false;
+
+    switch (bot->getClass())
+    {
+        case CLASS_WARRIOR:
+        case CLASS_ROGUE:
+        case CLASS_SHAMAN:
+        case CLASS_MAGE:
+        case CLASS_HUNTER:
+            break;
+        default:
+            return false;
+    }
+
+    return GetWaveCasterToInterrupt(botAI) != nullptr;
+}
+
 bool HyjalNoEncounterInProgressTrigger::IsActive()
 {
     return !IsEncounterInProgress(bot, HYJAL_MAP_ID);

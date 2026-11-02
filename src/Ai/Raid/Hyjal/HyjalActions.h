@@ -15,6 +15,14 @@
 
 // Shared
 
+class HyjalInterruptWaveCasterAction : public Action
+{
+public:
+    HyjalInterruptWaveCasterAction(PlayerbotAI* botAI)
+        : Action(botAI, "hyjal interrupt wave caster") {}
+    bool Execute(Event event) override;
+};
+
 class HyjalResetEncounterStatesAction : public Action
 {
 public:

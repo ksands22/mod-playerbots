@@ -21,6 +21,37 @@ using namespace EncounterHelpers;
 namespace HyjalHelpers
 {
 
+Unit* GetWaveCasterToInterrupt(PlayerbotAI* botAI)
+{
+    Unit* shadowBoltCaster = nullptr;
+    for (ObjectGuid const guid : botAI->GetAiObjectContext()->GetValue<GuidVector>("possible targets")->Get())
+    {
+        Unit* unit = botAI->GetUnit(guid);
+        if (!unit || !unit->IsAlive())
+            continue;
+
+        if (unit->GetEntry() == Id(HyjalNpcs::NPC_FEL_STALKER) &&
+            unit->FindCurrentSpellBySpellId(Id(HyjalSpells::SPELL_FEL_STALKER_MANA_BURN)))
+        {
+            return unit;
+        }
+
+        if (!shadowBoltCaster && unit->GetEntry() == Id(HyjalNpcs::NPC_SHADOWY_NECROMANCER) &&
+            unit->FindCurrentSpellBySpellId(Id(HyjalSpells::SPELL_NECROMANCER_SHADOW_BOLT)))
+        {
+            shadowBoltCaster = unit;
+        }
+    }
+
+    return shadowBoltCaster;
+}
+
+bool IsWaveFlyer(Unit const* unit)
+{
+    return unit && (unit->GetEntry() == Id(HyjalNpcs::NPC_GARGOYLE) ||
+                    unit->GetEntry() == Id(HyjalNpcs::NPC_FROST_WYRM));
+}
+
 namespace
 {
 

@@ -5,11 +5,16 @@
  */
 
 #include "HyjalStrategy.h"
+#include "HyjalHelpers.h"
 #include "HyjalMultipliers.h"
+#include "Playerbots.h"
 
 void RaidHyjalStrategy::InitTriggers(std::vector<TriggerNode*>& triggers)
 {
     // Shared
+    triggers.push_back(new TriggerNode("hyjal wave caster casting",
+        { NextAction("hyjal interrupt wave caster", ACTION_EMERGENCY + 1) }));
+
     triggers.push_back(new TriggerNode("hyjal no encounter in progress",
         { NextAction("hyjal reset encounter states", ACTION_EMERGENCY + 10) }));
 
@@ -162,4 +167,21 @@ void RaidHyjalStrategy::InitMultipliers(std::vector<Multiplier*>& multipliers)
     // Archimonde
     multipliers.push_back(new ArchimondeControlDoomfireAvoidanceMultiplier(botAI));
     multipliers.push_back(new ArchimondeSetTremorTotemMultiplier(botAI));
+}
+
+void RaidHyjalStrategy::AppendTargetExclusions(GuidSet& exclusions, TargetValueExclusionType type)
+{
+    // Melee can't reach the Gargoyles and Frost Wyrms, which hold 25 yd off; guides leave them to ranged.
+    if (type != TargetValueExclusionType::DpsTarget && type != TargetValueExclusionType::TankTarget)
+        return;
+
+    Player* bot = botAI->GetBot();
+    if (!PlayerbotAI::IsMelee(bot))
+        return;
+
+    for (ObjectGuid const guid : botAI->GetAiObjectContext()->GetValue<GuidVector>("attackers")->Get())
+    {
+        if (HyjalHelpers::IsWaveFlyer(botAI->GetUnit(guid)))
+            exclusions.insert(guid);
+    }
 }

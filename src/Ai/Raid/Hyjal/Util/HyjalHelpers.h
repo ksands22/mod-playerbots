@@ -30,6 +30,10 @@ constexpr uint32 Id(T value)
 
 enum class HyjalSpells : uint32
 {
+    // Trash waves
+    SPELL_NECROMANCER_SHADOW_BOLT = 31627,
+    SPELL_FEL_STALKER_MANA_BURN   = 31729,
+
     // Rage Winterchill
     SPELL_DEATH_AND_DECAY     = 31258,
 
@@ -61,6 +65,12 @@ enum class HyjalSpells : uint32
 
 enum class HyjalNpcs : uint32
 {
+    // Trash waves
+    NPC_SHADOWY_NECROMANCER = 17899,
+    NPC_GARGOYLE            = 17906,
+    NPC_FROST_WYRM          = 17907,
+    NPC_FEL_STALKER         = 17916,
+
     // Rage Winterchill
     NPC_RAGE_WINTERCHILL  = 17767,
 
@@ -89,6 +99,11 @@ struct BlockedArc
 // Shared
 
 inline constexpr uint32 HYJAL_MAP_ID = 534;
+
+// Trash waves: a Fel Stalker casting Mana Burn (first) or a Shadowy Necromancer casting Shadow Bolt.
+Unit* GetWaveCasterToInterrupt(PlayerbotAI* botAI);
+// Gargoyles and Frost Wyrms keep 25 yd from their target; guides leave them to ranged.
+bool IsWaveFlyer(Unit const* unit);
 // The interval matches the default Playerbots.ReactDelay.
 inline constexpr uint32 HAZARD_CACHE_INTERVAL = 100;
 // The additional distance beyond a hazard's edge in which movement is still suppressed by a

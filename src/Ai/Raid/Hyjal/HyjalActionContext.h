@@ -23,6 +23,9 @@ public:
         creators["hyjal remove dangerous dot"] =
             &RaidHyjalActionContext::hyjal_remove_dangerous_dot;
 
+        creators["hyjal interrupt wave caster"] =
+            &RaidHyjalActionContext::hyjal_interrupt_wave_caster;
+
         // Rage Winterchill
         creators["rage winterchill misdirect boss to main tank"] =
             &RaidHyjalActionContext::rage_winterchill_misdirect_boss_to_main_tank;
@@ -135,6 +138,11 @@ private:
     {
         return new HyjalResetEncounterStatesAction(botAI);
     }
+    static Action* hyjal_interrupt_wave_caster(PlayerbotAI* botAI)
+    {
+        return new HyjalInterruptWaveCasterAction(botAI);
+    }
+
     static Action* hyjal_remove_dangerous_dot(PlayerbotAI* botAI)
     {
         return new HyjalRemoveDangerousDotAction(botAI);

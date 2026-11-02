@@ -17,6 +17,9 @@ public:
     RaidHyjalTriggerContext()
     {
         // Shared
+        creators["hyjal wave caster casting"] =
+            &RaidHyjalTriggerContext::hyjal_wave_caster_casting;
+
         creators["hyjal no encounter in progress"] =
             &RaidHyjalTriggerContext::hyjal_no_encounter_in_progress;
 
@@ -134,6 +137,11 @@ public:
 
 private:
     // Shared
+    static Trigger* hyjal_wave_caster_casting(PlayerbotAI* botAI)
+    {
+        return new HyjalWaveCasterCastingTrigger(botAI);
+    }
+
     static Trigger* hyjal_no_encounter_in_progress(PlayerbotAI* botAI)
     {
         return new HyjalNoEncounterInProgressTrigger(botAI);

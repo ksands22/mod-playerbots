@@ -30,6 +30,14 @@ protected:
     virtual bool IsActiveInEncounter() = 0;
 };
 
+class HyjalWaveCasterCastingTrigger : public Trigger
+{
+public:
+    HyjalWaveCasterCastingTrigger(PlayerbotAI* botAI)
+        : Trigger(botAI, "hyjal wave caster casting") {}
+    bool IsActive() override;
+};
+
 class HyjalNoEncounterInProgressTrigger : public Trigger
 {
 public:
