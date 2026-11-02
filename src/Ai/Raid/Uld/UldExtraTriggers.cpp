@@ -172,6 +172,21 @@ bool UldKologarnCrunchArmorTrigger::IsActive()
         { return GetCrunchArmorStacks(tank) >= CRUNCH_ARMOR_SWAP_STACKS; }) == bot;
 }
 
+bool UldThorimUnbalancingStrikeTrigger::IsActive()
+{
+    // Guides: the other tank taunts Thorim until Unbalancing Strike falls off his tank.
+    if (!PlayerbotAI::IsTank(bot))
+        return false;
+
+    Unit* thorim = AI_VALUE2(Unit*, "find target", "thorim");
+    Unit* victim = thorim && thorim->IsHostileTo(bot) ? thorim->GetVictim() : nullptr;
+    if (!victim || victim == bot || !victim->HasAura(SPELL_UNBALANCING_STRIKE))
+        return false;
+
+    return GetTakeoverTank(bot, victim, [](Player const* tank) { return tank->HasAura(SPELL_UNBALANCING_STRIKE); }) ==
+           bot;
+}
+
 bool UldHodirToastyFireTrigger::IsActive()
 {
     // A Toasty Fire negates Biting Cold; ranged and healers wait out their stacks beside one.
@@ -185,6 +200,18 @@ bool UldHodirToastyFireTrigger::IsActive()
     constexpr float FIRE_STAND_DISTANCE = 3.0f;
     Unit* fire = GetNearestNpc(botAI, NPC_TOASTY_FIRE, ULDUAR_EXTRA_SEARCH_DISTANCE);
     return fire && bot->GetExactDist2d(fire) > FIRE_STAND_DISTANCE;
+}
+
+bool UldHodirBitingColdTrigger::IsActive()
+{
+    // Moving or jumping sheds Biting Cold; the raid cheat strips it instead.
+    if (GetAuraStackAmount(bot, SPELL_BITING_COLD) < BITING_COLD_MOVE_STACKS ||
+        botAI->HasCheat(BotCheatMask::raid) || !AI_VALUE2(Unit*, "find target", "hodir"))
+        return false;
+
+    // Ranged and healers with a Toasty Fire go to it instead.
+    return !PlayerbotAI::IsRanged(bot) || PlayerbotAI::IsTank(bot) ||
+           !GetNearestNpc(botAI, NPC_TOASTY_FIRE, ULDUAR_EXTRA_SEARCH_DISTANCE);
 }
 
 bool UldHodirIceBlockTrigger::IsActive()

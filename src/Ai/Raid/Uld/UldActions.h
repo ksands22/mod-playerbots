@@ -173,6 +173,9 @@ public:
     KologarnEyebeamAction(PlayerbotAI* botAI) : MovementAction(botAI, "kologarn eyebeam action") {}
     bool Execute(Event event) override;
     bool isUseful() override;
+
+private:
+    bool KiteEyebeam();
 };
 
 class KologarnRtiTargetAction : public Action

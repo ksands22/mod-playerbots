@@ -443,11 +443,17 @@ bool KologarnEyebeamTrigger::IsActive()
             {
                 std::string triggerName = unit->GetNameForLocaleIdx(sWorld->GetDefaultDbcLocale());
 
-                if (triggerName.rfind("Focused Eyebeam", 0) == 0 &&
-                    bot->GetDistance2d(unit) < ULDUAR_KOLOGARN_EYEBEAM_RADIUS + 1.0f)
-                {
+                if (triggerName.rfind("Focused Eyebeam", 0) != 0)
+                    continue;
+
+                float const distance = bot->GetDistance2d(unit);
+                if (distance < ULDUAR_KOLOGARN_EYEBEAM_RADIUS + 1.0f)
                     return true;
-                }
+
+                // Without the cheat, the beam's target keeps kiting it while it is close behind.
+                if (!botAI->HasCheat(BotCheatMask::raid) && unit->GetVictim() == bot &&
+                    distance < ULDUAR_KOLOGARN_EYEBEAM_KITE_DISTANCE)
+                    return true;
             }
         }
     }

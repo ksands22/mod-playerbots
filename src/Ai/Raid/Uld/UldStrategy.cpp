@@ -340,7 +340,11 @@ void RaidUlduarStrategy::InitTriggers(std::vector<TriggerNode*>& triggers)
         { NextAction("uld freya avoid sun beam", ACTION_MOVE + 5) }));
     triggers.push_back(new TriggerNode("uld hodir toasty fire",
         { NextAction("uld hodir toasty fire", ACTION_RAID + 1) }));
+    triggers.push_back(new TriggerNode("uld hodir biting cold",
+        { NextAction("uld hodir shed biting cold", ACTION_RAID) }));
     triggers.push_back(new TriggerNode("uld hodir ice block", { NextAction("uld hodir break ice", ACTION_RAID) }));
+    triggers.push_back(new TriggerNode("uld thorim unbalancing strike",
+        { NextAction("uld thorim taunt", ACTION_RAID + 1) }));
     triggers.push_back(new TriggerNode("uld hodir frozen blows", { NextAction("uld hodir taunt", ACTION_RAID + 1) }));
     triggers.push_back(new TriggerNode("uld razorscale melee", { NextAction("rear flank", ACTION_MOVE + 4) }));
     triggers.push_back(new TriggerNode("uld ignis melee", { NextAction("rear flank", ACTION_MOVE + 4) }));

@@ -41,6 +41,11 @@ float UlduarExtraMultiplier::GetValue(Action* action)
             return 0.0f;
     }
 
+    // Thorim: likewise while Unbalancing Strike is up.
+    if (IsTauntAction(bot, action) && bot->HasAura(SPELL_UNBALANCING_STRIKE) &&
+        AI_VALUE2(Unit*, "find target", "thorim"))
+        return 0.0f;
+
     // Kologarn: likewise for Crunch Armor.
     if (IsTauntAction(bot, action) && GetCrunchArmorStacks(bot) >= CRUNCH_ARMOR_SWAP_STACKS &&
         AI_VALUE2(Unit*, "find target", "kologarn"))

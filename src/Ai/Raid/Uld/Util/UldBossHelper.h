@@ -152,6 +152,8 @@ enum UlduarIDs
 
 constexpr float ULDUAR_KOLOGARN_AXIS_Z_PATHING_ISSUE_DETECT = 420.0f;
 constexpr float ULDUAR_KOLOGARN_EYEBEAM_RADIUS = 3.0f;
+// The beam's target keeps running while the beam is within this range; ours.
+constexpr float ULDUAR_KOLOGARN_EYEBEAM_KITE_DISTANCE = 10.0f;
 constexpr float ULDUAR_THORIM_AXIS_Z_FLOOR_THRESHOLD = 429.6094f;
 constexpr float ULDUAR_THORIM_AXIS_Z_PATHING_ISSUE_DETECT = 410.0f;
 constexpr float ULDUAR_AURIAYA_AXIS_Z_PATHING_ISSUE_DETECT = 410.0f;

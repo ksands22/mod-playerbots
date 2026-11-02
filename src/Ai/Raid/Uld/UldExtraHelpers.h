@@ -84,6 +84,9 @@ enum UlduarExtraSpells
     SPELL_BITING_COLD = 62039,
     SPELL_FROZEN_BLOWS = 62478,
 
+    // Thorim
+    SPELL_UNBALANCING_STRIKE = 62130,
+
     // Freya and her Elders
     SPELL_NATURES_FURY = 62589,
     SPELL_UNSTABLE_ENERGY_FREYA = 62451,
@@ -110,6 +113,10 @@ enum UlduarExtraSpells
 
 // Biting Cold stacks a ranged bot or healer takes before it goes to a Toasty Fire; ours.
 constexpr uint32 BITING_COLD_FIRE_STACKS = 2;
+// Biting Cold stacks at which a bot keeps moving to shed them; guides' achievement caps the raid at 2.
+constexpr uint32 BITING_COLD_MOVE_STACKS = 2;
+// Each Biting Cold sidestep is this long; ours.
+constexpr float BITING_COLD_STEP_DISTANCE = 4.0f;
 // Guides swap Kologarn's tanks after 2 Crunch Armor stacks.
 constexpr uint32 CRUNCH_ARMOR_SWAP_STACKS = 2;
 // Guides swap Algalon at 4 Phase Punch stacks; the 5th phases the tank out.

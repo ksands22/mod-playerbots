@@ -47,11 +47,26 @@ public:
     bool IsActive() override;
 };
 
+// Thorim
+class UldThorimUnbalancingStrikeTrigger : public Trigger
+{
+public:
+    UldThorimUnbalancingStrikeTrigger(PlayerbotAI* botAI) : Trigger(botAI, "uld thorim unbalancing strike") {}
+    bool IsActive() override;
+};
+
 // Hodir
 class UldHodirToastyFireTrigger : public Trigger
 {
 public:
     UldHodirToastyFireTrigger(PlayerbotAI* botAI) : Trigger(botAI, "uld hodir toasty fire") {}
+    bool IsActive() override;
+};
+
+class UldHodirBitingColdTrigger : public Trigger
+{
+public:
+    UldHodirBitingColdTrigger(PlayerbotAI* botAI) : Trigger(botAI, "uld hodir biting cold") {}
     bool IsActive() override;
 };
 

@@ -10,7 +10,9 @@
 #include "SpellInfo.h"
 #include "SpellMgr.h"
 #include "UldExtraHelpers.h"
+#include <algorithm>
 #include <array>
+#include <cmath>
 
 using namespace EncounterHelpers;
 using namespace UlduarExtraHelpers;
@@ -161,6 +163,21 @@ bool UldHodirToastyFireAction::Execute(Event /*event*/)
 
     return MoveTo(fire->GetMapId(), fire->GetPositionX(), fire->GetPositionY(), fire->GetPositionZ(), false, false,
                   false, false, MovementPriority::MOVEMENT_COMBAT, true, false);
+}
+
+bool UldHodirShedBitingColdAction::Execute(Event /*event*/)
+{
+    Unit* hodir = AI_VALUE2(Unit*, "find target", "hodir");
+    if (!hodir || bot->isMoving())
+        return false;
+
+    float const distance = std::max(bot->GetExactDist2d(hodir), 1.0f);
+    clockwise = !clockwise;
+    float const angle = hodir->GetAngle(bot) + (clockwise ? -1.0f : 1.0f) * BITING_COLD_STEP_DISTANCE / distance;
+    float const x = hodir->GetPositionX() + distance * std::cos(angle);
+    float const y = hodir->GetPositionY() + distance * std::sin(angle);
+    return MoveTo(bot->GetMapId(), x, y, bot->GetPositionZ(), false, false, false, false,
+                  MovementPriority::MOVEMENT_COMBAT, true, false);
 }
 
 bool UldHodirBreakIceAction::Execute(Event /*event*/)

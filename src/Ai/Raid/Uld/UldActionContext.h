@@ -96,6 +96,8 @@ public:
         creators["uld freya avoid sun beam"] = &RaidUlduarActionContext::uld_freya_avoid_sun_beam;
         creators["uld hodir toasty fire"] = &RaidUlduarActionContext::uld_hodir_toasty_fire;
         creators["uld hodir break ice"] = &RaidUlduarActionContext::uld_hodir_break_ice;
+        creators["uld hodir shed biting cold"] = &RaidUlduarActionContext::uld_hodir_shed_biting_cold;
+        creators["uld thorim taunt"] = &RaidUlduarActionContext::uld_thorim_taunt;
         creators["uld hodir taunt"] = &RaidUlduarActionContext::uld_hodir_taunt;
         creators["uld algalon taunt"] = &RaidUlduarActionContext::uld_algalon_taunt;
         creators["uld algalon enter black hole"] = &RaidUlduarActionContext::uld_algalon_enter_black_hole;
@@ -189,6 +191,11 @@ private:
     static Action* uld_hodir_taunt(PlayerbotAI* botAI)
     {
         return new UldTauntBossAction(botAI, "uld hodir taunt", "hodir");
+    }
+    static Action* uld_hodir_shed_biting_cold(PlayerbotAI* botAI) { return new UldHodirShedBitingColdAction(botAI); }
+    static Action* uld_thorim_taunt(PlayerbotAI* botAI)
+    {
+        return new UldTauntBossAction(botAI, "uld thorim taunt", "thorim");
     }
     static Action* uld_kologarn_taunt(PlayerbotAI* botAI)
     {

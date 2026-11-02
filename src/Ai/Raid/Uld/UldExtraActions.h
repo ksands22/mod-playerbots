@@ -76,6 +76,17 @@ public:
     bool Execute(Event event) override;
 };
 
+// Sidesteps around Hodir, alternating sides so the bot stays where it fights.
+class UldHodirShedBitingColdAction : public MovementAction
+{
+public:
+    UldHodirShedBitingColdAction(PlayerbotAI* botAI) : MovementAction(botAI, "uld hodir shed biting cold") {}
+    bool Execute(Event event) override;
+
+private:
+    bool clockwise = false;
+};
+
 class UldHodirBreakIceAction : public AttackAction
 {
 public:
