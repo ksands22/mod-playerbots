@@ -7,6 +7,7 @@
 #ifndef PLAYERBOTS_MCHELPERS_H
 #define PLAYERBOTS_MCHELPERS_H
 
+#include "AreaDefines.h"
 #include "Define.h"
 
 class Player;
@@ -15,7 +16,6 @@ class Unit;
 
 namespace MoltenCoreHelpers
 {
-constexpr uint32 MAP_MOLTEN_CORE = 409;
 
 enum MoltenCoreNPCs
 {

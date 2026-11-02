@@ -7,6 +7,7 @@
 #ifndef PLAYERBOTS_ULDEXTRAHELPERS_H
 #define PLAYERBOTS_ULDEXTRAHELPERS_H
 
+#include "AreaDefines.h"
 #include "Define.h"
 #include "Position.h"
 
@@ -17,7 +18,6 @@ class Unit;
 // Ignis, XT-002, Auriaya and Algalon, from the WotLK guides and the current core scripts.
 namespace UlduarExtraHelpers
 {
-constexpr uint32 MAP_ULDUAR = 603;
 
 enum UlduarExtraNPCs
 {

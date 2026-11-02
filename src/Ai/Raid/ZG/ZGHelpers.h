@@ -7,6 +7,7 @@
 #ifndef PLAYERBOTS_ZGHELPERS_H
 #define PLAYERBOTS_ZGHELPERS_H
 
+#include "AreaDefines.h"
 #include "Define.h"
 #include <string>
 
@@ -16,7 +17,6 @@ class Unit;
 
 namespace ZulGurubHelpers
 {
-constexpr uint32 MAP_ZUL_GURUB = 309;
 
 enum ZulGurubNPCs
 {

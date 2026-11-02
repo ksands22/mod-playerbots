@@ -7,6 +7,7 @@
 #ifndef PLAYERBOTS_NAXXHELPERS_H
 #define PLAYERBOTS_NAXXHELPERS_H
 
+#include "AreaDefines.h"
 #include "Define.h"
 #include "Position.h"
 
@@ -17,7 +18,6 @@ class Unit;
 // WotLK (10/25-player) Naxxramas only; the core script is the reference for every number here.
 namespace NaxxHelpers
 {
-constexpr uint32 MAP_NAXXRAMAS = 533;
 
 enum NaxxNPCs
 {
