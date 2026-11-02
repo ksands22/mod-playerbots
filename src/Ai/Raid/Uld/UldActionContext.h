@@ -11,6 +11,7 @@
 #include "BossAuraActions.h"
 #include "NamedObjectContext.h"
 #include "UldActions.h"
+#include "UldExtraActions.h"
 
 class RaidUlduarActionContext : public NamedObjectContext<Action>
 {
@@ -33,6 +34,7 @@ public:
         creators["iron assembly rune of power action"] = &RaidUlduarActionContext::iron_assembly_rune_of_power_action;
         creators["kologarn mark dps target action"] = &RaidUlduarActionContext::kologarn_mark_dps_target_action;
         creators["kologarn fall from floor action"] = &RaidUlduarActionContext::kologarn_fall_from_floor_action;
+        creators["thorim fall from floor action"] = &RaidUlduarActionContext::thorim_fall_from_floor_action;
         creators["kologarn nature resistance action"] = &RaidUlduarActionContext::kologarn_nature_resistance_action;
         creators["kologarn rubble slowdown action"] = &RaidUlduarActionContext::kologarn_rubble_slowdown_action;
         creators["kologarn eyebeam action"] = &RaidUlduarActionContext::kologarn_eyebeam_action;
@@ -78,6 +80,26 @@ public:
         creators["yogg-saron brain link action"] = &RaidUlduarActionContext::yogg_saron_brain_link_action;
         creators["yogg-saron move to enter portal action"] = &RaidUlduarActionContext::yogg_saron_move_to_enter_portal_action;
         creators["yogg-saron use portal action"] = &RaidUlduarActionContext::yogg_saron_use_portal_action;
+        creators["uld kill order mark"] = &RaidUlduarActionContext::uld_kill_order_mark;
+        creators["uld tank off-tank add"] = &RaidUlduarActionContext::uld_tank_off_tank_add;
+        creators["uld ignis drag construct"] = &RaidUlduarActionContext::uld_ignis_drag_construct;
+        creators["uld xt spread"] = &RaidUlduarActionContext::uld_xt_spread;
+        creators["uld xt attack bot add"] = &RaidUlduarActionContext::uld_xt_attack_bot_add;
+        creators["uld auriaya stack"] = &RaidUlduarActionContext::uld_auriaya_stack;
+        creators["uld interrupt"] = &RaidUlduarActionContext::uld_interrupt;
+        creators["uld council tank"] = &RaidUlduarActionContext::uld_council_tank;
+        creators["uld kologarn taunt"] = &RaidUlduarActionContext::uld_kologarn_taunt;
+        creators["uld yogg avoid cloud"] = &RaidUlduarActionContext::uld_yogg_avoid_cloud;
+        creators["uld mimiron avoid mine"] = &RaidUlduarActionContext::uld_mimiron_avoid_mine;
+        creators["uld freya break roots"] = &RaidUlduarActionContext::uld_freya_break_roots;
+        creators["uld freya nature's fury"] = &RaidUlduarActionContext::uld_freya_natures_fury;
+        creators["uld freya avoid sun beam"] = &RaidUlduarActionContext::uld_freya_avoid_sun_beam;
+        creators["uld hodir toasty fire"] = &RaidUlduarActionContext::uld_hodir_toasty_fire;
+        creators["uld hodir break ice"] = &RaidUlduarActionContext::uld_hodir_break_ice;
+        creators["uld hodir taunt"] = &RaidUlduarActionContext::uld_hodir_taunt;
+        creators["uld algalon taunt"] = &RaidUlduarActionContext::uld_algalon_taunt;
+        creators["uld algalon enter black hole"] = &RaidUlduarActionContext::uld_algalon_enter_black_hole;
+        creators["uld algalon attack star"] = &RaidUlduarActionContext::uld_algalon_attack_star;
         creators["yogg-saron fall from floor action"] = &RaidUlduarActionContext::yogg_saron_fall_from_floor_action;
         creators["yogg-saron boss room movement cheat action"] = &RaidUlduarActionContext::yogg_saron_boss_room_movement_cheat_action;
         creators["yogg-saron illusion room action"] = &RaidUlduarActionContext::yogg_saron_illusion_room_action;
@@ -103,6 +125,7 @@ private:
     static Action* iron_assembly_rune_of_power_action(PlayerbotAI* botAI) { return new IronAssemblyRuneOfPowerAction(botAI); }
     static Action* kologarn_mark_dps_target_action(PlayerbotAI* botAI) { return new KologarnMarkDpsTargetAction(botAI); }
     static Action* kologarn_fall_from_floor_action(PlayerbotAI* botAI) { return new KologarnFallFromFloorAction(botAI); }
+    static Action* thorim_fall_from_floor_action(PlayerbotAI* botAI) { return new ThorimFallFromFloorAction(botAI); }
     static Action* kologarn_nature_resistance_action(PlayerbotAI* botAI) { return new BossNatureResistanceAction(botAI, "kologarn"); }
     static Action* kologarn_rubble_slowdown_action(PlayerbotAI* botAI) { return new KologarnRubbleSlowdownAction(botAI); }
     static Action* kologarn_eyebeam_action(PlayerbotAI* botAI) { return new KologarnEyebeamAction(botAI); }
@@ -148,6 +171,35 @@ private:
     static Action* yogg_saron_brain_link_action(PlayerbotAI* botAI) { return new YoggSaronBrainLinkAction(botAI); }
     static Action* yogg_saron_move_to_enter_portal_action(PlayerbotAI* botAI) { return new YoggSaronMoveToEnterPortalAction(botAI); }
     static Action* yogg_saron_use_portal_action(PlayerbotAI* botAI) { return new YoggSaronUsePortalAction(botAI); }
+    static Action* uld_kill_order_mark(PlayerbotAI* botAI) { return new UldKillOrderMarkAction(botAI); }
+    static Action* uld_tank_off_tank_add(PlayerbotAI* botAI) { return new UldTankOffTankAddAction(botAI); }
+    static Action* uld_ignis_drag_construct(PlayerbotAI* botAI) { return new UldIgnisDragConstructAction(botAI); }
+    static Action* uld_xt_spread(PlayerbotAI* botAI) { return new UldXtSpreadAction(botAI); }
+    static Action* uld_xt_attack_bot_add(PlayerbotAI* botAI) { return new UldXtAttackBotAddAction(botAI); }
+    static Action* uld_auriaya_stack(PlayerbotAI* botAI) { return new UldAuriayaStackAction(botAI); }
+    static Action* uld_interrupt(PlayerbotAI* botAI) { return new UldInterruptAction(botAI); }
+    static Action* uld_council_tank(PlayerbotAI* botAI) { return new UldCouncilTankAction(botAI); }
+    static Action* uld_yogg_avoid_cloud(PlayerbotAI* botAI) { return new UldYoggAvoidCloudAction(botAI); }
+    static Action* uld_mimiron_avoid_mine(PlayerbotAI* botAI) { return new UldMimironAvoidMineAction(botAI); }
+    static Action* uld_freya_break_roots(PlayerbotAI* botAI) { return new UldFreyaBreakRootsAction(botAI); }
+    static Action* uld_freya_natures_fury(PlayerbotAI* botAI) { return new UldFreyaNaturesFuryAction(botAI); }
+    static Action* uld_freya_avoid_sun_beam(PlayerbotAI* botAI) { return new UldFreyaAvoidSunBeamAction(botAI); }
+    static Action* uld_hodir_toasty_fire(PlayerbotAI* botAI) { return new UldHodirToastyFireAction(botAI); }
+    static Action* uld_hodir_break_ice(PlayerbotAI* botAI) { return new UldHodirBreakIceAction(botAI); }
+    static Action* uld_hodir_taunt(PlayerbotAI* botAI)
+    {
+        return new UldTauntBossAction(botAI, "uld hodir taunt", "hodir");
+    }
+    static Action* uld_kologarn_taunt(PlayerbotAI* botAI)
+    {
+        return new UldTauntBossAction(botAI, "uld kologarn taunt", "kologarn");
+    }
+    static Action* uld_algalon_taunt(PlayerbotAI* botAI) { return new UldAlgalonTauntAction(botAI); }
+    static Action* uld_algalon_enter_black_hole(PlayerbotAI* botAI)
+    {
+        return new UldAlgalonEnterBlackHoleAction(botAI);
+    }
+    static Action* uld_algalon_attack_star(PlayerbotAI* botAI) { return new UldAlgalonAttackStarAction(botAI); }
     static Action* yogg_saron_fall_from_floor_action(PlayerbotAI* botAI) { return new YoggSaronFallFromFloorAction(botAI); }
     static Action* yogg_saron_boss_room_movement_cheat_action(PlayerbotAI* botAI) { return new YoggSaronBossRoomMovementCheatAction(botAI); }
     static Action* yogg_saron_illusion_room_action(PlayerbotAI* botAI) { return new YoggSaronIllusionRoomAction(botAI); }

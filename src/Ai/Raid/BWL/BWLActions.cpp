@@ -7,8 +7,11 @@
 #include "BWLActions.h"
 #include "BWLHelpers.h"
 #include "EncounterHelpers.h"
+#include "PathGenerator.h"
 #include "Playerbots.h"
 #include "RtiTargetValue.h"
+#include <array>
+#include <cmath>
 
 using namespace BlackwingLairHelpers;
 using namespace EncounterHelpers;
@@ -290,11 +293,121 @@ bool BwlBlackDrakeAvoidBreathAction::isUseful()
     return boss->HasInArc(2.0f * minAngle, bot);
 }
 
+static constexpr std::array<float, 3> FIREMAW_HIDE_SEARCH_RADII = { 8.0f, 14.0f, 20.0f };
+static constexpr uint32 FIREMAW_HIDE_SEARCH_DIRECTIONS = 16;
+static constexpr uint32 FIREMAW_HIDE_MAX_PATH_CHECKS = 4;
+static constexpr float FIREMAW_HIDE_MAX_PATH_LENGTH = 35.0f;
+static constexpr float FIREMAW_HIDE_MAX_HEIGHT_CHANGE = 6.0f;
+static constexpr float FIREMAW_HIDE_ARRIVAL_TOLERANCE = 2.0f;
+
+bool BwlFiremawHideFromFlameBuffetAction::IsHideSpot(Unit const* boss, Unit const* tank, Position const& spot) const
+{
+    if (IsSpotInSightOf(boss, bot, spot))
+        return false;
+
+    return !tank || IsFiremawHealerSpot(bot, tank, spot, botAI->GetRange("heal"));
+}
+
+bool BwlFiremawHideFromFlameBuffetAction::Execute(Event /*event*/)
+{
+    Unit* boss = AI_VALUE2(Unit*, "find target", "firemaw");
+    if (!boss)
+        return false;
+
+    Unit* tank = _keepTankInView ? boss->GetVictim() : nullptr;
+    if (_keepTankInView && !tank)
+        return false;
+
+    if (!_hasHideSpot || !IsHideSpot(boss, tank, _hideSpot))
+        _hasHideSpot = FindHideSpot(boss, tank);
+
+    if (!_hasHideSpot)
+        return false;
+
+    return MoveTo(bot->GetMapId(), _hideSpot.GetPositionX(), _hideSpot.GetPositionY(), _hideSpot.GetPositionZ(),
+        false, false, false, false, MovementPriority::MOVEMENT_COMBAT, true, false);
+}
+
+// No fixed pillar coordinates: probe a ring of nearby spots for one the room's geometry hides from Firemaw.
+bool BwlFiremawHideFromFlameBuffetAction::FindHideSpot(Unit const* boss, Unit const* tank)
+{
+    float const botZ = bot->GetPositionZ();
+    uint32 pathChecks = 0;
+
+    for (float const radius : FIREMAW_HIDE_SEARCH_RADII)
+    {
+        for (uint32 i = 0; i < FIREMAW_HIDE_SEARCH_DIRECTIONS; ++i)
+        {
+            float const angle = 2.0f * M_PI * i / FIREMAW_HIDE_SEARCH_DIRECTIONS;
+            float const x = bot->GetPositionX() + radius * std::cos(angle);
+            float const y = bot->GetPositionY() + radius * std::sin(angle);
+            float const z = bot->GetMapWaterOrGroundLevel(x, y, botZ);
+            if (z <= INVALID_HEIGHT || std::fabs(z - botZ) > FIREMAW_HIDE_MAX_HEIGHT_CHANGE)
+                continue;
+
+            Position const spot(x, y, z);
+            if (!IsHideSpot(boss, tank, spot))
+                continue;
+
+            if (++pathChecks > FIREMAW_HIDE_MAX_PATH_CHECKS)
+                return false;
+
+            PathGenerator path(bot);
+            if (!path.CalculatePath(x, y, z) || (path.GetPathType() & PATHFIND_NOPATH))
+                continue;
+
+            G3D::Vector3 const& end = path.GetActualEndPosition();
+            if (std::hypot(end.x - x, end.y - y) > FIREMAW_HIDE_ARRIVAL_TOLERANCE)
+                continue;
+
+            Movement::PointsArray const& points = path.GetPath();
+            float length = 0.0f;
+            for (size_t p = 1; p < points.size(); ++p)
+                length += (points[p] - points[p - 1]).length();
+
+            if (length > FIREMAW_HIDE_MAX_PATH_LENGTH)
+                continue;
+
+            _hideSpot = spot;
+            return true;
+        }
+    }
+    return false;
+}
+
+bool BwlEbonrocTauntAction::Execute(Event event)
+{
+    Unit* boss = AI_VALUE2(Unit*, "find target", "ebonroc");
+    if (!boss)
+        return false;
+
+    if (bot->GetVictim() != boss)
+        return Attack(boss);
+
+    return botAI->DoSpecificAction("taunt spell", event, true);
+}
+
 // Chromaggus
 
 bool BwlUseHourglassSandAction::Execute(Event /*event*/)
 {
     return botAI->CastSpell(static_cast<uint32>(BlackwingLairSpells::SPELL_HOURGLASS_SAND), bot);
+}
+
+// Nefarian
+
+bool BwlNefarianStopCorruptedHealAction::Execute(Event /*event*/)
+{
+    if (!IsCastingCorruptedHealingSpell(botAI))
+        return false;
+
+    bot->InterruptSpell(CURRENT_GENERIC_SPELL);
+    return true;
+}
+
+bool BwlNefarianMarkCorruptedTotemAction::Execute(Event /*event*/)
+{
+    return MarkTargetWithSkull(bot, GetCorruptedTotemMarkTarget(botAI));
 }
 
 // Trash

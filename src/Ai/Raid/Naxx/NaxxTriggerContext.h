@@ -49,6 +49,20 @@ public:
         creators["gluth main tank mortal wound"] = &RaidNaxxTriggerContext::gluth_main_tank_mortal_wound;
 
         creators["loatheb"] = &RaidNaxxTriggerContext::loatheb;
+        creators["naxx kill order mark"] = &RaidNaxxTriggerContext::naxx_kill_order_mark;
+        creators["naxx faerlina mind control"] = &RaidNaxxTriggerContext::naxx_faerlina_mind_control;
+        creators["naxx faerlina embrace"] = &RaidNaxxTriggerContext::naxx_faerlina_embrace;
+        creators["naxx faerlina bring worshipper"] = &RaidNaxxTriggerContext::naxx_faerlina_bring_worshipper;
+        creators["naxx maexxna web wrap"] = &RaidNaxxTriggerContext::naxx_maexxna_web_wrap;
+        creators["naxx noth not tanked"] = &RaidNaxxTriggerContext::naxx_noth_not_tanked;
+        creators["naxx plagued champion range"] = &RaidNaxxTriggerContext::naxx_plagued_champion_range;
+        creators["naxx gothik side"] = &RaidNaxxTriggerContext::naxx_gothik_side;
+        creators["naxx gothik not tanked"] = &RaidNaxxTriggerContext::naxx_gothik_not_tanked;
+        creators["naxx patchwerk soaker"] = &RaidNaxxTriggerContext::naxx_patchwerk_soaker;
+        creators["naxx patchwerk melee"] = &RaidNaxxTriggerContext::naxx_patchwerk_melee;
+        creators["naxx thane meteor stack"] = &RaidNaxxTriggerContext::naxx_thane_meteor_stack;
+        creators["naxx detonate mana"] = &RaidNaxxTriggerContext::naxx_detonate_mana;
+        creators["naxx chains mark"] = &RaidNaxxTriggerContext::naxx_chains_mark;
     }
 
 private:
@@ -81,6 +95,26 @@ private:
     static Trigger* gluth(PlayerbotAI* botAI) { return new GluthTrigger(botAI); }
     static Trigger* gluth_main_tank_mortal_wound(PlayerbotAI* botAI) { return new GluthMainTankMortalWoundTrigger(botAI); }
     static Trigger* loatheb(PlayerbotAI* botAI) { return new LoathebTrigger(botAI); }
+    static Trigger* naxx_kill_order_mark(PlayerbotAI* botAI) { return new NaxxKillOrderMarkTrigger(botAI); }
+    static Trigger* naxx_faerlina_mind_control(PlayerbotAI* botAI) { return new NaxxFaerlinaMindControlTrigger(botAI); }
+    static Trigger* naxx_faerlina_embrace(PlayerbotAI* botAI) { return new NaxxFaerlinaEmbraceTrigger(botAI); }
+    static Trigger* naxx_faerlina_bring_worshipper(PlayerbotAI* botAI)
+    {
+        return new NaxxFaerlinaBringWorshipperTrigger(botAI);
+    }
+    static Trigger* naxx_maexxna_web_wrap(PlayerbotAI* botAI) { return new NaxxMaexxnaWebWrapTrigger(botAI); }
+    static Trigger* naxx_noth_not_tanked(PlayerbotAI* botAI) { return new NaxxNothNotTankedTrigger(botAI); }
+    static Trigger* naxx_plagued_champion_range(PlayerbotAI* botAI)
+    {
+        return new NaxxPlaguedChampionRangeTrigger(botAI);
+    }
+    static Trigger* naxx_gothik_side(PlayerbotAI* botAI) { return new NaxxGothikSideTrigger(botAI); }
+    static Trigger* naxx_gothik_not_tanked(PlayerbotAI* botAI) { return new NaxxGothikNotTankedTrigger(botAI); }
+    static Trigger* naxx_patchwerk_soaker(PlayerbotAI* botAI) { return new NaxxPatchwerkSoakerTrigger(botAI); }
+    static Trigger* naxx_patchwerk_melee(PlayerbotAI* botAI) { return new NaxxPatchwerkMeleeTrigger(botAI); }
+    static Trigger* naxx_thane_meteor_stack(PlayerbotAI* botAI) { return new NaxxThaneMeteorStackTrigger(botAI); }
+    static Trigger* naxx_detonate_mana(PlayerbotAI* botAI) { return new NaxxDetonateManaTrigger(botAI); }
+    static Trigger* naxx_chains_mark(PlayerbotAI* botAI) { return new NaxxChainsMarkTrigger(botAI); }
 };
 
 #endif

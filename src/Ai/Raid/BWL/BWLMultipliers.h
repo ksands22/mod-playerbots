@@ -33,4 +33,36 @@ public:
     float GetValue(Action* action) override;
 };
 
+class FiremawFlameBuffetMultiplier : public Multiplier
+{
+public:
+    FiremawFlameBuffetMultiplier(
+        PlayerbotAI* botAI) : Multiplier(botAI, "firemaw flame buffet multiplier") {}
+    float GetValue(Action* action) override;
+};
+
+class FiremawHealerPositionMultiplier : public Multiplier
+{
+public:
+    FiremawHealerPositionMultiplier(
+        PlayerbotAI* botAI) : Multiplier(botAI, "firemaw healer position multiplier") {}
+    float GetValue(Action* action) override;
+};
+
+class EbonrocShadowTankMultiplier : public Multiplier
+{
+public:
+    EbonrocShadowTankMultiplier(
+        PlayerbotAI* botAI) : Multiplier(botAI, "ebonroc shadow tank multiplier") {}
+    float GetValue(Action* action) override;
+};
+
+class NefarianCorruptedHealingMultiplier : public Multiplier
+{
+public:
+    NefarianCorruptedHealingMultiplier(
+        PlayerbotAI* botAI) : Multiplier(botAI, "nefarian corrupted healing multiplier") {}
+    float GetValue(Action* action) override;
+};
+
 #endif

@@ -23,4 +23,11 @@ public:
     bool Execute(Event event) override;
 };
 
+class SvalaMarkRitualChannelerAction : public Action
+{
+public:
+    SvalaMarkRitualChannelerAction(PlayerbotAI* botAI) : Action(botAI, "svala mark ritual channeler") {}
+    bool Execute(Event event) override;
+};
+
 #endif

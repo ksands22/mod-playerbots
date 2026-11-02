@@ -6,9 +6,12 @@
 
 #include "BWLTriggers.h"
 #include "BWLHelpers.h"
+#include "EncounterHelpers.h"
 #include "Playerbots.h"
+#include "SpellAuras.h"
 
 using namespace BlackwingLairHelpers;
+using namespace EncounterHelpers;
 
 // General
 
@@ -82,6 +85,66 @@ bool BwlBlackDrakeNotVictimTrigger::IsActive()
     return boss->GetVictim() != bot;
 }
 
+bool BwlFiremawFlameBuffetTrigger::IsActive()
+{
+    // Non-tank DPS only; healers have their own placement.
+    if (!PlayerbotAI::IsDps(bot) || PlayerbotAI::IsTank(bot) || !HasFlameBuffetHideStacks(bot))
+        return false;
+
+    Unit* boss = AI_VALUE2(Unit*, "find target", "firemaw");
+    return boss && IsSpotInSightOf(boss, bot, bot->GetPosition());
+}
+
+bool BwlFiremawHealerPositionTrigger::IsActive()
+{
+    if (!PlayerbotAI::IsHeal(bot) || PlayerbotAI::IsTank(bot))
+        return false;
+
+    Unit* boss = AI_VALUE2(Unit*, "find target", "firemaw");
+    Unit* tank = boss ? boss->GetVictim() : nullptr;
+    if (!tank || tank == bot)
+        return false;
+
+    Position const here = bot->GetPosition();
+    return IsSpotInSightOf(boss, bot, here) || !IsFiremawHealerSpot(bot, tank, here, botAI->GetRange("heal"));
+}
+
+bool BwlEbonrocShadowOnOtherTankTrigger::IsActive()
+{
+    if (!PlayerbotAI::IsTank(bot))
+        return false;
+
+    uint32 const shadow = static_cast<uint32>(BlackwingLairSpells::SPELL_SHADOW_OF_EBONROC);
+    if (bot->HasAura(shadow))
+        return false;
+
+    Unit* boss = AI_VALUE2(Unit*, "find target", "ebonroc");
+    Unit* victim = boss ? boss->GetVictim() : nullptr;
+    Aura const* curse = victim && victim != bot ? victim->GetAura(shadow) : nullptr;
+    if (!curse)
+        return false;
+
+    // One designated taunter: the first uncursed of the main tank and both off-tanks. The next one
+    // joins only if Ebonroc is still on the cursed tank after a moment (the guide's backup for a
+    // resisted taunt), so the backup taunt isn't spent on every swap.
+    uint32 const cursedForMs = curse->GetMaxDuration() - curse->GetDuration();
+    uint8 const takers = cursedForMs >= EBONROC_BACKUP_TAUNT_DELAY_MS ? 2 : 1;
+
+    uint8 rank = 0;
+    for (Player* tank : { GetGroupMainTank(bot), GetGroupAssistTank(bot, 0), GetGroupAssistTank(bot, 1) })
+    {
+        if (!tank || tank == victim || tank->HasAura(shadow))
+            continue;
+
+        if (tank == bot)
+            return true;
+
+        if (++rank >= takers)
+            return false;
+    }
+    return false;
+}
+
 // Chromaggus
 
 bool BwlAfflictionBronzeTrigger::IsActive()
@@ -103,6 +166,18 @@ bool BwlNefarianWildMagicTrigger::IsActive()
 {
     return bot->getClass() == CLASS_MAGE &&
         bot->HasAura(static_cast<uint32>(BlackwingLairSpells::SPELL_WILD_MAGIC));
+}
+
+bool BwlNefarianCorruptedHealingTrigger::IsActive()
+{
+    return bot->IsClass(CLASS_PRIEST) &&
+        bot->HasAura(static_cast<uint32>(BlackwingLairSpells::SPELL_CORRUPTED_HEALING)) &&
+        IsCastingCorruptedHealingSpell(botAI);
+}
+
+bool BwlNefarianCorruptedTotemTrigger::IsActive()
+{
+    return bot->IsInCombat() && IsMechanicTrackerBot(bot, bot->GetMapId()) && GetCorruptedTotemMarkTarget(botAI);
 }
 
 // Trash

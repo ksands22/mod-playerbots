@@ -30,7 +30,8 @@ void WotlkDungeonOKStrategy::InitTriggers(std::vector<TriggerNode*>& triggers)
     // Volazj is not implemented properly in AC, insanity phase does nothing.
 
     // Amanitar (Heroic Only)
-    // TODO: once I get to heroics
+    triggers.push_back(new TriggerNode("amanitar mini",
+        { NextAction("amanitar seek healthy mushroom", ACTION_RAID + 1) }));
 }
 
 void WotlkDungeonOKStrategy::InitMultipliers(std::vector<Multiplier*>& multipliers)

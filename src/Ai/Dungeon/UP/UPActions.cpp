@@ -5,6 +5,7 @@
  */
 
 #include "UPActions.h"
+#include "DungeonHelpers.h"
 #include "Playerbots.h"
 #include "UPTriggers.h"
 
@@ -64,4 +65,9 @@ bool AvoidSkadiWhirlwindAction::Execute(Event /*event*/)
     }
 
     return false;
+}
+
+bool SvalaMarkRitualChannelerAction::Execute(Event /*event*/)
+{
+    return DungeonHelpers::MarkNearestWithSkull(botAI, {NPC_RITUAL_CHANNELER});
 }

@@ -1725,12 +1725,15 @@ void PlayerbotAI::ApplyInstanceStrategies(uint32 mapId, bool tellMaster)
 {
     static const std::vector<std::string> allInstanceStrategies =
     {
-        "aq20", "blacktemple", "bwl", "gruulslair", "hyjal", "icc", "karazhan", "magtheridon",
-        "moltencore", "naxx", "onyxia", "rs", "ssc", "tbc-ac", "tbc-mech", "tbc-mgt", "tbc-ramp",
-        "tbc-seth", "tbc-ub", "tempestkeep", "ulduar", "voa", "wotlk-an", "wotlk-cos", "wotlk-dtk",
-        "wotlk-eoe", "wotlk-fos", "wotlk-gd", "wotlk-hol", "wotlk-hos", "wotlk-nex", "wotlk-occ",
+        "aq20", "aq40", "blacktemple", "bwl", "gruulslair", "hyjal", "icc", "karazhan", "magtheridon",
+        "moltencore", "naxx", "onyxia", "rs", "ssc", "sunwell", "tbc-ac", "tbc-arc", "tbc-bf", "tbc-bm",
+        "tbc-bot", "tbc-mech", "tbc-mgt", "tbc-mt", "tbc-ohb", "tbc-ramp", "tbc-seth", "tbc-sl",
+        "tbc-sp", "tbc-sv", "tbc-ub", "tempestkeep", "ulduar", "vanilla-brd", "vanilla-brs",
+        "vanilla-dm", "vanilla-gnomer", "vanilla-mara", "vanilla-rfd", "vanilla-sm", "vanilla-st",
+        "vanilla-uldaman", "vanilla-zf", "voa", "wotlk-an", "wotlk-cos", "wotlk-dtk", "wotlk-eoe",
+        "wotlk-fos", "wotlk-gd", "wotlk-hol", "wotlk-hor", "wotlk-hos", "wotlk-nex", "wotlk-occ",
         "wotlk-ok", "wotlk-os", "wotlk-pos", "wotlk-toc", "wotlk-uk", "wotlk-up", "wotlk-vh",
-        "zulaman"
+        "zulaman", "zulgurub"
     };
 
     for (std::string const& strat : allInstanceStrategies)
@@ -1742,17 +1745,56 @@ void PlayerbotAI::ApplyInstanceStrategies(uint32 mapId, bool tellMaster)
     std::string strategyName;
     switch (mapId)
     {
+        case 70:
+            strategyName = "vanilla-uldaman";  // Uldaman
+            break;
+        case 90:
+            strategyName = "vanilla-gnomer";  // Gnomeregan
+            break;
+        case 109:
+            strategyName = "vanilla-st";  // Sunken Temple
+            break;
+        case 129:
+            strategyName = "vanilla-rfd";  // Razorfen Downs
+            break;
+        case 189:
+            strategyName = "vanilla-sm";  // Scarlet Monastery
+            break;
+        case 209:
+            strategyName = "vanilla-zf";  // Zul'Farrak
+            break;
+        case 229:
+            strategyName = "vanilla-brs";  // Blackrock Spire (Lower and Upper)
+            break;
+        case 230:
+            strategyName = "vanilla-brd";  // Blackrock Depths
+            break;
+        case 269:
+            strategyName = "tbc-bm";  // Caverns of Time: The Black Morass
+            break;
+        case 349:
+            strategyName = "vanilla-mara";  // Maraudon
+            break;
         case 249:
             strategyName = "onyxia";  // Onyxia's Lair
             break;
+        case 309:
+            strategyName = "zulgurub";  // Zul'Gurub
+            break;
         case 409:
             strategyName = "moltencore";  // Molten Core
+            break;
+        case 429:
+            strategyName = "vanilla-dm";  // Dire Maul
             break;
         case 469:
             strategyName = "bwl";  // Blackwing Lair
             break;
         case 509:
             strategyName = "aq20";  // Ruins of Ahn'Qiraj
+            break;
+        case 531:
+            strategyName = "aq40";  // Temple of Ahn'Qiraj
             break;
         case 532:
             strategyName = "karazhan";  // Karazhan
@@ -1763,14 +1805,23 @@ void PlayerbotAI::ApplyInstanceStrategies(uint32 mapId, bool tellMaster)
         case 534:
             strategyName = "hyjal";  // The Battle for Mount Hyjal (Hyjal Summit)
             break;
+        case 542:
+            strategyName = "tbc-bf";  // Hellfire Citadel: The Blood Furnace
+            break;
         case 543:
             strategyName = "tbc-ramp";  // Hellfire Citadel: Hellfire Ramparts
             break;
         case 544:
             strategyName = "magtheridon";  // Magtheridon's Lair
             break;
+        case 545:
+            strategyName = "tbc-sv";  // Coilfang Reservoir: The Steamvault
+            break;
         case 546:
             strategyName = "tbc-ub";  // Coilfang Reservoir: The Underbog
+            break;
+        case 547:
+            strategyName = "tbc-sp";  // Coilfang Reservoir: The Slave Pens
             break;
         case 548:
             strategyName = "ssc";  // Serpentshrine Cavern
@@ -1778,14 +1829,29 @@ void PlayerbotAI::ApplyInstanceStrategies(uint32 mapId, bool tellMaster)
         case 550:
             strategyName = "tempestkeep";  // Tempest Keep: The Eye
             break;
+        case 552:
+            strategyName = "tbc-arc";  // Tempest Keep: The Arcatraz
+            break;
+        case 553:
+            strategyName = "tbc-bot";  // Tempest Keep: The Botanica
+            break;
+        case 555:
+            strategyName = "tbc-sl";  // Auchindoun: Shadow Labyrinth
+            break;
         case 556:
             strategyName = "tbc-seth";  // Auchindoun: Sethekk Halls
             break;
         case 554:
             strategyName = "tbc-mech";  // Tempest Keep: The Mechanar
             break;
+        case 557:
+            strategyName = "tbc-mt";  // Auchindoun: Mana-Tombs
+            break;
         case 558:
             strategyName = "tbc-ac";  // Auchindoun: Auchenai Crypts
+            break;
+        case 560:
+            strategyName = "tbc-ohb";  // Caverns of Time: Old Hillsbrad Foothills
             break;
         case 564:
             strategyName = "blacktemple";  // Black Temple
@@ -1807,6 +1873,9 @@ void PlayerbotAI::ApplyInstanceStrategies(uint32 mapId, bool tellMaster)
             break;
         case 578:
             strategyName = "wotlk-occ";  // The Oculus
+            break;
+        case 580:
+            strategyName = "sunwell";  // Sunwell Plateau
             break;
         case 585:
             strategyName = "tbc-mgt";  // Magisters' Terrace
@@ -1858,6 +1927,9 @@ void PlayerbotAI::ApplyInstanceStrategies(uint32 mapId, bool tellMaster)
             break;
         case 658:
             strategyName = "wotlk-pos";  // Pit of Saron
+            break;
+        case 668:
+            strategyName = "wotlk-hor";  // Halls of Reflection
             break;
         case 724:
             strategyName = "rs";  // Ruby Sanctum

@@ -46,4 +46,23 @@ public:
     bool IsActive() override;
 };
 
+namespace MechanarIronhand
+{
+    // Gatewatcher Iron-Hand: roots himself for 8s and pulses a 15 yd Jackhammer every second
+    constexpr uint32 SPELL_JACKHAMMER = 35327;
+    constexpr float JACKHAMMER_SAFE_DISTANCE = 18.0f;
+}
+
+namespace MechanarCapacitus
+{
+    constexpr uint32 SPELL_REFLECTIVE_MAGIC_SHIELD = 35158;
+}
+
+class IronhandJackhammerTrigger : public Trigger
+{
+public:
+    IronhandJackhammerTrigger(PlayerbotAI* botAI) : Trigger(botAI, "ironhand jackhammer") {}
+    bool IsActive() override;
+};
+
 #endif

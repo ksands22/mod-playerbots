@@ -87,7 +87,8 @@ bool LootRollAction::Execute(Event /*event*/)
         {
             if (sPlayerbotAIConfig.LootNeedRollLevel == 0 || RollUniqueCheck(proto, bot))
                 vote = PASS;
-            else if (sPlayerbotAIConfig.LootNeedRollLevel == 1)
+            else if (sPlayerbotAIConfig.LootNeedRollLevel == 1 ||
+                     (sPlayerbotAIConfig.LootNeedRollLevel == 3 && IsOffArmorType(proto, bot)))
                 vote = GREED;
         }
         else if (vote == GREED && !sPlayerbotAIConfig.LootGreedRollLevel)
@@ -209,6 +210,26 @@ bool RollUniqueCheck(ItemTemplate const* proto, Player* bot)
     else if (proto->HasFlag(ITEM_FLAG_UNIQUE_EQUIPPABLE) && (bagItemCount > 1))
         return true; // Unique item already in bag, don't roll for it
     return false; // Item is not equipped or in bags, roll for it
+}
+
+bool IsOffArmorType(ItemTemplate const* proto, Player* bot)
+{
+    // Only cloth/leather/mail/plate body armor has an armor type; cloaks are cloth for every class
+    if (proto->Class != ITEM_CLASS_ARMOR || proto->InventoryType == INVTYPE_CLOAK)
+        return false;
+    if (proto->SubClass < ITEM_SUBCLASS_ARMOR_CLOTH || proto->SubClass > ITEM_SUBCLASS_ARMOR_PLATE)
+        return false;
+
+    // Primary armor type is the heaviest the bot can currently wear (hunters/shamans learn mail at 40, etc.)
+    uint32 primaryArmorType = ITEM_SUBCLASS_ARMOR_CLOTH;
+    if (bot->HasSkill(SKILL_PLATE_MAIL))
+        primaryArmorType = ITEM_SUBCLASS_ARMOR_PLATE;
+    else if (bot->HasSkill(SKILL_MAIL))
+        primaryArmorType = ITEM_SUBCLASS_ARMOR_MAIL;
+    else if (bot->HasSkill(SKILL_LEATHER))
+        primaryArmorType = ITEM_SUBCLASS_ARMOR_LEATHER;
+
+    return proto->SubClass != primaryArmorType;
 }
 
 bool RollAction::Execute(Event event)

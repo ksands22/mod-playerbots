@@ -6,6 +6,7 @@
 
 #include "MgTTriggers.h"
 #include "AiObjectContext.h"
+#include "EncounterHelpers.h"
 #include "MgTShared.h"
 #include "Playerbots.h"
 
@@ -121,4 +122,10 @@ bool MgTKaelInterruptTrigger::IsActive()
 bool MgTGravityLapseTrigger::IsActive()
 {
     return AI_VALUE(bool, "mgt gravity lapse");
+}
+
+bool MgTVexallusActiveTrigger::IsActive()
+{
+    return EncounterHelpers::IsMechanicTrackerBot(bot, MagistersTerrace::MAP_MAGISTERS_TERRACE) &&
+           AI_VALUE2(Unit*, "find target", "vexallus");
 }

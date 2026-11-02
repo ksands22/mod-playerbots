@@ -16,10 +16,15 @@ class WotlkDungeonUPActionContext : public NamedObjectContext<Action>
         WotlkDungeonUPActionContext() {
             creators["avoid freezing cloud"] = &WotlkDungeonUPActionContext::avoid_freezing_cloud;
             creators["avoid skadi whirlwind"] = &WotlkDungeonUPActionContext::avoid_whirlwind;
+            creators["svala mark ritual channeler"] = &WotlkDungeonUPActionContext::svala_mark_ritual_channeler;
         }
     private:
         static Action* avoid_freezing_cloud(PlayerbotAI* botAI) { return new AvoidFreezingCloudAction(botAI); }
         static Action* avoid_whirlwind(PlayerbotAI* botAI) { return new AvoidSkadiWhirlwindAction(botAI); }
+        static Action* svala_mark_ritual_channeler(PlayerbotAI* botAI)
+        {
+            return new SvalaMarkRitualChannelerAction(botAI);
+        }
 };
 
 #endif

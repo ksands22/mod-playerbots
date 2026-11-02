@@ -104,4 +104,12 @@ public:
         : MovementAction(botAI, name) {}
     bool Execute(Event event) override;
 };
+
+class ToCAvoidGhoulExplodeAction : public MovementAction
+{
+public:
+    ToCAvoidGhoulExplodeAction(PlayerbotAI* botAI) : MovementAction(botAI, "toc avoid ghoul explode") {}
+    bool Execute(Event event) override;
+};
+
 #endif

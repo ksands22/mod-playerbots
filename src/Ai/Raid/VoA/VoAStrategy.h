@@ -15,6 +15,7 @@ public:
     RaidVoAStrategy(PlayerbotAI* botAI) : Strategy(botAI) {}
     virtual std::string const getName() override { return "voa"; }
     virtual void InitTriggers(std::vector<TriggerNode*>& triggers) override;
+    virtual void InitMultipliers(std::vector<Multiplier*>& multipliers) override;
 };
 
 #endif

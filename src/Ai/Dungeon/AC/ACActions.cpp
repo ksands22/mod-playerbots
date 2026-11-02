@@ -6,6 +6,7 @@
 
 #include "ACActions.h"
 #include "ACTriggers.h"
+#include "DungeonHelpers.h"
 #include "EncounterHelpers.h"
 #include "PlayerbotAIConfig.h"
 #include "Playerbots.h"
@@ -112,4 +113,11 @@ bool ShirrakRangedKeepDistanceAction::Execute(Event /*event*/)
     return MoveTo(
         bot->GetMapId(), moveX, moveY, bot->GetPositionZ(), false, false, false, false,
         MovementPriority::MOVEMENT_COMBAT, true, false);
+}
+
+// Exarch Maladaar
+
+bool MaladaarMarkStolenSoulAction::Execute(Event /*event*/)
+{
+    return DungeonHelpers::MarkNearestWithSkull(botAI, {NPC_STOLEN_SOUL});
 }

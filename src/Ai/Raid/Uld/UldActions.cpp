@@ -813,9 +813,10 @@ bool RazorscaleGroundedAction::isUseful()
 
     if (PlayerbotAI::IsRanged(bot))
     {
-        constexpr float landingX = 588.0f;
-        constexpr float landingY = -166.0f;
-        constexpr float landingZ = 391.1f;
+        // The core's RazorGroundPos, where she lands facing north (+Y) after the harpoons.
+        constexpr float landingX = 585.401f;
+        constexpr float landingY = -173.543f;
+        constexpr float landingZ = 391.642f;
 
         float bossX = boss->GetPositionX();
         float bossY = boss->GetPositionY();
@@ -899,9 +900,9 @@ bool RazorscaleGroundedAction::Execute(Event /*event*/)
 
     if (PlayerbotAI::IsRanged(bot))
     {
-        constexpr float landingX = 588.0f;
-        constexpr float landingY = -166.0f;
-        constexpr float landingZ = 391.1f;
+        constexpr float landingX = 585.401f;
+        constexpr float landingY = -173.543f;
+        constexpr float landingZ = 391.642f;
 
         float bossX = boss->GetPositionX();
         float bossY = boss->GetPositionY();
@@ -1398,6 +1399,7 @@ bool KologarnCrunchArmorAction::isUseful()
 bool KologarnCrunchArmorAction::Execute(Event /*event*/)
 {
     bot->RemoveAura(SPELL_CRUNCH_ARMOR);
+    bot->RemoveAura(SPELL_CRUNCH_ARMOR_10);
     return true;
 }
 
@@ -1430,7 +1432,7 @@ bool HodirMoveSnowpackedIcicleAction::isUseful()
         return false;
 
     // Find the nearest Snowpacked Icicle Target
-    Creature* target = bot->FindNearestCreature(NPC_SNOWPACKED_ICICLE, 100.0f);
+    Creature* target = FindSnowpackedIcicle(bot);
     if (!target)
         return false;
 
@@ -1443,7 +1445,7 @@ bool HodirMoveSnowpackedIcicleAction::isUseful()
 
 bool HodirMoveSnowpackedIcicleAction::Execute(Event /*event*/)
 {
-    Creature* target = bot->FindNearestCreature(NPC_SNOWPACKED_ICICLE, 100.0f);
+    Creature* target = FindSnowpackedIcicle(bot);
     if (!target)
         return false;
 

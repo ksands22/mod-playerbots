@@ -6,6 +6,7 @@
 
 #include "AiObjectContext.h"
 #include "Aq20TriggerContext.h"
+#include "Aq40TriggerContext.h"
 #include "BTTriggerContext.h"
 #include "BWLTriggerContext.h"
 #include "ChatTriggerContext.h"
@@ -21,14 +22,17 @@
 #include "OnyTriggerContext.h"
 #include "RSTriggerContext.h"
 #include "SSCTriggerContext.h"
+#include "SWPTriggerContext.h"
 #include "TKTriggerContext.h"
 #include "TbcDungeonTriggerContext.h"
 #include "TriggerContext.h"
 #include "UldTriggerContext.h"
+#include "VanillaDungeonTriggerContext.h"
 #include "VoATriggerContext.h"
 #include "WorldPacketTriggerContext.h"
 #include "WotlkDungeonTriggerContext.h"
 #include "ZATriggerContext.h"
+#include "ZGTriggerContext.h"
 
 void AiObjectContext::BuildSharedTriggerContexts(
     SharedNamedObjectContextList<Trigger>& triggerContexts)
@@ -37,6 +41,7 @@ void AiObjectContext::BuildSharedTriggerContexts(
     triggerContexts.Add(new ChatTriggerContext());
     triggerContexts.Add(new WorldPacketTriggerContext());
     triggerContexts.Add(new RaidAq20TriggerContext());
+    triggerContexts.Add(new RaidAq40TriggerContext());
     triggerContexts.Add(new RaidMcTriggerContext());
     triggerContexts.Add(new RaidBwlTriggerContext());
     triggerContexts.Add(new RaidKarazhanTriggerContext());
@@ -48,6 +53,8 @@ void AiObjectContext::BuildSharedTriggerContexts(
     triggerContexts.Add(new RaidHyjalTriggerContext());
     triggerContexts.Add(new RaidBlackTempleTriggerContext());
     triggerContexts.Add(new RaidZulAmanTriggerContext());
+    triggerContexts.Add(new RaidSunwellPlateauTriggerContext());
+    triggerContexts.Add(new RaidZulGurubTriggerContext());
     triggerContexts.Add(new RaidOsTriggerContext());
     triggerContexts.Add(new RaidEoETriggerContext());
     triggerContexts.Add(new RaidVoATriggerContext());
@@ -55,12 +62,30 @@ void AiObjectContext::BuildSharedTriggerContexts(
     triggerContexts.Add(new RaidOnyxiaTriggerContext());
     triggerContexts.Add(new RaidIccTriggerContext());
     triggerContexts.Add(new RaidRsTriggerContext());
+    triggerContexts.Add(new VanillaDungeonGnomereganTriggerContext());
+    triggerContexts.Add(new VanillaDungeonScarletMonasteryTriggerContext());
+    triggerContexts.Add(new VanillaDungeonRazorfenDownsTriggerContext());
+    triggerContexts.Add(new VanillaDungeonZulFarrakTriggerContext());
+    triggerContexts.Add(new VanillaDungeonMaraudonTriggerContext());
+    triggerContexts.Add(new VanillaDungeonSunkenTempleTriggerContext());
+    triggerContexts.Add(new VanillaDungeonBlackrockDepthsTriggerContext());
+    triggerContexts.Add(new VanillaDungeonBlackrockSpireTriggerContext());
+    triggerContexts.Add(new VanillaDungeonDireMaulTriggerContext());
     triggerContexts.Add(new TbcDungeonAuchenaiCryptsTriggerContext());
     triggerContexts.Add(new TbcDungeonSethekkHallsTriggerContext());
     triggerContexts.Add(new TbcDungeonMechanarTriggerContext());
     triggerContexts.Add(new TbcDungeonUnderbogTriggerContext());
     triggerContexts.Add(new TbcDungeonMagistersTerraceTriggerContext());
     triggerContexts.Add(new TbcDungeonHellfireRampartsTriggerContext());
+    triggerContexts.Add(new TbcDungeonBloodFurnaceTriggerContext());
+    triggerContexts.Add(new TbcDungeonSlavePensTriggerContext());
+    triggerContexts.Add(new TbcDungeonManaTombsTriggerContext());
+    triggerContexts.Add(new TbcDungeonOldHillsbradTriggerContext());
+    triggerContexts.Add(new TbcDungeonSteamvaultTriggerContext());
+    triggerContexts.Add(new TbcDungeonShadowLabyrinthTriggerContext());
+    triggerContexts.Add(new TbcDungeonBlackMorassTriggerContext());
+    triggerContexts.Add(new TbcDungeonBotanicaTriggerContext());
+    triggerContexts.Add(new TbcDungeonArcatrazTriggerContext());
     triggerContexts.Add(new WotlkDungeonUKTriggerContext());
     triggerContexts.Add(new WotlkDungeonNexTriggerContext());
     triggerContexts.Add(new WotlkDungeonANTriggerContext());
@@ -76,4 +101,5 @@ void AiObjectContext::BuildSharedTriggerContexts(
     triggerContexts.Add(new WotlkDungeonFoSTriggerContext());
     triggerContexts.Add(new WotlkDungeonPoSTriggerContext());
     triggerContexts.Add(new WotlkDungeonToCTriggerContext());
+    triggerContexts.Add(new WotlkDungeonHallsOfReflectionTriggerContext());
 }

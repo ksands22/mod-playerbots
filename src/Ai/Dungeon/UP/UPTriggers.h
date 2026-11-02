@@ -54,4 +54,15 @@ public:
     bool IsActive() override;
 };
 
+// Svala Sorrowgrave: three channelers paralyze a player during her ritual
+inline constexpr uint32 UP_MAP_ID = 575;
+inline constexpr uint32 NPC_RITUAL_CHANNELER = 27281;
+
+class SvalaIsActiveTrigger : public Trigger
+{
+public:
+    SvalaIsActiveTrigger(PlayerbotAI* botAI) : Trigger(botAI, "svala is active") {}
+    bool IsActive() override;
+};
+
 #endif

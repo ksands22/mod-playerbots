@@ -6,6 +6,7 @@
 
 #include "UPTriggers.h"
 #include "AiObjectContext.h"
+#include "EncounterHelpers.h"
 #include "Playerbots.h"
 
 bool SkadiFreezingCloudTrigger::IsActive()
@@ -58,4 +59,10 @@ bool YmironBaneTrigger::IsActive()
     if (!boss) { return false; }
 
     return boss->FindCurrentSpellBySpellId(SPELL_BANE) || boss->HasAura(SPELL_BANE);
+}
+
+bool SvalaIsActiveTrigger::IsActive()
+{
+    return EncounterHelpers::IsMechanicTrackerBot(bot, UP_MAP_ID) &&
+           AI_VALUE2(Unit*, "find target", "svala sorrowgrave");
 }

@@ -311,7 +311,8 @@ Playerbots.TwoRoundsGearInit = 0
 # Default: 0 (disabled)
 Playerbots.FreeMethodLoot = 0
 
-# Bots' Roll level bots will use for items they Need (0 = pass, 1 = greed, 2 = need)
+# Bots' Roll level bots will use for items they Need (0 = pass, 1 = greed, 2 = need,
+# 3 = need, but greed on cloth/leather/mail/plate that is not the bot's primary armor type)
 # Default: 1 (greed)
 Playerbots.LootNeedRollLevel = 1
 

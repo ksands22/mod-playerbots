@@ -10,6 +10,7 @@
 #include "Common.h"
 #include "ObjectGuid.h"
 #include "Position.h"
+#include <functional>
 #include <initializer_list>
 #include <optional>
 #include <string>
@@ -53,6 +54,11 @@ bool IsMechanicTrackerBot(Player* bot, uint32 mapId);
 Player* GetGroupMainTank(Player* bot);
 Player* GetGroupAssistTank(Player* bot, uint8 index);
 Player* GetNearestPlayerInRadius(Player* bot, float radius);
+// The one tank that takes a boss over: the first of the main tank and the first two assist tanks
+// that is not `current` and not ruled out by `skip`. Several tanks taunting at once only steal
+// the boss from each other.
+Player* GetTakeoverTank(Player* bot, Unit const* current, std::function<bool(Player const*)> const& skip = {});
+uint32 GetAuraStackAmount(Unit const* unit, uint32 spellId);
 std::vector<Position> GetDynamicObjectPositions(Player* bot, float searchRadius, uint32 spellId);
 uint32 GetSelfImmunitySpell(Player* bot);
 bool IsDpsCooldownAction(Player* bot, Action* action);
@@ -110,9 +116,12 @@ struct ClassRoleSlot
 };
 
 // Priority from ClassRoleChoiceReason. Ties go to the highest gear score, then the lowest GUID.
-ClassRoleChoice FindClassRoleChoice(PlayerbotAI* botAI, uint32 mapId, ClassRole const& role);
+// Players in excluded are skipped.
+ClassRoleChoice FindClassRoleChoice(
+    PlayerbotAI* botAI, uint32 mapId, ClassRole const& role, GuidSet const& excluded = {});
 // Out of encounters, picks every class role player again. During one, picks a player only if the
-// role is empty or its player has died or left, and announces the handover.
+// role is empty or its player has died or left, and announces the handover. A player holds at most
+// one of the roles in slots, so two roles of the same class go to different players.
 bool UpdateClassRoleAssignments(
     PlayerbotAI* botAI, uint32 mapId, std::initializer_list<ClassRoleSlot> slots);
 // Announces any unannounced choice once the bot is within 2D announceDistance of the boss's spawn

@@ -5,6 +5,7 @@
  */
 
 #include "ACTriggers.h"
+#include "EncounterHelpers.h"
 #include "Playerbots.h"
 
 // Shirrak the Dead Watcher
@@ -27,4 +28,10 @@ bool ShirrakRangedKeepDistanceTrigger::IsActive()
 {
     return PlayerbotAI::IsRanged(bot) &&
         AI_VALUE2(Unit*, "find target", "shirrak the dead watcher");
+}
+
+bool MaladaarIsActiveTrigger::IsActive()
+{
+    return EncounterHelpers::IsMechanicTrackerBot(bot, AC_MAP_ID) &&
+           AI_VALUE2(Unit*, "find target", "exarch maladaar");
 }

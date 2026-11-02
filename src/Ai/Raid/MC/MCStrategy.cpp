@@ -87,6 +87,32 @@ void RaidMcStrategy::InitTriggers(std::vector<TriggerNode*>& triggers)
         new TriggerNode("mc ragnaros fire resistance",
                         { NextAction("mc ragnaros fire resistance", ACTION_RAID) }));
 
+    // Lucifron, Gehennas, Sulfuron Harbinger, Majordomo Executus, Ragnaros: adds die first
+    triggers.push_back(
+        new TriggerNode("mc kill order mark",
+                        { NextAction("mc kill order mark", ACTION_RAID) }));
+
+    // Sulfuron Harbinger
+    triggers.push_back(
+        new TriggerNode("mc sulfuron dark mending",
+                        { NextAction("mc sulfuron interrupt dark mending", ACTION_RAID) }));
+
+    // Majordomo Executus
+    triggers.push_back(
+        new TriggerNode("mc majordomo reflection",
+                        { NextAction("mc majordomo stop attacking", ACTION_RAID) }));
+
+    // Ragnaros
+    triggers.push_back(
+        new TriggerNode("mc ragnaros ranged too close",
+                        { NextAction("mc ragnaros move away", ACTION_RAID) }));
+    triggers.push_back(
+        new TriggerNode("mc ragnaros ranged spread",
+                        { NextAction("mc ragnaros spread", ACTION_RAID) }));
+    triggers.push_back(
+        new TriggerNode("mc ragnaros wrath soon",
+                        { NextAction("mc ragnaros melee step out", ACTION_RAID) }));
+
     // Trash
     triggers.push_back(
         new TriggerNode("mc core hound mark",
@@ -103,6 +129,7 @@ void RaidMcStrategy::InitMultipliers(std::vector<Multiplier*>& multipliers)
     multipliers.push_back(new GarrDisableDpsAoeMultiplier(botAI));
     multipliers.push_back(new BaronGeddonAbilityMultiplier(botAI));
     multipliers.push_back(new GolemaggMultiplier(botAI));
+    multipliers.push_back(new MajordomoReflectionMultiplier(botAI));
 }
 
 void RaidMcStrategy::AppendTargetExclusions(GuidSet& exclusions, TargetValueExclusionType type)

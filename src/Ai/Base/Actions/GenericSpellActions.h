@@ -227,6 +227,7 @@ public:
 
     Value<Unit*>* GetTargetValue() override;
     std::string const getName() override { return PartyMemberActionNameSupport::getName(); }
+    uint32 GetDispelType() const { return dispelType; }
 
 protected:
     uint32 dispelType;

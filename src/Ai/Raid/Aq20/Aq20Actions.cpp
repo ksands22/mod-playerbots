@@ -5,7 +5,13 @@
  */
 
 #include "Aq20Actions.h"
+#include "Aq20Helpers.h"
 #include "Aq20Utils.h"
+#include "EncounterHelpers.h"
+#include <cmath>
+
+using namespace Aq20Helpers;
+using namespace EncounterHelpers;
 
 bool Aq20UseCrystalAction::Execute(Event /*event*/)
 {
@@ -49,4 +55,82 @@ bool Aq20UseCrystalAction::Execute(Event /*event*/)
         }
     }
     return false;
+}
+
+bool Aq20KillOrderMarkAction::Execute(Event /*event*/)
+{
+    return MarkTargetWithSkull(bot, GetKillOrderMarkTarget(botAI));
+}
+
+bool Aq20CcMarkAction::Execute(Event /*event*/)
+{
+    return MarkTargetWithMoon(bot, GetCcMarkTarget(botAI));
+}
+
+bool Aq20KurinnaxxTauntAction::Execute(Event event)
+{
+    Unit* boss = AI_VALUE2(Unit*, "find target", "kurinnaxx");
+    if (!boss)
+        return false;
+
+    if (bot->GetVictim() != boss)
+        return Attack(boss);
+
+    return botAI->DoSpecificAction("taunt spell", event, true);
+}
+
+bool Aq20MoamDrainManaAction::Execute(Event /*event*/)
+{
+    Unit* boss = AI_VALUE2(Unit*, "find target", "moam");
+    if (!boss)
+        return false;
+
+    // Each class's own mana drain from the guides: Drain Mana, Mana Burn, Viper Sting.
+    char const* spell = nullptr;
+    switch (bot->getClass())
+    {
+        case CLASS_WARLOCK:
+            spell = "drain mana";
+            break;
+        case CLASS_PRIEST:
+            spell = "mana burn";
+            break;
+        case CLASS_HUNTER:
+            spell = "viper sting";
+            break;
+        default:
+            return false;
+    }
+
+    return botAI->CanCastSpell(spell, boss) && botAI->CastSpell(spell, boss);
+}
+
+bool Aq20AyamissAttackLarvaAction::Execute(Event /*event*/)
+{
+    Unit* larva = GetNearestNpc(botAI, NPC_HIVEZARA_LARVA, AQ20_ADD_SEARCH_DISTANCE);
+    return larva && Attack(larva);
+}
+
+bool Aq20BuruKiteToEggAction::Execute(Event /*event*/)
+{
+    Unit* buru = GetNearestNpc(botAI, NPC_BURU, AQ20_ADD_SEARCH_DISTANCE);
+    Unit* egg = GetNearestNpc(botAI, NPC_BURU_EGG, AQ20_ADD_SEARCH_DISTANCE);
+    if (!buru || !egg)
+        return false;
+
+    // Stand on the far side of the egg so Buru's path runs over it; the raid breaks it as he passes.
+    float const eggToBuruX = egg->GetPositionX() - buru->GetPositionX();
+    float const eggToBuruY = egg->GetPositionY() - buru->GetPositionY();
+    float const length = std::hypot(eggToBuruX, eggToBuruY);
+    if (length < 0.1f)
+        return false;
+
+    float const x = egg->GetPositionX() + eggToBuruX / length * BURU_KITE_BEYOND_EGG;
+    float const y = egg->GetPositionY() + eggToBuruY / length * BURU_KITE_BEYOND_EGG;
+    constexpr float ARRIVAL_DISTANCE = 2.0f;
+    if (bot->GetExactDist2d(x, y) <= ARRIVAL_DISTANCE)
+        return false;
+
+    return MoveTo(bot->GetMapId(), x, y, egg->GetPositionZ(), false, false, false, false,
+                  MovementPriority::MOVEMENT_COMBAT, true, false);
 }

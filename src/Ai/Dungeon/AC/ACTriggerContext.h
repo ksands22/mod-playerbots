@@ -24,6 +24,10 @@ public:
 
         creators["shirrak ranged keep distance"] =
             &TbcDungeonAuchenaiCryptsTriggerContext::shirrak_ranged_keep_distance;
+
+        // Exarch Maladaar
+        creators["maladaar is active"] =
+            &TbcDungeonAuchenaiCryptsTriggerContext::maladaar_is_active;
     }
 private:
     // Shirrak the Dead Watcher
@@ -35,6 +39,10 @@ private:
 
     static Trigger* shirrak_ranged_keep_distance(
         PlayerbotAI* botAI) { return new ShirrakRangedKeepDistanceTrigger(botAI); }
+
+    // Exarch Maladaar
+    static Trigger* maladaar_is_active(
+        PlayerbotAI* botAI) { return new MaladaarIsActiveTrigger(botAI); }
 };
 
 #endif

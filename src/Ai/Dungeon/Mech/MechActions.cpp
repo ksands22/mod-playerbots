@@ -534,3 +534,16 @@ bool SepethreaFocusBossAction::Execute(Event)
 
     return false;
 }
+
+bool IronhandAvoidJackhammerAction::Execute(Event /*event*/)
+{
+    Unit* ironhand = AI_VALUE2(Unit*, "find target", "gatewatcher iron-hand");
+    if (!ironhand)
+        return false;
+
+    float const distance = bot->GetExactDist2d(ironhand);
+    if (distance >= MechanarIronhand::JACKHAMMER_SAFE_DISTANCE)
+        return false;
+
+    return MoveAway(ironhand, MechanarIronhand::JACKHAMMER_SAFE_DISTANCE - distance);
+}

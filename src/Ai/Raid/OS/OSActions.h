@@ -67,4 +67,11 @@ public:
     bool Execute(Event event) override;
 };
 
+class OsTankLavaBlazeAction : public AttackAction
+{
+public:
+    OsTankLavaBlazeAction(PlayerbotAI* botAI) : AttackAction(botAI, "os tank lava blaze") {}
+    bool Execute(Event event) override;
+};
+
 #endif

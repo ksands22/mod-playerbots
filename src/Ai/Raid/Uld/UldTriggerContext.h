@@ -9,6 +9,7 @@
 
 #include "BossAuraTriggers.h"
 #include "NamedObjectContext.h"
+#include "UldExtraTriggers.h"
 #include "UldTriggers.h"
 
 class RaidUlduarTriggerContext : public NamedObjectContext<Trigger>
@@ -69,7 +70,7 @@ public:
         creators["vezax mark of the faceless trigger"] = &RaidUlduarTriggerContext::vezax_mark_of_the_faceless_trigger;
         creators["vezax shadow resistance trigger"] = &RaidUlduarTriggerContext::vezax_shadow_resistance_trigger;
         creators["sara shadow resistance trigger"] = &RaidUlduarTriggerContext::sara_shadow_resistance_trigger;
-        creators["yogg-saron shadow resistance triggerr"] = &RaidUlduarTriggerContext::yogg_saron_shadow_resistance_trigger;
+        creators["yogg-saron shadow resistance trigger"] = &RaidUlduarTriggerContext::yogg_saron_shadow_resistance_trigger;
         creators["yogg-saron ominous cloud cheat trigger"] = &RaidUlduarTriggerContext::yogg_saron_ominous_cloud_cheat_trigger;
         creators["yogg-saron guardian positioning trigger"] = &RaidUlduarTriggerContext::yogg_saron_guardian_positioning_trigger;
         creators["yogg-saron sanity trigger"] = &RaidUlduarTriggerContext::yogg_saron_sanity_trigger;
@@ -79,6 +80,28 @@ public:
         creators["yogg-saron brain link trigger"] = &RaidUlduarTriggerContext::yogg_saron_brain_link_trigger;
         creators["yogg-saron move to enter portal trigger"] = &RaidUlduarTriggerContext::yogg_saron_move_to_enter_portal_trigger;
         creators["yogg-saron use portal trigger"] = &RaidUlduarTriggerContext::yogg_saron_use_portal_trigger;
+        creators["uld kill order mark"] = &RaidUlduarTriggerContext::uld_kill_order_mark;
+        creators["uld off-tank add"] = &RaidUlduarTriggerContext::uld_off_tank_add;
+        creators["uld ignis construct"] = &RaidUlduarTriggerContext::uld_ignis_construct;
+        creators["uld razorscale melee"] = &RaidUlduarTriggerContext::uld_razorscale_melee;
+        creators["uld yogg ominous cloud"] = &RaidUlduarTriggerContext::uld_yogg_ominous_cloud;
+        creators["uld mimiron proximity mine"] = &RaidUlduarTriggerContext::uld_mimiron_proximity_mine;
+        creators["uld freya iron roots"] = &RaidUlduarTriggerContext::uld_freya_iron_roots;
+        creators["uld freya nature's fury"] = &RaidUlduarTriggerContext::uld_freya_natures_fury;
+        creators["uld freya sun beam"] = &RaidUlduarTriggerContext::uld_freya_sun_beam;
+        creators["uld hodir toasty fire"] = &RaidUlduarTriggerContext::uld_hodir_toasty_fire;
+        creators["uld hodir ice block"] = &RaidUlduarTriggerContext::uld_hodir_ice_block;
+        creators["uld hodir frozen blows"] = &RaidUlduarTriggerContext::uld_hodir_frozen_blows;
+        creators["uld kologarn crunch armor"] = &RaidUlduarTriggerContext::uld_kologarn_crunch_armor;
+        creators["uld ignis melee"] = &RaidUlduarTriggerContext::uld_ignis_melee;
+        creators["uld xt debuff"] = &RaidUlduarTriggerContext::uld_xt_debuff;
+        creators["uld xt bot add"] = &RaidUlduarTriggerContext::uld_xt_bot_add;
+        creators["uld auriaya stack"] = &RaidUlduarTriggerContext::uld_auriaya_stack;
+        creators["uld interrupt"] = &RaidUlduarTriggerContext::uld_interrupt;
+        creators["uld council tank"] = &RaidUlduarTriggerContext::uld_council_tank;
+        creators["uld algalon phase punch"] = &RaidUlduarTriggerContext::uld_algalon_phase_punch;
+        creators["uld algalon big bang"] = &RaidUlduarTriggerContext::uld_algalon_big_bang;
+        creators["uld algalon star"] = &RaidUlduarTriggerContext::uld_algalon_star;
         creators["yogg-saron fall from floor trigger"] = &RaidUlduarTriggerContext::yogg_saron_fall_from_floor_trigger;
         creators["yogg-saron boss room movement cheat trigger"] = &RaidUlduarTriggerContext::yogg_saron_boss_room_movement_cheat_trigger;
         creators["yogg-saron illusion room trigger"] = &RaidUlduarTriggerContext::yogg_saron_illusion_room_trigger;
@@ -151,6 +174,34 @@ private:
     static Trigger* yogg_saron_brain_link_trigger(PlayerbotAI* botAI) { return new YoggSaronBrainLinkTrigger(botAI); }
     static Trigger* yogg_saron_move_to_enter_portal_trigger(PlayerbotAI* botAI) { return new YoggSaronMoveToEnterPortalTrigger(botAI); }
     static Trigger* yogg_saron_use_portal_trigger(PlayerbotAI* botAI) { return new YoggSaronUsePortalTrigger(botAI); }
+    static Trigger* uld_kill_order_mark(PlayerbotAI* botAI) { return new UldKillOrderMarkTrigger(botAI); }
+    static Trigger* uld_off_tank_add(PlayerbotAI* botAI) { return new UldOffTankAddTrigger(botAI); }
+    static Trigger* uld_ignis_construct(PlayerbotAI* botAI) { return new UldIgnisConstructTrigger(botAI); }
+    static Trigger* uld_razorscale_melee(PlayerbotAI* botAI) { return new UldRazorscaleMeleeTrigger(botAI); }
+    static Trigger* uld_yogg_ominous_cloud(PlayerbotAI* botAI) { return new UldYoggOminousCloudTrigger(botAI); }
+    static Trigger* uld_mimiron_proximity_mine(PlayerbotAI* botAI)
+    {
+        return new UldMimironProximityMineTrigger(botAI);
+    }
+    static Trigger* uld_freya_iron_roots(PlayerbotAI* botAI) { return new UldFreyaIronRootsTrigger(botAI); }
+    static Trigger* uld_freya_natures_fury(PlayerbotAI* botAI) { return new UldFreyaNaturesFuryTrigger(botAI); }
+    static Trigger* uld_freya_sun_beam(PlayerbotAI* botAI) { return new UldFreyaSunBeamTrigger(botAI); }
+    static Trigger* uld_hodir_toasty_fire(PlayerbotAI* botAI) { return new UldHodirToastyFireTrigger(botAI); }
+    static Trigger* uld_hodir_ice_block(PlayerbotAI* botAI) { return new UldHodirIceBlockTrigger(botAI); }
+    static Trigger* uld_hodir_frozen_blows(PlayerbotAI* botAI) { return new UldHodirFrozenBlowsTrigger(botAI); }
+    static Trigger* uld_kologarn_crunch_armor(PlayerbotAI* botAI)
+    {
+        return new UldKologarnCrunchArmorTrigger(botAI);
+    }
+    static Trigger* uld_ignis_melee(PlayerbotAI* botAI) { return new UldIgnisMeleeTrigger(botAI); }
+    static Trigger* uld_xt_debuff(PlayerbotAI* botAI) { return new UldXtDebuffTrigger(botAI); }
+    static Trigger* uld_xt_bot_add(PlayerbotAI* botAI) { return new UldXtBotAddTrigger(botAI); }
+    static Trigger* uld_auriaya_stack(PlayerbotAI* botAI) { return new UldAuriayaStackTrigger(botAI); }
+    static Trigger* uld_interrupt(PlayerbotAI* botAI) { return new UldInterruptTrigger(botAI); }
+    static Trigger* uld_council_tank(PlayerbotAI* botAI) { return new UldCouncilTankTrigger(botAI); }
+    static Trigger* uld_algalon_phase_punch(PlayerbotAI* botAI) { return new UldAlgalonPhasePunchTrigger(botAI); }
+    static Trigger* uld_algalon_big_bang(PlayerbotAI* botAI) { return new UldAlgalonBigBangTrigger(botAI); }
+    static Trigger* uld_algalon_star(PlayerbotAI* botAI) { return new UldAlgalonStarTrigger(botAI); }
     static Trigger* yogg_saron_fall_from_floor_trigger(PlayerbotAI* botAI) { return new YoggSaronFallFromFloorTrigger(botAI); }
     static Trigger* yogg_saron_boss_room_movement_cheat_trigger(PlayerbotAI* botAI) { return new YoggSaronBossRoomMovementCheatTrigger(botAI); }
     static Trigger* yogg_saron_illusion_room_trigger(PlayerbotAI* botAI) { return new YoggSaronIllusionRoomTrigger(botAI); }

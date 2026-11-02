@@ -6,6 +6,7 @@
 
 #include "MgTActions.h"
 #include "AiObjectContext.h"
+#include "DungeonHelpers.h"
 #include "EncounterHelpers.h"
 #include "MgTShared.h"
 #include "Playerbots.h"
@@ -188,4 +189,9 @@ bool MgTTakeLapseSpotAction::Execute(Event)
 
     return MoveTo(bot->GetMapId(), spot.x, spot.y, z, false, false, false, false,
                   MovementPriority::MOVEMENT_COMBAT, true, false);
+}
+
+bool MgTVexallusMarkPureEnergyAction::Execute(Event /*event*/)
+{
+    return DungeonHelpers::MarkNearestWithSkull(botAI, {MagistersTerrace::NPC_PURE_ENERGY});
 }

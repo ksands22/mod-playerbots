@@ -18,11 +18,17 @@ class WotlkDungeonOKActionContext : public NamedObjectContext<Action>
             creators["attack nadox guardian"] = &WotlkDungeonOKActionContext::attack_nadox_guardian;
             creators["attack jedoga volunteer"] = &WotlkDungeonOKActionContext::attack_jedoga_volunteer;
             creators["avoid shadow crash"] = &WotlkDungeonOKActionContext::avoid_shadow_crash;
+            creators["amanitar seek healthy mushroom"] =
+                &WotlkDungeonOKActionContext::amanitar_seek_healthy_mushroom;
         }
     private:
         static Action* attack_nadox_guardian(PlayerbotAI* botAI) { return new AttackNadoxGuardianAction(botAI); }
         static Action* attack_jedoga_volunteer(PlayerbotAI* botAI) { return new AttackJedogaVolunteerAction(botAI); }
         static Action* avoid_shadow_crash(PlayerbotAI* botAI) { return new AvoidShadowCrashAction(botAI); }
+        static Action* amanitar_seek_healthy_mushroom(PlayerbotAI* botAI)
+        {
+            return new AmanitarSeekHealthyMushroomAction(botAI);
+        }
 };
 
 #endif

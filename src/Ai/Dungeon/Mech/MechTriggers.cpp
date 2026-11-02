@@ -49,3 +49,14 @@ bool SepethreaFocusBossTrigger::IsActive()
 {
     return MechanarFlames::GetSepethrea(bot) != nullptr;
 }
+
+bool IronhandJackhammerTrigger::IsActive()
+{
+    Unit* ironhand = AI_VALUE2(Unit*, "find target", "gatewatcher iron-hand");
+    // A channel may carry its aura on the targets rather than the caster, so check the channel too
+    if (!ironhand || (!ironhand->HasAura(MechanarIronhand::SPELL_JACKHAMMER) &&
+                      !ironhand->FindCurrentSpellBySpellId(MechanarIronhand::SPELL_JACKHAMMER)))
+        return false;
+
+    return bot->GetExactDist2d(ironhand) < MechanarIronhand::JACKHAMMER_SAFE_DISTANCE;
+}

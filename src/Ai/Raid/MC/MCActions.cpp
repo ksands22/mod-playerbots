@@ -5,10 +5,15 @@
  */
 
 #include "MCActions.h"
+#include "EncounterHelpers.h"
 #include "MCHelpers.h"
 #include "Playerbots.h"
 #include "RtiTargetValue.h"
+#include "SpellInfo.h"
+#include "SpellMgr.h"
 #include <algorithm>
+#include <array>
+#include <cmath>
 
 static constexpr float LIVING_BOMB_DISTANCE = 20.0f;
 static constexpr float INFERNO_DISTANCE = 20.0f;
@@ -24,6 +29,10 @@ static constexpr float HEALER_POSITION_TOLERANCE = 8.0f;
 static constexpr float GOLEMAGGS_TRUST_DISTANCE = 30.0f;
 static constexpr float CORE_RAGER_STEP_DISTANCE = 5.0f;
 
+static constexpr std::array<char const*, 7> DARK_MENDING_INTERRUPTS = {
+    "kick", "pummel", "shield bash", "wind shear", "counterspell", "mind freeze", "silencing shot"};
+
+using namespace EncounterHelpers;
 using namespace MoltenCoreHelpers;
 
 bool McMoveFromGroupAction::Execute(Event /*event*/)
@@ -339,5 +348,100 @@ bool McCoreHoundMarkAction::Execute(Event /*event*/)
         return false;
 
     bot->GetGroup()->SetTargetIcon(RtiTargetValue::skullIndex, bot->GetGUID(), target->GetGUID());
+    return true;
+}
+
+bool McKillOrderMarkAction::Execute(Event /*event*/)
+{
+    return MarkTargetWithSkull(bot, GetKillOrderMarkTarget(botAI));
+}
+
+bool McSulfuronInterruptDarkMendingAction::Execute(Event /*event*/)
+{
+    Unit* priest = GetDarkMendingCaster(botAI);
+    if (!priest)
+        return false;
+
+    for (char const* name : DARK_MENDING_INTERRUPTS)
+    {
+        uint32 const spellId = AI_VALUE2(uint32, "spell id", name);
+        SpellInfo const* spellInfo = spellId ? sSpellMgr->GetSpellInfo(spellId) : nullptr;
+        if (!spellInfo || !bot->IsWithinCombatRange(priest, spellInfo->GetMaxRange(false)))
+            continue;
+
+        if (botAI->CanCastSpell(name, priest) && botAI->CastSpell(name, priest))
+            return true;
+    }
+    return false;
+}
+
+bool McMajordomoStopAttackingAction::Execute(Event /*event*/)
+{
+    if (!GetReflectedAttackTarget(bot))
+        return false;
+
+    if (PlayerbotAI::IsCaster(bot))
+        bot->CastStop();
+    else
+        bot->AttackStop();
+
+    return true;
+}
+
+bool McRagnarosMoveAwayAction::Execute(Event /*event*/)
+{
+    Unit* boss = AI_VALUE2(Unit*, "find target", "ragnaros");
+    if (!boss)
+        return false;
+
+    float const distToTravel = RAGNAROS_WRATH_SAFE_DISTANCE - bot->GetExactDist2d(boss);
+    if (distToTravel <= 0.0f)
+        return false;
+
+    return MoveAway(boss, distToTravel);
+}
+
+bool McRagnarosSpreadAction::Execute(Event /*event*/)
+{
+    Unit* boss = AI_VALUE2(Unit*, "find target", "ragnaros");
+    Player* nearest = GetNearestPlayerInRadius(bot, RAGNAROS_SPREAD_DISTANCE);
+    if (!boss || !nearest)
+        return false;
+
+    // Slide along the ring around Ragnaros, away from the nearest member: stepping straight
+    // away from them could cross into Wrath of Ragnaros range or out of spell range.
+    float const radius = std::max(bot->GetExactDist2d(boss), RAGNAROS_WRATH_SAFE_DISTANCE);
+    constexpr float MIN_SPREAD_STEP = 2.0f;
+    float const step = std::max(RAGNAROS_SPREAD_DISTANCE - bot->GetExactDist2d(nearest), MIN_SPREAD_STEP);
+    float const botAngle = boss->GetAngle(bot);
+    float const nearestOffset = Position::NormalizeOrientation(boss->GetAngle(nearest) - botAngle);
+    float const direction = nearestOffset < M_PI ? -1.0f : 1.0f;
+    float const angle = botAngle + direction * step / radius;
+
+    float x;
+    float y;
+    float z;
+    if (!CanTakeStepTowards(bot, boss->GetPositionX() + radius * std::cos(angle),
+                            boss->GetPositionY() + radius * std::sin(angle), step, x, y, z) ||
+        IsMagmaAt(bot, x, y, z))
+        return false;
+
+    return MoveTo(bot->GetMapId(), x, y, z, false, false, false, false, MovementPriority::MOVEMENT_COMBAT, true,
+                  false);
+}
+
+bool McRagnarosMeleeStepOutAction::Execute(Event /*event*/)
+{
+    Unit* boss = AI_VALUE2(Unit*, "find target", "ragnaros");
+    if (!boss)
+        return false;
+
+    float const distToTravel = RAGNAROS_WRATH_SAFE_DISTANCE - bot->GetExactDist2d(boss);
+    if (distToTravel <= 0.0f || !MoveAway(boss, distToTravel))
+        return false;
+
+    // Hold the AI through the knockback so melee reach doesn't walk the bot straight back in;
+    // it re-engages on its own once the hold ends.
+    botAI->SetNextCheckDelay(RAGNAROS_WRATH_HOLD_MS);
     return true;
 }

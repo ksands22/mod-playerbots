@@ -18,11 +18,13 @@ class WotlkDungeonUPTriggerContext : public NamedObjectContext<Trigger>
             creators["freezing cloud"] = &WotlkDungeonUPTriggerContext::freezing_cloud;
             creators["skadi whirlwind"] = &WotlkDungeonUPTriggerContext::whirlwind;
             creators["ymiron bane"] = &WotlkDungeonUPTriggerContext::bane;
+            creators["svala is active"] = &WotlkDungeonUPTriggerContext::svala_is_active;
         }
     private:
         static Trigger* freezing_cloud(PlayerbotAI* botAI) { return new SkadiFreezingCloudTrigger(botAI); }
         static Trigger* whirlwind(PlayerbotAI* botAI) { return new SkadiWhirlwindTrigger(botAI); }
         static Trigger* bane(PlayerbotAI* botAI) { return new YmironBaneTrigger(botAI); }
+        static Trigger* svala_is_active(PlayerbotAI* botAI) { return new SvalaIsActiveTrigger(botAI); }
 };
 
 #endif

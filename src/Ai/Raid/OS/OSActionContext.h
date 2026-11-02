@@ -22,6 +22,7 @@ public:
         creators["sartharion attack priority"] = &RaidOsActionContext::attack_priority;
         creators["enter twilight portal"] = &RaidOsActionContext::enter_twilight_portal;
         creators["exit twilight portal"] = &RaidOsActionContext::exit_twilight_portal;
+        creators["os tank lava blaze"] = &RaidOsActionContext::tank_lava_blaze;
     }
 
 private:
@@ -31,6 +32,7 @@ private:
     static Action* attack_priority(PlayerbotAI* botAI) { return new SartharionAttackPriorityAction(botAI); }
     static Action* enter_twilight_portal(PlayerbotAI* botAI) { return new EnterTwilightPortalAction(botAI); }
     static Action* exit_twilight_portal(PlayerbotAI* botAI) { return new ExitTwilightPortalAction(botAI); }
+    static Action* tank_lava_blaze(PlayerbotAI* botAI) { return new OsTankLavaBlazeAction(botAI); }
 };
 
 #endif

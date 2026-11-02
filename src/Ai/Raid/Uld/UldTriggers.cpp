@@ -510,7 +510,7 @@ bool KologarnCrunchArmorTrigger::IsActive()
     if (!boss || !boss->IsAlive())
         return false;
 
-    return bot->HasAura(SPELL_CRUNCH_ARMOR);
+    return bot->HasAura(SPELL_CRUNCH_ARMOR) || bot->HasAura(SPELL_CRUNCH_ARMOR_10);
 }
 
 bool AuriayaFallFromFloorTrigger::IsActive()
@@ -559,7 +559,7 @@ bool HodirNearSnowpackedIcicleTrigger::IsActive()
     }
 
     // Find the nearest Snowpacked Icicle Target
-    Creature* target = bot->FindNearestCreature(NPC_SNOWPACKED_ICICLE, 100.0f);
+    Creature* target = FindSnowpackedIcicle(bot);
     if (!target)
         return false;
 

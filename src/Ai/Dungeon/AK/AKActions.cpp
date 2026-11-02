@@ -5,6 +5,7 @@
  */
 
 #include "AKActions.h"
+#include "DungeonHelpers.h"
 #include "Playerbots.h"
 
 bool AttackNadoxGuardianAction::Execute(Event /*event*/)
@@ -89,4 +90,20 @@ bool AvoidShadowCrashAction::Execute(Event /*event*/)
         }
     }
     return false;
+}
+
+// Kill the mushroom from up close, since its Potent Fungus only reaches players within 4 yd
+bool AmanitarSeekHealthyMushroomAction::Execute(Event /*event*/)
+{
+    Unit* mushroom = DungeonHelpers::FindNearestOfEntries(botAI, {NPC_HEALTHY_MUSHROOM});
+    if (!mushroom)
+        return false;
+
+    if (bot->GetExactDist2d(mushroom) > POTENT_FUNGUS_RANGE)
+        return MoveTo(mushroom, POTENT_FUNGUS_RANGE - 1.0f);
+
+    if (AI_VALUE(Unit*, "current target") == mushroom)
+        return false;
+
+    return Attack(mushroom);
 }

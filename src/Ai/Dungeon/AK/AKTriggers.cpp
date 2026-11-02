@@ -6,6 +6,7 @@
 
 #include "AKTriggers.h"
 #include "AiObjectContext.h"
+#include "DungeonHelpers.h"
 #include "Playerbots.h"
 
 bool NadoxGuardianTrigger::IsActive()
@@ -44,4 +45,9 @@ bool ShadowCrashTrigger::IsActive()
     if (!unit) { return false; }
 
     return !PlayerbotAI::IsMelee(bot);
+}
+
+bool AmanitarMiniTrigger::IsActive()
+{
+    return bot->HasAura(SPELL_MINI) && DungeonHelpers::FindNearestOfEntries(botAI, {NPC_HEALTHY_MUSHROOM});
 }

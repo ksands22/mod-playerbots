@@ -34,4 +34,11 @@ public:
     bool Execute(Event event) override;
 };
 
+class AmanitarSeekHealthyMushroomAction : public AttackAction
+{
+public:
+    AmanitarSeekHealthyMushroomAction(PlayerbotAI* botAI) : AttackAction(botAI, "amanitar seek healthy mushroom") {}
+    bool Execute(Event event) override;
+};
+
 #endif

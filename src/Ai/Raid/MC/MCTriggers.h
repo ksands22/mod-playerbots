@@ -82,4 +82,53 @@ public:
     bool IsActive() override;
 };
 
+class McKillOrderMarkTrigger : public Trigger
+{
+public:
+    McKillOrderMarkTrigger(PlayerbotAI* botAI) : Trigger(botAI, "mc kill order mark") {}
+    bool IsActive() override;
+};
+
+class McSulfuronDarkMendingTrigger : public Trigger
+{
+public:
+    McSulfuronDarkMendingTrigger(PlayerbotAI* botAI) : Trigger(botAI, "mc sulfuron dark mending") {}
+    bool IsActive() override;
+};
+
+class McMajordomoReflectionTrigger : public Trigger
+{
+public:
+    McMajordomoReflectionTrigger(PlayerbotAI* botAI) : Trigger(botAI, "mc majordomo reflection") {}
+    bool IsActive() override;
+};
+
+class McRagnarosRangedTooCloseTrigger : public Trigger
+{
+public:
+    McRagnarosRangedTooCloseTrigger(PlayerbotAI* botAI) : Trigger(botAI, "mc ragnaros ranged too close") {}
+    bool IsActive() override;
+};
+
+// Checked every 2s: finding the nearest raid member walks the whole group.
+class McRagnarosRangedSpreadTrigger : public Trigger
+{
+public:
+    McRagnarosRangedSpreadTrigger(PlayerbotAI* botAI) : Trigger(botAI, "mc ragnaros ranged spread", 2) {}
+    bool IsActive() override;
+};
+
+// Each bot times Wrath of Ragnaros from the moment it sees him engage or emerge. A bot that joins
+// mid-phase (late arrival, battle rez) starts its clock late and may be knocked back that phase.
+class McRagnarosWrathSoonTrigger : public Trigger
+{
+public:
+    McRagnarosWrathSoonTrigger(PlayerbotAI* botAI) : Trigger(botAI, "mc ragnaros wrath soon") {}
+    bool IsActive() override;
+
+private:
+    uint32 _phaseStartMs = 0;
+    uint32 _lastSeenMs = 0;
+};
+
 #endif

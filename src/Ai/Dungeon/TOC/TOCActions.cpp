@@ -6,6 +6,7 @@
 
 #include "TOCActions.h"
 #include "AttackersValue.h"
+#include "DungeonHelpers.h"
 #include "CellImpl.h"
 #include "GenericSpellActions.h"
 #include "GridNotifiers.h"
@@ -739,4 +740,14 @@ bool ToCEadricAction::Execute(Event /*event*/)
     }
 
     return false;
+}
+
+bool ToCAvoidGhoulExplodeAction::Execute(Event /*event*/)
+{
+    Unit* ghoul = DungeonHelpers::FindNearbyCaster(botAI, {SPELL_GHOUL_EXPLODE_N, SPELL_GHOUL_EXPLODE_H},
+                                                   GHOUL_EXPLODE_SAFE_DISTANCE);
+    if (!ghoul)
+        return false;
+
+    return MoveAway(ghoul, GHOUL_EXPLODE_SAFE_DISTANCE - bot->GetExactDist2d(ghoul));
 }

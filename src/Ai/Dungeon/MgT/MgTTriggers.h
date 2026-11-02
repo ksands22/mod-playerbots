@@ -122,4 +122,11 @@ public:
     bool IsActive() override;
 };
 
+class MgTVexallusActiveTrigger : public Trigger
+{
+public:
+    MgTVexallusActiveTrigger(PlayerbotAI* botAI) : Trigger(botAI, "mgt vexallus active") {}
+    bool IsActive() override;
+};
+
 #endif
