@@ -55,6 +55,15 @@ public:
         creators["shade of akama melee dps prioritize channelers"] =
             &RaidBlackTempleActionContext::shade_of_akama_melee_dps_prioritize_channelers;
 
+        creators["shade of akama ranged kill sorcerer"] =
+            &RaidBlackTempleActionContext::shade_of_akama_ranged_kill_sorcerer;
+
+        creators["shade of akama assist tank pick up defender"] =
+            &RaidBlackTempleActionContext::shade_of_akama_assist_tank_pick_up_defender;
+
+        creators["shade of akama interrupt spiritbinder"] =
+            &RaidBlackTempleActionContext::shade_of_akama_interrupt_spiritbinder;
+
         // Teron Gorefiend
         creators["teron gorefiend misdirect boss to main tank"] =
             &RaidBlackTempleActionContext::teron_gorefiend_misdirect_boss_to_main_tank;
@@ -264,6 +273,21 @@ private:
     static Action* shade_of_akama_melee_dps_prioritize_channelers(PlayerbotAI* botAI)
     {
         return new ShadeOfAkamaMeleeDpsPrioritizeChannelersAction(botAI);
+    }
+
+    static Action* shade_of_akama_ranged_kill_sorcerer(PlayerbotAI* botAI)
+    {
+        return new ShadeOfAkamaRangedKillSorcererAction(botAI);
+    }
+
+    static Action* shade_of_akama_assist_tank_pick_up_defender(PlayerbotAI* botAI)
+    {
+        return new ShadeOfAkamaAssistTankPickUpDefenderAction(botAI);
+    }
+
+    static Action* shade_of_akama_interrupt_spiritbinder(PlayerbotAI* botAI)
+    {
+        return new ShadeOfAkamaInterruptSpiritbinderAction(botAI);
     }
 
     // Teron Gorefiend

@@ -49,6 +49,15 @@ void RaidBlackTempleStrategy::InitTriggers(std::vector<TriggerNode*>& triggers)
     triggers.push_back(new TriggerNode("shade of akama killing channelers starts phase 2",
         { NextAction("shade of akama melee dps prioritize channelers", ACTION_RAID + 1) }));
 
+    triggers.push_back(new TriggerNode("shade of akama sorcerer is channeling",
+        { NextAction("shade of akama ranged kill sorcerer", ACTION_RAID + 1) }));
+
+    triggers.push_back(new TriggerNode("shade of akama defender is untanked",
+        { NextAction("shade of akama assist tank pick up defender", ACTION_RAID + 1) }));
+
+    triggers.push_back(new TriggerNode("shade of akama spiritbinder casts heal",
+        { NextAction("shade of akama interrupt spiritbinder", ACTION_EMERGENCY + 1) }));
+
     // Teron Gorefiend
     triggers.push_back(new TriggerNode("teron gorefiend pulling boss",
         { NextAction("teron gorefiend misdirect boss to main tank", ACTION_RAID + 2) }));

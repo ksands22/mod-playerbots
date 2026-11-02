@@ -28,6 +28,10 @@ enum class BlackTempleSpells : uint32
 {
     // High Warlord Naj'entus
     SPELL_IMPALING_SPINE            = 39837,
+
+    // Shade of Akama: the Ashtongue Spiritbinder's heals
+    SPELL_SPIRITBINDER_HEAL_1       = 42025,
+    SPELL_SPIRITBINDER_HEAL_2       = 42027,
     SPELL_TIDAL_SHIELD              = 39872,
 
     // Supremus
@@ -95,6 +99,9 @@ enum class BlackTempleNpcs : uint32
 
     // Shade of Akama
     NPC_ASHTONGUE_CHANNELER   = 23421,
+    NPC_ASHTONGUE_SORCERER    = 23215,
+    NPC_ASHTONGUE_DEFENDER    = 23216,
+    NPC_ASHTONGUE_SPIRITBINDER = 23524,
 
     // Teron Gorefiend
     NPC_SHADOWY_CONSTRUCT     = 23111,
@@ -144,6 +151,11 @@ bool HasSupremusVolcanoNearby(PlayerbotAI* botAI, Player* bot);
 // Shade of Akama
 extern const Position AKAMA_CHANNELER_POSITION;
 extern std::unordered_set<ObjectGuid> hasReachedAkamaChannelerPosition;
+Unit* GetNearestAkamaAdd(PlayerbotAI* botAI, uint32 entry);
+// An Ashtongue Defender attacking anyone but a tank, Akama included.
+Unit* GetUntankedAshtongueDefender(PlayerbotAI* botAI);
+// An Ashtongue Spiritbinder casting Spirit Mend or Chain Heal.
+Unit* GetSpiritbinderCastingHeal(PlayerbotAI* botAI);
 
 // Teron Gorefiend
 extern const Position GOREFIEND_TANK_POSITION;

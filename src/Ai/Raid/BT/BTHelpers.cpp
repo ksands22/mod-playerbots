@@ -7,6 +7,7 @@
 #include "BTHelpers.h"
 #include "EncounterHelpers.h"
 #include "Playerbots.h"
+#include <limits>
 
 using namespace EncounterHelpers;
 
@@ -40,6 +41,63 @@ bool HasSupremusVolcanoNearby(PlayerbotAI*, Player* bot)
 const Position AKAMA_CHANNELER_POSITION = { 467.851f, 401.622f, 118.538f };
 
 std::unordered_set<ObjectGuid> hasReachedAkamaChannelerPosition;
+
+Unit* GetNearestAkamaAdd(PlayerbotAI* botAI, uint32 entry)
+{
+    // The Sorcerers walk to the Shade without joining the fight, so search all nearby npcs.
+    Player* bot = botAI->GetBot();
+    Unit* nearest = nullptr;
+    float nearestDistance = std::numeric_limits<float>::max();
+    for (ObjectGuid const guid : botAI->GetAiObjectContext()->GetValue<GuidVector>("nearest npcs")->Get())
+    {
+        Unit* unit = botAI->GetUnit(guid);
+        if (!unit || !unit->IsAlive() || unit->GetEntry() != entry || !bot->IsValidAttackTarget(unit))
+            continue;
+
+        float const distance = bot->GetExactDist2d(unit);
+        if (distance < nearestDistance)
+        {
+            nearest = unit;
+            nearestDistance = distance;
+        }
+    }
+    return nearest;
+}
+
+Unit* GetUntankedAshtongueDefender(PlayerbotAI* botAI)
+{
+    for (ObjectGuid const guid : botAI->GetAiObjectContext()->GetValue<GuidVector>("possible targets")->Get())
+    {
+        Unit* unit = botAI->GetUnit(guid);
+        if (!unit || !unit->IsAlive() ||
+            unit->GetEntry() != static_cast<uint32>(BlackTempleNpcs::NPC_ASHTONGUE_DEFENDER))
+        {
+            continue;
+        }
+
+        Unit* victim = unit->GetVictim();
+        Player* victimPlayer = victim ? victim->ToPlayer() : nullptr;
+        if (!victimPlayer || !PlayerbotAI::IsTank(victimPlayer))
+            return unit;
+    }
+    return nullptr;
+}
+
+Unit* GetSpiritbinderCastingHeal(PlayerbotAI* botAI)
+{
+    for (ObjectGuid const guid : botAI->GetAiObjectContext()->GetValue<GuidVector>("possible targets")->Get())
+    {
+        Unit* unit = botAI->GetUnit(guid);
+        if (unit && unit->IsAlive() &&
+            unit->GetEntry() == static_cast<uint32>(BlackTempleNpcs::NPC_ASHTONGUE_SPIRITBINDER) &&
+            (unit->FindCurrentSpellBySpellId(static_cast<uint32>(BlackTempleSpells::SPELL_SPIRITBINDER_HEAL_1)) ||
+             unit->FindCurrentSpellBySpellId(static_cast<uint32>(BlackTempleSpells::SPELL_SPIRITBINDER_HEAL_2))))
+        {
+            return unit;
+        }
+    }
+    return nullptr;
+}
 
 // Teron Gorefiend
 const Position GOREFIEND_TANK_POSITION  = { 597.653f, 402.284f, 187.090f };
