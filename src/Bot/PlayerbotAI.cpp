@@ -1728,7 +1728,7 @@ void PlayerbotAI::ApplyInstanceStrategies(uint32 mapId, bool tellMaster)
         "aq20", "aq40", "blacktemple", "bwl", "gruulslair", "hyjal", "icc", "karazhan", "magtheridon",
         "moltencore", "naxx", "onyxia", "rs", "ssc", "sunwell", "tbc-ac", "tbc-arc", "tbc-bf", "tbc-bm",
         "tbc-bot", "tbc-mech", "tbc-mgt", "tbc-mt", "tbc-ohb", "tbc-ramp", "tbc-seth", "tbc-sl",
-        "tbc-sp", "tbc-sv", "tbc-ub", "tempestkeep", "ulduar", "vanilla-brd", "vanilla-brs",
+        "tbc-sp", "tbc-sv", "tbc-ub", "tempestkeep", "totc", "ulduar", "vanilla-brd", "vanilla-brs",
         "vanilla-dm", "vanilla-gnomer", "vanilla-mara", "vanilla-rfd", "vanilla-sm", "vanilla-st",
         "vanilla-uldaman", "vanilla-zf", "voa", "wotlk-an", "wotlk-cos", "wotlk-dtk", "wotlk-eoe",
         "wotlk-fos", "wotlk-gd", "wotlk-hol", "wotlk-hor", "wotlk-hos", "wotlk-nex", "wotlk-occ",
@@ -1921,6 +1921,9 @@ void PlayerbotAI::ApplyInstanceStrategies(uint32 mapId, bool tellMaster)
             break;
         case 632:
             strategyName = "wotlk-fos";  // The Forge of Souls
+            break;
+        case 649:
+            strategyName = "totc";  // Trial of the Crusader
             break;
         case 650:
             strategyName = "wotlk-toc";  // Trial of the Champion

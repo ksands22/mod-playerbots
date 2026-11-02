@@ -5,6 +5,7 @@
  */
 
 #include "OnyStrategy.h"
+#include "OnyMultipliers.h"
 
 void RaidOnyxiaStrategy::InitTriggers(std::vector<TriggerNode*>& triggers)
 {
@@ -28,9 +29,20 @@ void RaidOnyxiaStrategy::InitTriggers(std::vector<TriggerNode*>& triggers)
 
     triggers.push_back(new TriggerNode(
         "ony whelps spawn", { NextAction("ony kill whelps", ACTION_RAID + 1) }));
+
+    // ----------- Phase 3 (40% - 0%) -----------
+
+    triggers.push_back(new TriggerNode(
+        "ony phase 3 tremor totem", { NextAction("ony set tremor totem", ACTION_RAID + 1) }));
+
+    triggers.push_back(new TriggerNode(
+        "ony main tank needs fear ward", { NextAction("ony fear ward main tank", ACTION_RAID + 1) }));
+
+    triggers.push_back(new TriggerNode(
+        "ony bellowing roar", { NextAction("ony berserker rage", ACTION_EMERGENCY + 6) }));
 }
 
-void RaidOnyxiaStrategy::InitMultipliers(std::vector<Multiplier*>& /*multipliers*/)
+void RaidOnyxiaStrategy::InitMultipliers(std::vector<Multiplier*>& multipliers)
 {
-    // Empty for now
+    multipliers.push_back(new OnyxiaKeepTremorTotemMultiplier(botAI));
 }

@@ -112,4 +112,28 @@ public:
     bool Execute(Event event) override;
 };
 
+class OnyxiaSetTremorTotemAction : public Action
+{
+public:
+    OnyxiaSetTremorTotemAction(PlayerbotAI* botAI) : Action(botAI, "ony set tremor totem") {}
+
+    bool Execute(Event event) override;
+};
+
+class OnyxiaFearWardMainTankAction : public Action
+{
+public:
+    OnyxiaFearWardMainTankAction(PlayerbotAI* botAI) : Action(botAI, "ony fear ward main tank") {}
+
+    bool Execute(Event event) override;
+};
+
+class OnyxiaBerserkerRageAction : public Action
+{
+public:
+    OnyxiaBerserkerRageAction(PlayerbotAI* botAI) : Action(botAI, "ony berserker rage") {}
+
+    bool Execute(Event event) override;
+};
+
 #endif

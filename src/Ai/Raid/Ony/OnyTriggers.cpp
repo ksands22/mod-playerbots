@@ -5,11 +5,55 @@
  */
 
 #include "OnyTriggers.h"
+#include "EncounterHelpers.h"
 #include "GenericTriggers.h"
 #include "NearestNpcsValue.h"
 #include "ObjectAccessor.h"
 #include "PlayerbotAI.h"
 #include "Playerbots.h"
+#include "SpellMgr.h"
+
+using namespace OnyxiaHelpers;
+
+namespace OnyxiaHelpers
+{
+bool IsOnyxianWhelp(Unit const* unit)
+{
+    return unit && (unit->GetEntry() == NPC_ONYXIAN_WHELP || unit->GetEntry() == NPC_ONYXIAN_WHELP_40);
+}
+
+bool IsOnyxiaPhase3(Unit* onyxia)
+{
+    constexpr float PHASE_3_HEALTH_PCT = 40.0f;
+    return onyxia && onyxia->IsInCombat() && !onyxia->IsFlying() && onyxia->GetHealthPct() <= PHASE_3_HEALTH_PCT;
+}
+
+bool IsCastingDifficultySpell(Unit* caster, uint32 baseSpellId)
+{
+    if (!caster)
+        return false;
+
+    uint32 const difficultyId = sSpellMgr->GetSpellIdForDifficulty(baseSpellId, caster);
+    for (CurrentSpellTypes const type : { CURRENT_GENERIC_SPELL, CURRENT_CHANNELED_SPELL })
+    {
+        Spell* spell = caster->GetCurrentSpell(type);
+        if (spell && (spell->m_spellInfo->Id == baseSpellId || spell->m_spellInfo->Id == difficultyId))
+            return true;
+    }
+    return false;
+}
+
+Unit* GetOnyxianWhelp(PlayerbotAI* botAI)
+{
+    for (ObjectGuid const guid : botAI->GetAiObjectContext()->GetValue<GuidVector>("possible targets")->Get())
+    {
+        Unit* unit = botAI->GetUnit(guid);
+        if (unit && unit->IsAlive() && IsOnyxianWhelp(unit))
+            return unit;
+    }
+    return nullptr;
+}
+}
 
 OnyxiaDeepBreathTrigger::OnyxiaDeepBreathTrigger(PlayerbotAI* botAI) : Trigger(botAI, "ony deep breath warning") {}
 
@@ -64,13 +108,9 @@ RaidOnyxiaFireballSplashTrigger::RaidOnyxiaFireballSplashTrigger(PlayerbotAI* bo
 
 bool RaidOnyxiaFireballSplashTrigger::IsActive()
 {
+    // Fireball's 25-player and vanilla-raid versions are swapped in by difficulty.
     Unit* boss = AI_VALUE2(Unit*, "find target", "onyxia");
-    if (!boss || !boss->HasUnitState(UNIT_STATE_CASTING))
-        return false;
-
-    // Check if Onyxia is casting Fireball
-    Spell* currentSpell = boss->GetCurrentSpell(CURRENT_GENERIC_SPELL);
-    if (!currentSpell || !currentSpell->m_spellInfo || currentSpell->m_spellInfo->Id != 18392)  // 18392 is the classic Fireball ID  // 18392 is the classic Fireball ID
+    if (!IsCastingDifficultySpell(boss, SPELL_FIREBALL))
         return false;
 
     GuidVector nearbyUnits = AI_VALUE(GuidVector, "nearest friendly players");
@@ -93,10 +133,15 @@ RaidOnyxiaWhelpsSpawnTrigger::RaidOnyxiaWhelpsSpawnTrigger(PlayerbotAI* botAI) :
 bool RaidOnyxiaWhelpsSpawnTrigger::IsActive()
 {
     Unit* boss = AI_VALUE2(Unit*, "find target", "onyxia");
-    if (!boss)
+    if (!boss || PlayerbotAI::IsHeal(bot))
         return false;
 
-    return !PlayerbotAI::IsHeal(bot) && boss->IsFlying();  // DPS + Tanks only
+    // Phase 2: dps and tanks take the whelps while she flies.
+    if (boss->IsFlying())
+        return true;
+
+    // Phase 3: guides keep the dps on Onyxia; the off-tanks pick up the whelps that keep coming.
+    return IsOnyxiaPhase3(boss) && PlayerbotAI::IsAssistTank(bot) && GetOnyxianWhelp(botAI);
 }
 
 OnyxiaAvoidEggsTrigger::OnyxiaAvoidEggsTrigger(PlayerbotAI* botAI) : Trigger(botAI, "ony avoid eggs") {}
@@ -112,4 +157,46 @@ bool OnyxiaAvoidEggsTrigger::IsActive()
         return true;
 
     return false;
+}
+
+// Phase 3: guides put Fear Ward on the tank and Tremor Totem down against Bellowing Roar, and warriors
+// break it with Berserker Rage.
+
+OnyxiaPhase3TremorTotemTrigger::OnyxiaPhase3TremorTotemTrigger(PlayerbotAI* botAI)
+    : Trigger(botAI, "ony phase 3 tremor totem")
+{
+}
+
+bool OnyxiaPhase3TremorTotemTrigger::IsActive()
+{
+    if (bot->getClass() != CLASS_SHAMAN || AI_VALUE2(bool, "has totem", "tremor totem"))
+        return false;
+
+    return IsOnyxiaPhase3(AI_VALUE2(Unit*, "find target", "onyxia"));
+}
+
+OnyxiaMainTankNeedsFearWardTrigger::OnyxiaMainTankNeedsFearWardTrigger(PlayerbotAI* botAI)
+    : Trigger(botAI, "ony main tank needs fear ward")
+{
+}
+
+bool OnyxiaMainTankNeedsFearWardTrigger::IsActive()
+{
+    if (bot->getClass() != CLASS_PRIEST || !IsOnyxiaPhase3(AI_VALUE2(Unit*, "find target", "onyxia")))
+        return false;
+
+    Player* mainTank = EncounterHelpers::GetGroupMainTank(bot);
+    return mainTank && mainTank->IsAlive() && !mainTank->HasAura(SPELL_FEAR_WARD) &&
+           botAI->CanCastSpell(SPELL_FEAR_WARD, mainTank);
+}
+
+OnyxiaBellowingRoarTrigger::OnyxiaBellowingRoarTrigger(PlayerbotAI* botAI) : Trigger(botAI, "ony bellowing roar") {}
+
+bool OnyxiaBellowingRoarTrigger::IsActive()
+{
+    if (bot->getClass() != CLASS_WARRIOR)
+        return false;
+
+    return IsCastingDifficultySpell(AI_VALUE2(Unit*, "find target", "onyxia"), SPELL_BELLOWING_ROAR) &&
+           botAI->CanCastSpell("berserker rage", bot);
 }

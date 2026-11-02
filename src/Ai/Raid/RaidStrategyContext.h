@@ -26,6 +26,7 @@
 #include "SWPStrategy.h"
 #include "Strategy.h"
 #include "TKStrategy.h"
+#include "TotcStrategy.h"
 #include "UldStrategy.h"
 #include "VoAStrategy.h"
 #include "ZAStrategy.h"
@@ -51,6 +52,7 @@ public:
         creators["zulaman"] = &RaidStrategyContext::zulaman;
         creators["wotlk-os"] = &RaidStrategyContext::wotlk_os;
         creators["wotlk-eoe"] = &RaidStrategyContext::wotlk_eoe;
+        creators["totc"] = &RaidStrategyContext::totc;
         creators["voa"] = &RaidStrategyContext::voa;
         creators["ulduar"] = &RaidStrategyContext::ulduar;
         creators["uld hard mode"] = &RaidStrategyContext::uld_hard_mode;
@@ -77,6 +79,7 @@ private:
     static Strategy* zulaman(PlayerbotAI* botAI) { return new RaidZulAmanStrategy(botAI); }
     static Strategy* wotlk_os(PlayerbotAI* botAI) { return new RaidOsStrategy(botAI); }
     static Strategy* wotlk_eoe(PlayerbotAI* botAI) { return new RaidEoEStrategy(botAI); }
+    static Strategy* totc(PlayerbotAI* botAI) { return new RaidTrialOfTheCrusaderStrategy(botAI); }
     static Strategy* voa(PlayerbotAI* botAI) { return new RaidVoAStrategy(botAI); }
     static Strategy* onyxia(PlayerbotAI* botAI) { return new RaidOnyxiaStrategy(botAI); }
     static Strategy* ulduar(PlayerbotAI* botAI) { return new RaidUlduarStrategy(botAI); }
