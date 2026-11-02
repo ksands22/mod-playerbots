@@ -321,10 +321,10 @@ private:
 
 // Grand Widow Faerlina
 
-class NaxxFaerlinaMindControlAction : public Action
+class NaxxFaerlinaMindControlAction : public MovementAction
 {
 public:
-    NaxxFaerlinaMindControlAction(PlayerbotAI* botAI) : Action(botAI, "naxx faerlina mind control") {}
+    NaxxFaerlinaMindControlAction(PlayerbotAI* botAI) : MovementAction(botAI, "naxx faerlina mind control") {}
     bool Execute(Event event) override;
 };
 
