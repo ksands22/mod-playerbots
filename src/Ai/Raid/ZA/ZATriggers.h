@@ -225,6 +225,16 @@ protected:
     bool IsActiveInEncounter() override;
 };
 
+class HexLordMalacrassHealCastTrigger : public ZulAmanEncounterTrigger
+{
+public:
+    HexLordMalacrassHealCastTrigger(PlayerbotAI* botAI)
+        : ZulAmanEncounterTrigger(botAI, "hex lord malacrass heal cast") {}
+
+protected:
+    bool IsActiveInEncounter() override;
+};
+
 class HexLordMalacrassFreezingTrapPlacedTrigger : public ZulAmanEncounterTrigger
 {
 public:
@@ -282,6 +292,16 @@ class ZuljinSpreadForDragonhawkAoeTrigger : public ZulAmanEncounterTrigger
 public:
     ZuljinSpreadForDragonhawkAoeTrigger(PlayerbotAI* botAI)
         : ZulAmanEncounterTrigger(botAI, "zul'jin spread for dragonhawk aoe") {}
+
+protected:
+    bool IsActiveInEncounter() override;
+};
+
+class ZuljinStandingInColumnOfFireTrigger : public ZulAmanEncounterTrigger
+{
+public:
+    ZuljinStandingInColumnOfFireTrigger(PlayerbotAI* botAI)
+        : ZulAmanEncounterTrigger(botAI, "zul'jin standing in column of fire") {}
 
 protected:
     bool IsActiveInEncounter() override;

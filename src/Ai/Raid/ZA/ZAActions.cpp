@@ -355,6 +355,24 @@ bool HexLordMalacrassAssignDpsPriorityAction::Execute(Event /*event*/)
     return priorityTarget && MarkTargetWithSkull(bot, priorityTarget);
 }
 
+bool HexLordMalacrassInterruptHealAction::Execute(Event /*event*/)
+{
+    static constexpr std::array interruptSpells = {
+        "kick", "pummel", "shield bash", "wind shear", "earth shock", "counterspell", "silencing shot", };
+
+    Unit* caster = GetMalacrassHealerToInterrupt(botAI);
+    if (!caster)
+        return false;
+
+    for (char const* name : interruptSpells)
+    {
+        if (botAI->CanCastSpell(name, caster) && botAI->CastSpell(name, caster))
+            return true;
+    }
+
+    return false;
+}
+
 bool HexLordMalacrassMoveAwayFromFreezingTrapAction::Execute(Event /*event*/)
 {
     GameObject* trap = GetNearbyFreezingTrap(botAI);
@@ -397,4 +415,11 @@ bool ZuljinPositionRangedForCyclonesAction::Execute(Event /*event*/)
     return MoveTo(
         ZA_MAP_ID, moveX, moveY, bot->GetPositionZ(), false, false, false, false,
         MovementPriority::MOVEMENT_COMBAT, true, backwards);
+}
+
+bool ZuljinMoveOutOfColumnOfFireAction::Execute(Event /*event*/)
+{
+    float safeDistance = 0.0f;
+    Unit* column = GetZuljinColumnOfFireInRange(botAI, safeDistance);
+    return column && FleePosition(column->GetPosition(), safeDistance);
 }

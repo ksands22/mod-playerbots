@@ -86,6 +86,8 @@ public:
         creators["hex lord malacrass run away from whirlwind"] =
             &RaidZulAmanActionContext::hex_lord_malacrass_run_away_from_whirlwind;
 
+        creators["hex lord malacrass interrupt heal"] =
+            &RaidZulAmanActionContext::hex_lord_malacrass_interrupt_heal;
         creators["hex lord malacrass move away from freezing trap"] =
             &RaidZulAmanActionContext::hex_lord_malacrass_move_away_from_freezing_trap;
 
@@ -106,6 +108,8 @@ public:
             &RaidZulAmanActionContext::zuljin_position_ranged_for_cyclones;
 
         creators["zul'jin spread ranged"] = &RaidZulAmanActionContext::zuljin_spread_ranged;
+        creators["zul'jin move out of column of fire"] =
+            &RaidZulAmanActionContext::zuljin_move_out_of_column_of_fire;
     }
 
 private:
@@ -220,6 +224,10 @@ private:
         return new ZulAmanRunAwayFromWhirlwindAction(
             botAI, "hex lord malacrass run away from whirlwind", "hex lord malacrass");
     }
+    static Action* hex_lord_malacrass_interrupt_heal(PlayerbotAI* botAI)
+    {
+        return new HexLordMalacrassInterruptHealAction(botAI);
+    }
     static Action* hex_lord_malacrass_move_away_from_freezing_trap(PlayerbotAI* botAI)
     {
         return new HexLordMalacrassMoveAwayFromFreezingTrapAction(botAI);
@@ -235,6 +243,10 @@ private:
     {
         return new ZulAmanTanksPositionBossAction(
             botAI, "zul'jin tanks position boss", "zul'jin", ZaHelpers::ZULJIN_TANK_POSITION);
+    }
+    static Action* zuljin_move_out_of_column_of_fire(PlayerbotAI* botAI)
+    {
+        return new ZuljinMoveOutOfColumnOfFireAction(botAI);
     }
     static Action* zuljin_spread_ranged(PlayerbotAI* botAI)
     {

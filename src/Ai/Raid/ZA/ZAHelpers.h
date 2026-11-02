@@ -45,6 +45,11 @@ enum class ZaSpells : uint32
     SPELL_HEX_LORD_WHIRLWIND        = 43442,
     SPELL_HEX_LORD_SPELL_REFLECTION = 43443,
     SPELL_UNSTABLE_AFFLICTION       = 43522,
+    // Heals he takes from a Siphon Soul target, and Alyson Antille's Flash Heal
+    SPELL_HEX_LORD_HOLY_LIGHT       = 43451,
+    SPELL_HEX_LORD_HEAL             = 41372,
+    SPELL_HEX_LORD_HEALING_WAVE     = 43548,
+    SPELL_ALYSON_FLASH_HEAL         = 43575,
 
     // Zul'jin
     SPELL_ZULJIN_WHIRLWIND          = 17207,
@@ -53,6 +58,7 @@ enum class ZaSpells : uint32
     SPELL_SHAPE_OF_THE_LYNX         = 42607,
     SPELL_SHAPE_OF_THE_DRAGONHAWK   = 42608,
     SPELL_CREEPING_PARALYSIS        = 43095,
+    SPELL_COLUMN_OF_FIRE_DAMAGE     = 43217,
 
     // Hunter
     SPELL_MISDIRECTION              = 34477,
@@ -99,6 +105,7 @@ enum class ZaNpcs : uint32
 
     // Zul'jin
     NPC_ZULJIN                      = 23863,
+    NPC_COLUMN_OF_FIRE              = 24187,
 };
 
 enum class ZaObjects : uint32
@@ -195,6 +202,8 @@ inline constexpr uint32 FREEZING_TRAP_CACHE_INTERVAL_MS = 200;
 
 ObjectGuid FindNearbyFreezingTrapGuid(Player* bot);
 GameObject* GetNearbyFreezingTrap(PlayerbotAI* botAI);
+// Malacrass casting a heal taken from a Siphon Soul target, or Alyson Antille casting Flash Heal.
+Unit* GetMalacrassHealerToInterrupt(PlayerbotAI* botAI);
 
 // Zul'jin
 
@@ -225,6 +234,8 @@ inline std::array<Position, 8> const ZULJIN_SPREAD_POSITIONS = {{
 
 bool GetZuljinSpreadSlotIndex(Player* bot, size_t slotCount, size_t& slotIndex);
 Player* GetZuljinCreepingParalysisDispelTarget(Player* bot);
+// Dragonhawk form: the nearest Column of Fire the bot stands in, with the distance it must get to.
+Unit* GetZuljinColumnOfFireInRange(PlayerbotAI* botAI, float& safeDistance);
 
 // Shared encounter state
 
