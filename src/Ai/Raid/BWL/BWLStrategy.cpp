@@ -54,6 +54,8 @@ void RaidBwlStrategy::InitTriggers(std::vector<TriggerNode*>& triggers)
 
     triggers.push_back(new TriggerNode("bwl affliction bronze", {
         NextAction("bwl use hourglass sand", ACTION_RAID) }));
+    triggers.push_back(new TriggerNode("bwl chromaggus off tank", {
+        NextAction("bwl chromaggus taunt", ACTION_EMERGENCY + 1) }));
 
     triggers.push_back(new TriggerNode("bwl nefarian positioning", {
         NextAction("bwl nefarian rear flank", ACTION_MOVE + 4) }));

@@ -8,6 +8,7 @@
 #include "Playerbots.h"
 #include "RSActions.h"
 #include "RSScripts.h"
+#include "SpellMgr.h"
 #include "Timer.h"
 #include "Trigger.h"
 #include <set>
@@ -55,6 +56,21 @@ bool RsSavianaConflagrationTrigger::IsActive()
 
     Unit* boss = AI_VALUE2(Unit*, "find target", "saviana ragefire");
     return boss != nullptr;
+}
+
+bool RsSavianaEnrageTrigger::IsActive()
+{
+    // Guides remove Saviana's Enrage, which raises her attack speed and adds Fire Novas, with Tranquilizing Shot.
+    if (bot->getClass() != CLASS_HUNTER)
+        return false;
+
+    Unit* boss = AI_VALUE2(Unit*, "find target", "saviana ragefire");
+    if (!boss)
+        return false;
+
+    uint32 const enrageId = sSpellMgr->GetSpellIdForDifficulty(SPELL_SAVIANA_ENRAGE, boss);
+    return (boss->HasAura(SPELL_SAVIANA_ENRAGE) || boss->HasAura(enrageId)) &&
+           botAI->CanCastSpell("tranquilizing shot", boss);
 }
 
 bool RsSavianaTankPositionTrigger::IsActive()

@@ -21,6 +21,8 @@ void RaidRsStrategy::InitTriggers(std::vector<TriggerNode*>& triggers)
 
     triggers.push_back(new TriggerNode("rs saviana conflagration",
         { NextAction("rs saviana conflagration", ACTION_RAID + 7) }));
+    triggers.push_back(new TriggerNode("rs saviana enrage",
+        { NextAction("rs saviana tranquilize enrage", ACTION_EMERGENCY + 1) }));
     triggers.push_back(new TriggerNode("rs saviana avoid front",
         { NextAction("rs saviana avoid front", ACTION_RAID + 6) }));
     triggers.push_back(new TriggerNode("rs saviana tank position",

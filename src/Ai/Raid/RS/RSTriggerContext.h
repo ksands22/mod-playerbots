@@ -20,6 +20,7 @@ public:
         creators["rs baltharus avoid front"] = &RaidRsTriggerContext::rs_baltharus_avoid_front;
         creators["rs baltharus healer position"] = &RaidRsTriggerContext::rs_baltharus_healer_position;
         creators["rs saviana conflagration"] = &RaidRsTriggerContext::rs_saviana_conflagration;
+        creators["rs saviana enrage"] = &RaidRsTriggerContext::rs_saviana_enrage;
         creators["rs saviana avoid front"] = &RaidRsTriggerContext::rs_saviana_avoid_front;
         creators["rs saviana tank position"] = &RaidRsTriggerContext::rs_saviana_tank_position;
         creators["rs saviana melee spread"] = &RaidRsTriggerContext::rs_saviana_melee_spread;
@@ -51,6 +52,7 @@ private:
     static Trigger* rs_baltharus_avoid_front(PlayerbotAI* botAI) { return new RsBaltharusAvoidFrontTrigger(botAI); }
     static Trigger* rs_baltharus_healer_position(PlayerbotAI* botAI) { return new RsBaltharusHealerPositionTrigger(botAI); }
     static Trigger* rs_saviana_conflagration(PlayerbotAI* botAI) { return new RsSavianaConflagrationTrigger(botAI); }
+    static Trigger* rs_saviana_enrage(PlayerbotAI* botAI) { return new RsSavianaEnrageTrigger(botAI); }
     static Trigger* rs_saviana_avoid_front(PlayerbotAI* botAI) { return new RsSavianaAvoidFrontTrigger(botAI); }
     static Trigger* rs_saviana_tank_position(PlayerbotAI* botAI) { return new RsSavianaTankPositionTrigger(botAI); }
     static Trigger* rs_saviana_melee_spread(PlayerbotAI* botAI) { return new RsSavianaMeleeSpreadTrigger(botAI); }

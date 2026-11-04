@@ -13,6 +13,7 @@
 #include "Playerbots.h"
 #include "RtiValue.h"
 #include "Vehicle.h"
+#include <array>
 
 // Lady Deathwhisper
 bool IccDarkReckoningAction::Execute(Event /*event*/)
@@ -682,6 +683,25 @@ bool IccAddsLadyDeathwhisperAction::UpdateRaidTargetIcon(Unit* target)
 
     if (shouldUpdate)
         group->SetTargetIcon(SKULL_ICON_INDEX, bot->GetGUID(), target->GetGUID());
+
+    return false;
+}
+
+bool IccInterruptAction::Execute(Event /*event*/)
+{
+    static constexpr std::array interruptSpells = {
+        "kick", "pummel", "shield bash", "wind shear", "earth shock", "counterspell", "silencing shot",
+        "mind freeze", };
+
+    Unit* caster = IccGetInterruptTarget(botAI);
+    if (!caster)
+        return false;
+
+    for (char const* name : interruptSpells)
+    {
+        if (botAI->CanCastSpell(name, caster) && botAI->CastSpell(name, caster))
+            return true;
+    }
 
     return false;
 }

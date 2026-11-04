@@ -394,6 +394,18 @@ bool BwlUseHourglassSandAction::Execute(Event /*event*/)
     return botAI->CastSpell(static_cast<uint32>(BlackwingLairSpells::SPELL_HOURGLASS_SAND), bot);
 }
 
+bool BwlChromaggusTauntAction::Execute(Event event)
+{
+    Unit* boss = AI_VALUE2(Unit*, "find target", "chromaggus");
+    if (!boss)
+        return false;
+
+    if (bot->GetVictim() != boss)
+        return Attack(boss);
+
+    return boss->GetVictim() != bot && botAI->DoSpecificAction("taunt spell", event, true);
+}
+
 // Nefarian
 
 bool BwlNefarianStopCorruptedHealAction::Execute(Event /*event*/)

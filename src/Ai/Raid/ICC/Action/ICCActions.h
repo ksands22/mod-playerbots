@@ -210,6 +210,13 @@ public:
     bool Execute(Event event) override;
 };
 
+class IccInterruptAction : public Action
+{
+public:
+    IccInterruptAction(PlayerbotAI* botAI) : Action(botAI, "icc interrupt") {}
+    bool Execute(Event event) override;
+};
+
 //Gunship Battle
 class IccRottingFrostGiantTankPositionAction : public AttackAction
 {

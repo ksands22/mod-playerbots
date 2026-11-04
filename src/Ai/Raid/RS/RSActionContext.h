@@ -21,6 +21,7 @@ public:
         creators["rs baltharus avoid front"] = &RaidRsActionContext::rs_baltharus_avoid_front;
         creators["rs baltharus healer position"] = &RaidRsActionContext::rs_baltharus_healer_position;
         creators["rs saviana conflagration"] = &RaidRsActionContext::rs_saviana_conflagration;
+        creators["rs saviana tranquilize enrage"] = &RaidRsActionContext::rs_saviana_tranquilize_enrage;
         creators["rs saviana avoid front"] = &RaidRsActionContext::rs_saviana_avoid_front;
         creators["rs saviana tank position"] = &RaidRsActionContext::rs_saviana_tank_position;
         creators["rs saviana melee spread"] = &RaidRsActionContext::rs_saviana_melee_spread;
@@ -50,6 +51,10 @@ private:
     static Action* rs_baltharus_tank_position(PlayerbotAI* botAI) { return new RsBaltharusTankPositionAction(botAI); }
     static Action* rs_baltharus_avoid_front(PlayerbotAI* botAI) { return new RsBaltharusAvoidFrontAction(botAI); }
     static Action* rs_baltharus_healer_position(PlayerbotAI* botAI) { return new RsBaltharusHealerPositionAction(botAI); }
+    static Action* rs_saviana_tranquilize_enrage(PlayerbotAI* botAI)
+    {
+        return new RsSavianaTranquilizeEnrageAction(botAI);
+    }
     static Action* rs_saviana_conflagration(PlayerbotAI* botAI) { return new RsSavianaConflagrationAction(botAI); }
     static Action* rs_saviana_avoid_front(PlayerbotAI* botAI) { return new RsSavianaAvoidFrontAction(botAI); }
     static Action* rs_saviana_tank_position(PlayerbotAI* botAI) { return new RsSavianaTankPositionAction(botAI); }

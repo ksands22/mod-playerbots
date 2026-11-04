@@ -37,6 +37,25 @@ bool IccDarkReckoningTrigger::IsActive()
     return false;
 }
 
+bool IccInterruptTrigger::IsActive()
+{
+    // Guides interrupt Deathwhisper's phase two Frostbolt on her tank and the Archmages' Frostbolt Volley.
+    switch (bot->getClass())
+    {
+        case CLASS_WARRIOR:
+        case CLASS_ROGUE:
+        case CLASS_SHAMAN:
+        case CLASS_MAGE:
+        case CLASS_HUNTER:
+        case CLASS_DEATH_KNIGHT:
+            break;
+        default:
+            return false;
+    }
+
+    return IccGetInterruptTarget(botAI) != nullptr;
+}
+
 bool IccLadyDeathwhisperTrigger::IsActive()
 {
     Unit* boss = AI_VALUE2(Unit*, "find target", "lady deathwhisper");

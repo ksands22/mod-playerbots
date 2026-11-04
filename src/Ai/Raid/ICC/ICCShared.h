@@ -93,6 +93,9 @@ bool IccBossHasRemorselessWinter(Unit* boss);
 bool IccBossCastingRemorselessWinter(Unit* boss);
 bool IccAnyGroupMemberHasAura(Player* bot, uint32 spellId);
 bool IccAnyBloodPrincePresent(PlayerbotAI* botAI);
+// A caster guides interrupt: Lady Deathwhisper's phase two Frostbolt on her tank, or a Risen Archmage's
+// Frostbolt Volley at Valithria.
+Unit* IccGetInterruptTarget(PlayerbotAI* botAI);
 std::optional<bool> IccValithriaShouldHealRaid(Player* bot);
 std::vector<Creature*> IccGetCreaturesByEntries(WorldObject* searcher, std::initializer_list<uint32> entries,
                                                 float range);

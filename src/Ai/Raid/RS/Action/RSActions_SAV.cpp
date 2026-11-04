@@ -351,3 +351,9 @@ bool RsSavianaMeleeSpreadAction::Execute(Event )
 
     return moveChecked(target.GetPositionX(), target.GetPositionY(), target.GetPositionZ());
 }
+
+bool RsSavianaTranquilizeEnrageAction::Execute(Event /*event*/)
+{
+    Unit* boss = AI_VALUE2(Unit*, "find target", "saviana ragefire");
+    return boss && botAI->CastSpell("tranquilizing shot", boss);
+}
