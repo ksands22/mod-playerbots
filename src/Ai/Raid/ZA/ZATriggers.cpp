@@ -181,6 +181,24 @@ bool HexLordMalacrassChannelingWhirlwindTrigger::IsActiveInEncounter()
     return malacrass->HasAura(Id(ZaSpells::SPELL_HEX_LORD_WHIRLWIND));
 }
 
+bool HexLordMalacrassHealCastTrigger::IsActiveInEncounter()
+{
+    // Guides interrupt the heals Malacrass takes with Siphon Soul, and Alyson Antille's Flash Heal.
+    switch (bot->getClass())
+    {
+        case CLASS_WARRIOR:
+        case CLASS_ROGUE:
+        case CLASS_SHAMAN:
+        case CLASS_MAGE:
+        case CLASS_HUNTER:
+            break;
+        default:
+            return false;
+    }
+
+    return GetMalacrassHealerToInterrupt(botAI) != nullptr;
+}
+
 bool HexLordMalacrassFreezingTrapPlacedTrigger::IsActiveInEncounter()
 {
     if (!AI_VALUE2(Unit*, "find target", "hex lord malacrass"))
@@ -252,4 +270,11 @@ bool ZuljinSpreadForDragonhawkAoeTrigger::IsActiveInEncounter()
 
     Unit* zuljin = AI_VALUE2(Unit*, "find target", "zul'jin");
     return zuljin && zuljin->HasAura(Id(ZaSpells::SPELL_SHAPE_OF_THE_DRAGONHAWK));
+}
+
+bool ZuljinStandingInColumnOfFireTrigger::IsActiveInEncounter()
+{
+    // Guides move out of each Column of Fire at once during the Dragonhawk form.
+    float safeDistance = 0.0f;
+    return AI_VALUE2(Unit*, "find target", "zul'jin") && GetZuljinColumnOfFireInRange(botAI, safeDistance);
 }

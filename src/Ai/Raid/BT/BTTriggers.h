@@ -113,6 +113,30 @@ public:
     bool IsActive() override;
 };
 
+class ShadeOfAkamaSorcererIsChannelingTrigger : public Trigger
+{
+public:
+    ShadeOfAkamaSorcererIsChannelingTrigger(
+        PlayerbotAI* botAI) : Trigger(botAI, "shade of akama sorcerer is channeling") {}
+    bool IsActive() override;
+};
+
+class ShadeOfAkamaDefenderIsUntankedTrigger : public Trigger
+{
+public:
+    ShadeOfAkamaDefenderIsUntankedTrigger(
+        PlayerbotAI* botAI) : Trigger(botAI, "shade of akama defender is untanked") {}
+    bool IsActive() override;
+};
+
+class ShadeOfAkamaSpiritbinderCastsHealTrigger : public Trigger
+{
+public:
+    ShadeOfAkamaSpiritbinderCastsHealTrigger(
+        PlayerbotAI* botAI) : Trigger(botAI, "shade of akama spiritbinder casts heal") {}
+    bool IsActive() override;
+};
+
 // Teron Gorefiend
 class TeronGorefiendPullingBossTrigger : public Trigger
 {

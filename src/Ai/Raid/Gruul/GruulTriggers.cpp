@@ -87,6 +87,31 @@ bool HighKingMaulgarShouldStandBackFromKroshTrigger::IsActiveInEncounter()
     return AI_VALUE2(Unit*, "find target", "krosh firehand");
 }
 
+bool HighKingMaulgarBlindeyeCastsHealTrigger::IsActiveInEncounter()
+{
+    // Guides interrupt Blindeye's Heal and Prayer of Healing; Silence goes through his shield.
+    switch (bot->getClass())
+    {
+        case CLASS_WARRIOR:
+        case CLASS_ROGUE:
+        case CLASS_SHAMAN:
+        case CLASS_HUNTER:
+        case CLASS_PRIEST:
+            break;
+        case CLASS_MAGE:
+            // Krosh's mage tank stays on Krosh.
+            if (GetKroshMageTank(botAI) == bot)
+                return false;
+            break;
+        default:
+            return false;
+    }
+
+    Unit* blindeye = AI_VALUE2(Unit*, "find target", "blindeye the seer");
+    return blindeye && (blindeye->FindCurrentSpellBySpellId(Id(GruulSpells::SPELL_HEAL)) ||
+                        blindeye->FindCurrentSpellBySpellId(Id(GruulSpells::SPELL_PRAYER_OF_HEALING)));
+}
+
 bool HighKingMaulgarWildFelStalkerSpawnedTrigger::IsActiveInEncounter()
 {
     return bot->getClass() == CLASS_WARLOCK && !GetNearbyWildFelStalkers(botAI).empty();

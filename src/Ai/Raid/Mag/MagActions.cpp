@@ -11,6 +11,7 @@
 #include "ObjectAccessor.h"
 #include "Playerbots.h"
 #include "RtiTargetValue.h"
+#include <array>
 #include <cmath>
 #include <limits>
 #include <vector>
@@ -162,6 +163,24 @@ bool MagtheridonAssignDpsPriorityAction::Execute(Event /*event*/)
         return Attack(channeler);
 
     return MarkTargetWithSkull(bot, channeler);
+}
+
+bool MagtheridonInterruptChannelerAction::Execute(Event /*event*/)
+{
+    static constexpr std::array interruptSpells = {
+        "kick", "pummel", "shield bash", "wind shear", "earth shock", "counterspell", "silencing shot", };
+
+    Unit* channeler = GetChannelerToInterrupt(botAI);
+    if (!channeler)
+        return false;
+
+    for (char const* name : interruptSpells)
+    {
+        if (botAI->CanCastSpell(name, channeler) && botAI->CastSpell(name, channeler))
+            return true;
+    }
+
+    return false;
 }
 
 // Establish a Banish rotation for Burning Abyssals and a Fear rotation with respect to any Burning

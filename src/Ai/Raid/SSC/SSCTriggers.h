@@ -111,6 +111,16 @@ protected:
     bool IsActiveInEncounter() override;
 };
 
+class HydrossTheUnstableSpawnsOfHydrossSummonedTrigger : public SscEncounterTrigger
+{
+public:
+    HydrossTheUnstableSpawnsOfHydrossSummonedTrigger(PlayerbotAI* botAI)
+        : SscEncounterTrigger(botAI, "hydross the unstable spawns of hydross summoned") {}
+
+protected:
+    bool IsActiveInEncounter() override;
+};
+
 class HydrossTheUnstableShouldMisdirectUponPhaseChangeTrigger : public SscEncounterTrigger
 {
 public:
@@ -336,6 +346,16 @@ protected:
 };
 
 // Fathom-Lord Karathress
+
+class FathomLordKarathressCaribdisCastsHealingWaveTrigger : public SscEncounterTrigger
+{
+public:
+    FathomLordKarathressCaribdisCastsHealingWaveTrigger(PlayerbotAI* botAI)
+        : SscEncounterTrigger(botAI, "fathom-lord karathress caribdis casts healing wave") {}
+
+protected:
+    bool IsActiveInEncounter() override;
+};
 
 class FathomLordKarathressTargetsShouldBeTankedTrigger : public SscEncounterTrigger
 {

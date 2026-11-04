@@ -60,6 +60,23 @@ bool MagtheridonShouldAssignDpsPriorityTrigger::IsActiveInEncounter()
     return !PlayerbotAI::IsTank(bot) && AI_VALUE2(Unit*, "find target", "magtheridon");
 }
 
+bool MagtheridonChannelerCastingTrigger::IsActiveInEncounter()
+{
+    switch (bot->getClass())
+    {
+        case CLASS_WARRIOR:
+        case CLASS_ROGUE:
+        case CLASS_SHAMAN:
+        case CLASS_MAGE:
+        case CLASS_HUNTER:
+            break;
+        default:
+            return false;
+    }
+
+    return GetChannelerToInterrupt(botAI) != nullptr;
+}
+
 bool MagtheridonBurningAbyssalSpawnedTrigger::IsActiveInEncounter()
 {
     return bot->getClass() == CLASS_WARLOCK && !GetBurningAbyssals(botAI).empty();

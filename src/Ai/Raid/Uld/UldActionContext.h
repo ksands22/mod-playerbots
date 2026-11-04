@@ -91,11 +91,19 @@ public:
         creators["uld kologarn taunt"] = &RaidUlduarActionContext::uld_kologarn_taunt;
         creators["uld yogg avoid cloud"] = &RaidUlduarActionContext::uld_yogg_avoid_cloud;
         creators["uld mimiron avoid mine"] = &RaidUlduarActionContext::uld_mimiron_avoid_mine;
+        creators["uld xt avoid void zone"] = &RaidUlduarActionContext::uld_xt_avoid_void_zone;
+        creators["uld thorim avoid sif frost nova"] = &RaidUlduarActionContext::uld_thorim_avoid_sif_frost_nova;
+        creators["uld thorim avoid sif blizzard"] = &RaidUlduarActionContext::uld_thorim_avoid_sif_blizzard;
+        creators["uld mimiron avoid flames"] = &RaidUlduarActionContext::uld_mimiron_avoid_flames;
+        creators["uld mimiron avoid frost bomb"] = &RaidUlduarActionContext::uld_mimiron_avoid_frost_bomb;
+        creators["uld vezax kill vapors"] = &RaidUlduarActionContext::uld_vezax_kill_vapors;
         creators["uld freya break roots"] = &RaidUlduarActionContext::uld_freya_break_roots;
         creators["uld freya nature's fury"] = &RaidUlduarActionContext::uld_freya_natures_fury;
         creators["uld freya avoid sun beam"] = &RaidUlduarActionContext::uld_freya_avoid_sun_beam;
         creators["uld hodir toasty fire"] = &RaidUlduarActionContext::uld_hodir_toasty_fire;
         creators["uld hodir break ice"] = &RaidUlduarActionContext::uld_hodir_break_ice;
+        creators["uld hodir shed biting cold"] = &RaidUlduarActionContext::uld_hodir_shed_biting_cold;
+        creators["uld thorim taunt"] = &RaidUlduarActionContext::uld_thorim_taunt;
         creators["uld hodir taunt"] = &RaidUlduarActionContext::uld_hodir_taunt;
         creators["uld algalon taunt"] = &RaidUlduarActionContext::uld_algalon_taunt;
         creators["uld algalon enter black hole"] = &RaidUlduarActionContext::uld_algalon_enter_black_hole;
@@ -189,6 +197,26 @@ private:
     static Action* uld_hodir_taunt(PlayerbotAI* botAI)
     {
         return new UldTauntBossAction(botAI, "uld hodir taunt", "hodir");
+    }
+    static Action* uld_hodir_shed_biting_cold(PlayerbotAI* botAI) { return new UldHodirShedBitingColdAction(botAI); }
+    static Action* uld_thorim_taunt(PlayerbotAI* botAI)
+    {
+        return new UldTauntBossAction(botAI, "uld thorim taunt", "thorim");
+    }
+    static Action* uld_xt_avoid_void_zone(PlayerbotAI* botAI) { return new UldXtAvoidVoidZoneAction(botAI); }
+    static Action* uld_thorim_avoid_sif_frost_nova(PlayerbotAI* botAI)
+    {
+        return new UldThorimAvoidSifFrostNovaAction(botAI);
+    }
+    static Action* uld_vezax_kill_vapors(PlayerbotAI* botAI) { return new UldVezaxKillVaporsAction(botAI); }
+    static Action* uld_mimiron_avoid_flames(PlayerbotAI* botAI) { return new UldMimironAvoidFlamesAction(botAI); }
+    static Action* uld_mimiron_avoid_frost_bomb(PlayerbotAI* botAI)
+    {
+        return new UldMimironAvoidFrostBombAction(botAI);
+    }
+    static Action* uld_thorim_avoid_sif_blizzard(PlayerbotAI* botAI)
+    {
+        return new UldThorimAvoidSifBlizzardAction(botAI);
     }
     static Action* uld_kologarn_taunt(PlayerbotAI* botAI)
     {

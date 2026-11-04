@@ -9,6 +9,8 @@
 #include "ICCScripts.h"
 #include "ICCTriggers.h"
 #include "Playerbots.h"
+#include "Spell.h"
+#include "SpellMgr.h"
 #include "ThreatManager.h"
 #include "Timer.h"
 #include <algorithm>
@@ -235,6 +237,43 @@ bool IccAnyBloodPrincePresent(PlayerbotAI* botAI)
     return AI_VALUE2(Unit*, "find target", "prince valanar") ||
            AI_VALUE2(Unit*, "find target", "prince taldaram") ||
            AI_VALUE2(Unit*, "find target", "prince keleseth");
+}
+
+Unit* IccGetInterruptTarget(PlayerbotAI* botAI)
+{
+    // The core casts these base ids and swaps in the 25-player and heroic versions by difficulty.
+    constexpr uint32 SPELL_DEATHWHISPER_FROSTBOLT = 71420;
+    constexpr uint32 SPELL_ARCHMAGE_FROSTBOLT_VOLLEY = 70759;
+    auto isCasting = [](Unit* caster, uint32 baseSpellId)
+    {
+        if (!caster)
+            return false;
+
+        uint32 const difficultyId = sSpellMgr->GetSpellIdForDifficulty(baseSpellId, caster);
+        for (CurrentSpellTypes const type : { CURRENT_GENERIC_SPELL, CURRENT_CHANNELED_SPELL })
+        {
+            Spell* spell = caster->GetCurrentSpell(type);
+            if (spell && (spell->m_spellInfo->Id == baseSpellId || spell->m_spellInfo->Id == difficultyId))
+                return true;
+        }
+        return false;
+    };
+
+    auto* context = botAI->GetAiObjectContext();
+    Unit* deathwhisper = AI_VALUE2(Unit*, "find target", "lady deathwhisper");
+    if (isCasting(deathwhisper, SPELL_DEATHWHISPER_FROSTBOLT))
+        return deathwhisper;
+
+    for (ObjectGuid const guid : AI_VALUE(GuidVector, "possible targets"))
+    {
+        Unit* unit = botAI->GetUnit(guid);
+        if (unit && unit->IsAlive() && unit->GetEntry() == NPC_RISEN_ARCHMAGE &&
+            isCasting(unit, SPELL_ARCHMAGE_FROSTBOLT_VOLLEY))
+        {
+            return unit;
+        }
+    }
+    return nullptr;
 }
 
 std::optional<bool> IccValithriaShouldHealRaid(Player* bot)

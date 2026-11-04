@@ -85,6 +85,8 @@ public:
         creators["hex lord malacrass channeling whirlwind"] =
             &RaidZulAmanTriggerContext::hex_lord_malacrass_channeling_whirlwind;
 
+        creators["hex lord malacrass heal cast"] =
+            &RaidZulAmanTriggerContext::hex_lord_malacrass_heal_cast;
         creators["hex lord malacrass freezing trap placed"] =
             &RaidZulAmanTriggerContext::hex_lord_malacrass_freezing_trap_placed;
 
@@ -103,6 +105,8 @@ public:
         creators["zul'jin summoning cyclones in eagle form"] =
             &RaidZulAmanTriggerContext::zuljin_summoning_cyclones_in_eagle_form;
 
+        creators["zul'jin standing in column of fire"] =
+            &RaidZulAmanTriggerContext::zuljin_standing_in_column_of_fire;
         creators["zul'jin spread for dragonhawk aoe"] =
             &RaidZulAmanTriggerContext::zuljin_spread_for_dragonhawk_aoe;
     }
@@ -214,6 +218,10 @@ private:
     {
         return new HexLordMalacrassChannelingWhirlwindTrigger(botAI);
     }
+    static Trigger* hex_lord_malacrass_heal_cast(PlayerbotAI* botAI)
+    {
+        return new HexLordMalacrassHealCastTrigger(botAI);
+    }
     static Trigger* hex_lord_malacrass_freezing_trap_placed(PlayerbotAI* botAI)
     {
         return new HexLordMalacrassFreezingTrapPlacedTrigger(botAI);
@@ -240,6 +248,10 @@ private:
     static Trigger* zuljin_summoning_cyclones_in_eagle_form(PlayerbotAI* botAI)
     {
         return new ZuljinSummoningCyclonesInEagleFormTrigger(botAI);
+    }
+    static Trigger* zuljin_standing_in_column_of_fire(PlayerbotAI* botAI)
+    {
+        return new ZuljinStandingInColumnOfFireTrigger(botAI);
     }
     static Trigger* zuljin_spread_for_dragonhawk_aoe(PlayerbotAI* botAI)
     {

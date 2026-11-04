@@ -39,6 +39,9 @@ public:
         creators["hydross the unstable ranged should spread in frost phase"] =
             &RaidSscTriggerContext::hydross_the_unstable_ranged_should_spread_in_frost_phase;
 
+        creators["hydross the unstable spawns of hydross summoned"] =
+            &RaidSscTriggerContext::hydross_the_unstable_spawns_of_hydross_summoned;
+
         creators["hydross the unstable should misdirect upon phase change"] =
             &RaidSscTriggerContext::hydross_the_unstable_should_misdirect_upon_phase_change;
 
@@ -113,6 +116,9 @@ public:
 
         creators["fathom-lord karathress should heal caribdis tank"] =
             &RaidSscTriggerContext::fathom_lord_karathress_should_heal_caribdis_tank;
+
+        creators["fathom-lord karathress caribdis casts healing wave"] =
+            &RaidSscTriggerContext::fathom_lord_karathress_caribdis_casts_healing_wave;
 
         creators["fathom-lord karathress hunter should misdirect"] =
             &RaidSscTriggerContext::fathom_lord_karathress_hunter_should_misdirect;
@@ -260,6 +266,10 @@ private:
     {
         return new HydrossTheUnstableRangedShouldSpreadInFrostPhaseTrigger(botAI);
     }
+    static Trigger* hydross_the_unstable_spawns_of_hydross_summoned(PlayerbotAI* botAI)
+    {
+        return new HydrossTheUnstableSpawnsOfHydrossSummonedTrigger(botAI);
+    }
     static Trigger* hydross_the_unstable_should_misdirect_upon_phase_change(PlayerbotAI* botAI)
     {
         return new HydrossTheUnstableShouldMisdirectUponPhaseChangeTrigger(botAI);
@@ -361,6 +371,10 @@ private:
     static Trigger* fathom_lord_karathress_should_heal_caribdis_tank(PlayerbotAI* botAI)
     {
         return new FathomLordKarathressShouldHealCaribdisTankTrigger(botAI);
+    }
+    static Trigger* fathom_lord_karathress_caribdis_casts_healing_wave(PlayerbotAI* botAI)
+    {
+        return new FathomLordKarathressCaribdisCastsHealingWaveTrigger(botAI);
     }
     static Trigger* fathom_lord_karathress_hunter_should_misdirect(PlayerbotAI* botAI)
     {

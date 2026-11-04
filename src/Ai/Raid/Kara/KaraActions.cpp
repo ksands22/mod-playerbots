@@ -7,6 +7,7 @@
 #include "KaraActions.h"
 #include "EncounterHelpers.h"
 #include "KaraHelpers.h"
+#include "Pet.h"
 #include "PlayerbotTextMgr.h"
 #include "Playerbots.h"
 #include <algorithm>
@@ -272,6 +273,18 @@ bool MoroesMarkTargetAction::Execute(Event /*event*/)
     return false;
 }
 
+bool MoroesTauntBossAction::Execute(Event event)
+{
+    Unit* moroes = AI_VALUE2(Unit*, "find target", "moroes");
+    if (!moroes)
+        return false;
+
+    if (bot->GetVictim() != moroes)
+        return Attack(moroes);
+
+    return moroes->GetVictim() != bot && botAI->DoSpecificAction("taunt spell", event, true);
+}
+
 // Maiden of Virtue
 // CombatReach is 4.8 yards
 
@@ -483,6 +496,24 @@ bool RomuloAndJulianneMarkTargetAction::Execute(Event /*event*/)
     return false;
 }
 
+bool JulianneInterruptEternalAffectionAction::Execute(Event /*event*/)
+{
+    static constexpr std::array interruptSpells = {
+        "kick", "pummel", "shield bash", "wind shear", "earth shock", "counterspell", "silencing shot", };
+
+    Unit* julianne = AI_VALUE2(Unit*, "find target", "julianne");
+    if (!julianne)
+        return false;
+
+    for (char const* name : interruptSpells)
+    {
+        if (botAI->CanCastSpell(name, julianne) && botAI->CastSpell(name, julianne))
+            return true;
+    }
+
+    return false;
+}
+
 // The Wizard of Oz
 
 bool WizardOfOzMarkTargetAction::Execute(Event /*event*/)
@@ -502,6 +533,16 @@ bool WizardOfOzScorchStrawmanAction::Execute(Event /*event*/)
     return strawman &&
         botAI->CanCastSpell("scorch", strawman) &&
         botAI->CastSpell("scorch", strawman);
+}
+
+bool WizardOfOzAvoidCycloneAction::Execute(Event /*event*/)
+{
+    constexpr float fallbackRadius = 5.0f;
+    constexpr float margin = 3.0f;
+    float const safeDistance =
+        GetSpellRadiusOrFallback(Id(KaraSpells::SPELL_CYCLONE_KNOCKBACK), fallbackRadius) + margin;
+    Unit* cyclone = GetNearestNpcOfEntry(botAI, Id(KaraNpcs::NPC_CYCLONE), safeDistance);
+    return cyclone && FleePosition(cyclone->GetPosition(), safeDistance);
 }
 
 // The Curator
@@ -639,6 +680,26 @@ bool ShadeOfAranRangedMaintainDistanceAction::Execute(Event /*event*/)
         return MoveTo(aran, minDistance, MovementPriority::MOVEMENT_COMBAT);
 
     return false;
+}
+
+bool ShadeOfAranAvoidBlizzardAction::Execute(Event /*event*/)
+{
+    constexpr float fallbackRadius = 8.0f;
+    constexpr float margin = 2.0f;
+    float const safeDistance = GetSpellRadiusOrFallback(Id(KaraSpells::SPELL_BLIZZARD), fallbackRadius) + margin;
+    Unit* blizzard = GetNearestNpcOfEntry(botAI, Id(KaraNpcs::NPC_ARAN_BLIZZARD), safeDistance);
+    return blizzard && MoveAway(blizzard, safeDistance);
+}
+
+bool ShadeOfAranStopAttackingWhileDrinkingAction::Execute(Event /*event*/)
+{
+    // Melee swings and auto shots are direct damage too, so stop them as well as the casts.
+    bot->AttackStop();
+    bot->InterruptSpell(CURRENT_AUTOREPEAT_SPELL);
+    if (Pet* pet = bot->GetPet())
+        pet->AttackStop();
+
+    return true;
 }
 
 // Netherspite

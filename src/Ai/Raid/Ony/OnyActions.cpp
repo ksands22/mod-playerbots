@@ -5,9 +5,11 @@
  */
 
 #include "OnyActions.h"
+#include "EncounterHelpers.h"
 #include "GenericSpellActions.h"
 #include "LastMovementValue.h"
 #include "MovementActions.h"
+#include "OnyTriggers.h"
 #include "Playerbots.h"
 #include "PositionAction.h"
 
@@ -117,24 +119,14 @@ bool RaidOnyxiaKillWhelpsAction::Execute(Event /*event*/)
 {
     Unit* currentTarget = AI_VALUE(Unit*, "current target");
     // If already attacking a whelp, don't swap targets
-    if (currentTarget && currentTarget->GetEntry() == 11262)
+    if (currentTarget && OnyxiaHelpers::IsOnyxianWhelp(currentTarget))
     {
         return false;
     }
-    GuidVector targets = AI_VALUE(GuidVector, "possible targets");
-    for (ObjectGuid guid : targets)
-    {
-        Creature* unit = botAI->GetCreature(guid);
-        if (!unit || !unit->IsAlive() || !unit->IsInWorld())
-            continue;
 
-        if (unit->GetEntry() == 11262)  // Onyxia Whelp
-        {
-            // bot->Yell("Attacking Whelps!", LANG_UNIVERSAL);
-            return Attack(unit);
-        }
-    }
-    return false;
+    // The core's whelps (11262) and mod-individual-progression's vanilla ones (301001).
+    Unit* whelp = OnyxiaHelpers::GetOnyxianWhelp(botAI);
+    return whelp && Attack(whelp);
 }
 
 bool OnyxiaAvoidEggsAction::Execute(Event /*event*/)
@@ -163,4 +155,22 @@ bool OnyxiaAvoidEggsAction::Execute(Event /*event*/)
 
     return MoveTo(bot->GetMapId(), x, y, bot->GetPositionZ(), false, false, false, false,
                   MovementPriority::MOVEMENT_COMBAT);
+}
+
+bool OnyxiaSetTremorTotemAction::Execute(Event /*event*/)
+{
+    return botAI->CanCastSpell(OnyxiaHelpers::SPELL_TREMOR_TOTEM, bot) &&
+           botAI->CastSpell(OnyxiaHelpers::SPELL_TREMOR_TOTEM, bot);
+}
+
+bool OnyxiaFearWardMainTankAction::Execute(Event /*event*/)
+{
+    Player* mainTank = EncounterHelpers::GetGroupMainTank(bot);
+    return mainTank && botAI->CanCastSpell(OnyxiaHelpers::SPELL_FEAR_WARD, mainTank) &&
+           botAI->CastSpell(OnyxiaHelpers::SPELL_FEAR_WARD, mainTank);
+}
+
+bool OnyxiaBerserkerRageAction::Execute(Event /*event*/)
+{
+    return botAI->CastSpell("berserker rage", bot);
 }

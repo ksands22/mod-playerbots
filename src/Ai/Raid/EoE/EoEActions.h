@@ -26,6 +26,32 @@ public:
     bool Execute(Event event) override;
 };
 
+class MalygosKillPowerSparkAction : public AttackAction
+{
+public:
+    MalygosKillPowerSparkAction(PlayerbotAI* botAI) : AttackAction(botAI, "malygos kill power spark") {}
+
+    bool Execute(Event event) override;
+};
+
+class MalygosMoveIntoArcaneOverloadAction : public MovementAction
+{
+public:
+    MalygosMoveIntoArcaneOverloadAction(PlayerbotAI* botAI) : MovementAction(botAI, "malygos move into arcane overload")
+    {
+    }
+
+    bool Execute(Event event) override;
+};
+
+class MalygosAvoidStaticFieldAction : public MovementAction
+{
+public:
+    MalygosAvoidStaticFieldAction(PlayerbotAI* botAI) : MovementAction(botAI, "malygos avoid static field") {}
+
+    bool Execute(Event event) override;
+};
+
 class MalygosTargetAction : public AttackAction
 {
 public:

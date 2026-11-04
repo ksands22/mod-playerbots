@@ -84,6 +84,14 @@ public:
     bool Execute(Event event) override;
 };
 
+class HighKingMaulgarInterruptBlindeyeAction : public Action
+{
+public:
+    HighKingMaulgarInterruptBlindeyeAction(PlayerbotAI* botAI)
+        : Action(botAI, "high king maulgar interrupt blindeye") {}
+    bool Execute(Event event) override;
+};
+
 class HighKingMaulgarBanishFelStalkerAction : public Action
 {
 public:

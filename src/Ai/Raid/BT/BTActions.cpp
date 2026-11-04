@@ -9,6 +9,7 @@
 #include "CreatureAI.h"
 #include "EncounterHelpers.h"
 #include "Playerbots.h"
+#include <array>
 #include <vector>
 
 using namespace BlackTempleHelpers;
@@ -530,6 +531,43 @@ bool ShadeOfAkamaMeleeDpsPrioritizeChannelersAction::Execute(Event /*event*/)
 
     if (AI_VALUE(Unit*, "current target") != channeler)
         return Attack(channeler);
+
+    return false;
+}
+
+bool ShadeOfAkamaRangedKillSorcererAction::Execute(Event /*event*/)
+{
+    Unit* sorcerer =
+        GetNearestAkamaAdd(botAI, static_cast<uint32>(BlackTempleNpcs::NPC_ASHTONGUE_SORCERER));
+    return sorcerer && Attack(sorcerer);
+}
+
+bool ShadeOfAkamaAssistTankPickUpDefenderAction::Execute(Event event)
+{
+    Unit* defender = GetUntankedAshtongueDefender(botAI);
+    if (!defender)
+        return false;
+
+    if (bot->GetVictim() != defender)
+        return Attack(defender);
+
+    return defender->GetVictim() != bot && botAI->DoSpecificAction("taunt spell", event, true);
+}
+
+bool ShadeOfAkamaInterruptSpiritbinderAction::Execute(Event /*event*/)
+{
+    static constexpr std::array interruptSpells = {
+        "kick", "pummel", "shield bash", "wind shear", "earth shock", "counterspell", "silencing shot", };
+
+    Unit* spiritbinder = GetSpiritbinderCastingHeal(botAI);
+    if (!spiritbinder)
+        return false;
+
+    for (char const* name : interruptSpells)
+    {
+        if (botAI->CanCastSpell(name, spiritbinder) && botAI->CastSpell(name, spiritbinder))
+            return true;
+    }
 
     return false;
 }

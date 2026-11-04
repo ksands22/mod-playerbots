@@ -30,6 +30,9 @@ public:
         creators["magtheridon assign dps priority"] =
             &RaidMagtheridonActionContext::magtheridon_assign_dps_priority;
 
+        creators["magtheridon interrupt channeler"] =
+            &RaidMagtheridonActionContext::magtheridon_interrupt_channeler;
+
         creators["magtheridon warlock cc burning abyssal"] =
             &RaidMagtheridonActionContext::magtheridon_warlock_cc_burning_abyssal;
 
@@ -69,6 +72,10 @@ private:
     static Action* magtheridon_assign_dps_priority(PlayerbotAI* botAI)
     {
         return new MagtheridonAssignDpsPriorityAction(botAI);
+    }
+    static Action* magtheridon_interrupt_channeler(PlayerbotAI* botAI)
+    {
+        return new MagtheridonInterruptChannelerAction(botAI);
     }
     static Action* magtheridon_warlock_cc_burning_abyssal(PlayerbotAI* botAI)
     {

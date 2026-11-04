@@ -395,6 +395,13 @@ public:
     bool Execute(Event event) override;
 };
 
+class RsSavianaTranquilizeEnrageAction : public Action
+{
+public:
+    RsSavianaTranquilizeEnrageAction(PlayerbotAI* botAI) : Action(botAI, "rs saviana tranquilize enrage") {}
+    bool Execute(Event event) override;
+};
+
 class RsSavianaTankPositionAction : public AttackAction
 {
 public:

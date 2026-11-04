@@ -40,6 +40,9 @@ void RaidSscStrategy::InitTriggers(std::vector<TriggerNode*>& triggers)
     triggers.push_back(new TriggerNode("hydross the unstable ranged should spread in frost phase",
         { NextAction("hydross the unstable frost phase spread ranged", ACTION_RAID + 1) }));
 
+    triggers.push_back(new TriggerNode("hydross the unstable spawns of hydross summoned",
+        { NextAction("hydross the unstable attack spawn of hydross", ACTION_RAID + 1) }));
+
     triggers.push_back(new TriggerNode("hydross the unstable should misdirect upon phase change",
         { NextAction("hydross the unstable misdirect to tank", ACTION_RAID + 3) }));
 
@@ -115,6 +118,9 @@ void RaidSscStrategy::InitTriggers(std::vector<TriggerNode*>& triggers)
 
     triggers.push_back(new TriggerNode("fathom-lord karathress should heal caribdis tank",
         { NextAction("fathom-lord karathress position caribdis tank healer", ACTION_RAID) }));
+
+    triggers.push_back(new TriggerNode("fathom-lord karathress caribdis casts healing wave",
+        { NextAction("fathom-lord karathress interrupt caribdis", ACTION_EMERGENCY + 1) }));
 
     triggers.push_back(new TriggerNode("fathom-lord karathress hunter should misdirect",
         { NextAction("fathom-lord karathress misdirect to tanks", ACTION_RAID + 1) }));

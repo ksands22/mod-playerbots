@@ -17,6 +17,7 @@
 #include <algorithm>
 #include <array>
 #include <iterator>
+#include <utility>
 #include <vector>
 
 namespace UlduarExtraHelpers
@@ -68,7 +69,12 @@ bool IsCastingDifficultySpell(Unit* caster, uint32 baseSpellId, int32* remaining
     return false;
 }
 
-static uint8 GetKillPriority(Unit* unit)
+bool IsUlduarHardMode(PlayerbotAI* botAI)
+{
+    return botAI->HasStrategy("uld hard mode", BotState::BOT_STATE_COMBAT);
+}
+
+static uint8 GetKillPriority(PlayerbotAI* botAI, Unit* unit)
 {
     switch (unit->GetEntry())
     {
@@ -76,16 +82,26 @@ static uint8 GetKillPriority(Unit* unit)
             // Only Brittle constructs: a big enough hit shatters them and takes a stack off Ignis.
             return HasDifficultyAura(unit, SPELL_IGNIS_BRITTLE, unit) ? 3 : 0;
         case NPC_HEART_OF_THE_DECONSTRUCTOR:
-            // The heart takes double damage that carries over to XT-002; guides stop short of killing it.
-            return unit->GetHealthPct() > XT_HEART_STOP_PCT ? 3 : 0;
+            // The heart takes double damage that carries over to XT-002; guides stop short of killing it
+            // unless they want hard mode.
+            return IsUlduarHardMode(botAI) || unit->GetHealthPct() > XT_HEART_STOP_PCT ? 3 : 0;
+        case NPC_XT_LIFE_SPARK:
+            // Hard mode: guides kill each Life Spark quickly.
+            return 3;
         case NPC_SANCTUM_SENTRY:
             return 2;
+        case NPC_SARONITE_ANIMUS:
+            // Vezax's Saronite Barrier holds while it lives; guides put all DPS on it.
+            return 3;
+        case NPC_EMERGENCY_FIRE_BOT:
+            // Its Deafening Siren silences healers; guides kill these quickly.
+            return 3;
         case NPC_STEELBREAKER:
-            return 6;
+            return IsUlduarHardMode(botAI) ? 4 : 6;
         case NPC_RUNEMASTER_MOLGEIM:
             return 5;
         case NPC_STORMCALLER_BRUNDIR:
-            return 4;
+            return IsUlduarHardMode(botAI) ? 6 : 4;
         default:
             return 0;
     }
@@ -106,7 +122,7 @@ Unit* GetKillOrderMarkTarget(PlayerbotAI* botAI)
         if (!unit || !unit->IsAlive() || !unit->IsInCombat() || !bot->IsValidAttackTarget(unit))
             continue;
 
-        uint8 const priority = GetKillPriority(unit);
+        uint8 const priority = GetKillPriority(botAI, unit);
         if (!priority)
             continue;
 
@@ -122,7 +138,7 @@ Unit* GetKillOrderMarkTarget(PlayerbotAI* botAI)
 
     // Keep a skull that is still in the top tier, so the raid doesn't split as health values cross.
     Unit* skull = botAI->GetUnit(group->GetTargetIcon(RtiTargetValue::skullIndex));
-    if (skull && skull->IsAlive() && GetKillPriority(skull) >= bestPriority)
+    if (skull && skull->IsAlive() && GetKillPriority(botAI, skull) >= bestPriority)
         return nullptr;
 
     return best;
@@ -133,7 +149,9 @@ static bool IsOffTankAdd(uint32 entry)
     switch (entry)
     {
         case NPC_XM024_PUMMELLER:
+        case NPC_XT_LIFE_SPARK:
         case NPC_SANCTUM_SENTRY:
+        case NPC_SARONITE_ANIMUS:
         case NPC_FERAL_DEFENDER:
         case NPC_LIVING_CONSTELLATION:
         case NPC_IRON_CONSTRUCT:
@@ -254,6 +272,15 @@ float GetXtDebuffRadius(Player* bot)
     return std::max(radius, 0.0f);
 }
 
+float GetXtVoidZoneAvoidDistance()
+{
+    // Read from the spell data; the fallback and margin are ours.
+    constexpr float FALLBACK_CONSUMPTION_RADIUS = 6.0f;
+    constexpr float VOID_ZONE_MARGIN = 2.0f;
+    float const radius = GetSpellAreaRadius(SPELL_XT_CONSUMPTION);
+    return (radius > 0.0f ? radius : FALLBACK_CONSUMPTION_RADIUS) + VOID_ZONE_MARGIN;
+}
+
 Position GetAuriayaStackSpot(Unit const* auriaya)
 {
     // In front of her, inside the Sonic Screech cone, close enough that Feral Rush has no distant target.
@@ -360,5 +387,87 @@ Unit* GetFreyaSunBeamInRange(PlayerbotAI* botAI, float& safeDistance)
         if (Unit* beam = GetNearestNpc(botAI, entry, safeDistance))
             return beam;
     return nullptr;
+}
+
+Unit* GetSifInNovaRange(PlayerbotAI* botAI, float& safeDistance)
+{
+    // Read from the spell data; the fallback and margin are ours.
+    constexpr float FALLBACK_FROST_NOVA_RADIUS = 10.0f;
+    constexpr float FROST_NOVA_MARGIN = 3.0f;
+    float const radius = GetSpellAreaRadius(SPELL_SIF_FROST_NOVA);
+    safeDistance = (radius > 0.0f ? radius : FALLBACK_FROST_NOVA_RADIUS) + FROST_NOVA_MARGIN;
+    return GetNearestNpc(botAI, NPC_SIF, safeDistance);
+}
+
+Unit* GetSifBlizzardInRange(PlayerbotAI* botAI, float& safeDistance)
+{
+    // Read from the spell data; the fallback and margin are ours.
+    constexpr float FALLBACK_BLIZZARD_RADIUS = 8.0f;
+    constexpr float BLIZZARD_MARGIN = 2.0f;
+    float const radius = GetSpellAreaRadius(SPELL_SIF_BLIZZARD);
+    safeDistance = (radius > 0.0f ? radius : FALLBACK_BLIZZARD_RADIUS) + BLIZZARD_MARGIN;
+
+    // Other Thorim Controllers share the entry; only the one carrying the Blizzard matters.
+    Unit* controller = GetNearestNpc(botAI, NPC_SIF_BLIZZARD, safeDistance);
+    return controller && HasDifficultyAura(controller, SPELL_SIF_BLIZZARD, controller) ? controller : nullptr;
+}
+
+Unit* GetMimironFlamesInRange(PlayerbotAI* botAI, float& safeDistance)
+{
+    // Read from the spell data; the fallback and margin are ours.
+    constexpr float FALLBACK_FLAMES_RADIUS = 4.0f;
+    constexpr float FLAMES_MARGIN = 1.5f;
+    float const radius = GetSpellAreaRadius(SPELL_MIMIRON_FLAMES);
+    safeDistance = (radius > 0.0f ? radius : FALLBACK_FLAMES_RADIUS) + FLAMES_MARGIN;
+    return GetNearestNpc(botAI, NPC_MIMIRON_FLAMES, safeDistance);
+}
+
+Unit* GetMimironFrostBombInRange(PlayerbotAI* botAI, float& safeDistance)
+{
+    // Read from the spell data; the fallback and margin are ours.
+    constexpr float FALLBACK_FROST_BOMB_RADIUS = 10.0f;
+    constexpr float FROST_BOMB_MARGIN = 2.0f;
+    float const radius = std::max(GetSpellAreaRadius(SPELL_FROST_BOMB_EXPLOSION_10),
+                                  GetSpellAreaRadius(SPELL_FROST_BOMB_EXPLOSION_25));
+    safeDistance = (radius > 0.0f ? radius : FALLBACK_FROST_BOMB_RADIUS) + FROST_BOMB_MARGIN;
+    return GetNearestNpc(botAI, NPC_MIMIRON_FROST_BOMB, safeDistance);
+}
+
+Unit* GetLeviathanTowerHazard(PlayerbotAI* botAI, Unit const* vehicle, float& safeDistance)
+{
+    // Read from the spell data; the fallback is ours, and the margin covers the vehicle's own size.
+    constexpr float FALLBACK_TOWER_STRIKE_RADIUS = 10.0f;
+    constexpr float VEHICLE_MARGIN = 5.0f;
+    constexpr std::array<std::pair<uint32, uint32>, 3> hazards = { {
+        { NPC_HODIRS_FURY_TARGET, SPELL_HODIRS_FURY },
+        { NPC_THORIMS_HAMMER_TARGET, SPELL_THORIMS_HAMMER },
+        { NPC_MIMIRONS_INFERNO_TARGET, SPELL_MIMIRONS_INFERNO_DAMAGE },
+    } };
+
+    Unit* nearest = nullptr;
+    float nearestDistance = 0.0f;
+    for (ObjectGuid const guid : botAI->GetAiObjectContext()->GetValue<GuidVector>("nearest npcs")->Get())
+    {
+        Unit* unit = botAI->GetUnit(guid);
+        if (!unit || !unit->IsAlive())
+            continue;
+
+        for (auto const& [entry, spellId] : hazards)
+        {
+            if (unit->GetEntry() != entry)
+                continue;
+
+            float const radius = GetSpellAreaRadius(spellId);
+            float const reach = (radius > 0.0f ? radius : FALLBACK_TOWER_STRIKE_RADIUS) + VEHICLE_MARGIN;
+            float const distance = vehicle->GetExactDist2d(unit);
+            if (distance < reach && (!nearest || distance < nearestDistance))
+            {
+                nearest = unit;
+                nearestDistance = distance;
+                safeDistance = reach;
+            }
+        }
+    }
+    return nearest;
 }
 }

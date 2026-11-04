@@ -19,6 +19,7 @@ public:
 
         creators["icc dark reckoning"] = &RaidIccTriggerContext::icc_dark_reckoning;
         creators["icc lady deathwhisper"] = &RaidIccTriggerContext::icc_lady_deathwhisper;
+        creators["icc interrupt"] = &RaidIccTriggerContext::icc_interrupt;
 
         creators["icc rotting frost giant tank position"] = &RaidIccTriggerContext::icc_rotting_frost_giant_tank_position;
         creators["icc in cannon"] = &RaidIccTriggerContext::icc_in_cannon;
@@ -87,6 +88,7 @@ private:
 
     static Trigger* icc_dark_reckoning(PlayerbotAI* botAI) { return new IccDarkReckoningTrigger(botAI); }
     static Trigger* icc_lady_deathwhisper(PlayerbotAI* botAI) { return new IccLadyDeathwhisperTrigger(botAI); }
+    static Trigger* icc_interrupt(PlayerbotAI* botAI) { return new IccInterruptTrigger(botAI); }
 
     static Trigger* icc_rotting_frost_giant_tank_position(PlayerbotAI* botAI) { return new IccRottingFrostGiantTankPositionTrigger(botAI); }
     static Trigger* icc_in_cannon(PlayerbotAI* botAI) { return new IccInCannonTrigger(botAI); }

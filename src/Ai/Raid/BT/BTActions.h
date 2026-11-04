@@ -128,6 +128,30 @@ public:
     bool Execute(Event event) override;
 };
 
+class ShadeOfAkamaRangedKillSorcererAction : public AttackAction
+{
+public:
+    ShadeOfAkamaRangedKillSorcererAction(
+        PlayerbotAI* botAI) : AttackAction(botAI, "shade of akama ranged kill sorcerer") {}
+    bool Execute(Event event) override;
+};
+
+class ShadeOfAkamaAssistTankPickUpDefenderAction : public AttackAction
+{
+public:
+    ShadeOfAkamaAssistTankPickUpDefenderAction(
+        PlayerbotAI* botAI) : AttackAction(botAI, "shade of akama assist tank pick up defender") {}
+    bool Execute(Event event) override;
+};
+
+class ShadeOfAkamaInterruptSpiritbinderAction : public Action
+{
+public:
+    ShadeOfAkamaInterruptSpiritbinderAction(
+        PlayerbotAI* botAI) : Action(botAI, "shade of akama interrupt spiritbinder") {}
+    bool Execute(Event event) override;
+};
+
 // Teron Gorefiend
 
 class TeronGorefiendMisdirectBossToMainTankAction : public AttackAction

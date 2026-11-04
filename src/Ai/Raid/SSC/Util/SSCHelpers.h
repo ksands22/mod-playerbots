@@ -39,6 +39,7 @@ enum class SscSpells : uint32
     SPELL_TOXIC_POOL             = 38718,
 
     // Hydross the Unstable <Duke of Currents>
+    SPELL_CARIBDIS_HEALING_WAVE  = 38330,
     SPELL_MARK_OF_HYDROSS_10     = 38215,
     SPELL_MARK_OF_HYDROSS_25     = 38216,
     SPELL_MARK_OF_HYDROSS_50     = 38217,
@@ -108,6 +109,8 @@ enum class SscNpcs : uint32
 
     // Hydross the Unstable <Duke of Currents>
     NPC_HYDROSS_THE_UNSTABLE     = 21216,
+    NPC_PURE_SPAWN_OF_HYDROSS    = 22035,
+    NPC_TAINTED_SPAWN_OF_HYDROSS = 22036,
 
     // The Lurker Below
     NPC_THE_LURKER_BELOW         = 21217,
@@ -215,6 +218,9 @@ bool IsHydrossNatureTank(Player* bot);
 bool IsHydrossPhaseTank(Player* bot);
 bool IsHydrossAddTank(Player* bot);
 bool IsHydrossInFrostPhase(Unit* hydross);
+bool IsSpawnOfHydross(Unit const* unit);
+// The four Pure or Tainted Spawns of Hydross summoned at each phase change; guides kill them at once.
+Unit* GetNearestSpawnOfHydross(PlayerbotAI* botAI);
 bool IsHydrossInNaturePhase(Unit* hydross);
 HydrossDpsHoldWindow GetHydrossDpsHoldWindow(Unit* hydross);
 Position GetHydrossHandoffPosition(bool frostTank);

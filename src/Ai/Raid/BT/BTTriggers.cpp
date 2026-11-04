@@ -180,6 +180,45 @@ bool ShadeOfAkamaKillingChannelersStartsPhase2Trigger::IsActive()
     return channeler && !channeler->HasUnitFlag(UNIT_FLAG_NOT_SELECTABLE);
 }
 
+bool ShadeOfAkamaSorcererIsChannelingTrigger::IsActive()
+{
+    // A Sorcerer takes a dead Channeler's place on the Shade; guides kill them as they arrive.
+    if (!PlayerbotAI::IsRangedDps(bot) || bot->GetMapId() != BLACK_TEMPLE_MAP_ID)
+        return false;
+
+    Unit* target = AI_VALUE(Unit*, "current target");
+    if (target && target->GetEntry() == static_cast<uint32>(BlackTempleNpcs::NPC_ASHTONGUE_SORCERER))
+        return false;
+
+    return GetNearestAkamaAdd(botAI, static_cast<uint32>(BlackTempleNpcs::NPC_ASHTONGUE_SORCERER));
+}
+
+bool ShadeOfAkamaDefenderIsUntankedTrigger::IsActive()
+{
+    // Guides hold the side-door Defenders on a tank, away from Akama.
+    if (!PlayerbotAI::IsAssistTank(bot) || bot->GetMapId() != BLACK_TEMPLE_MAP_ID)
+        return false;
+
+    return GetUntankedAshtongueDefender(botAI) != nullptr;
+}
+
+bool ShadeOfAkamaSpiritbinderCastsHealTrigger::IsActive()
+{
+    switch (bot->getClass())
+    {
+        case CLASS_WARRIOR:
+        case CLASS_ROGUE:
+        case CLASS_SHAMAN:
+        case CLASS_MAGE:
+        case CLASS_HUNTER:
+            break;
+        default:
+            return false;
+    }
+
+    return bot->GetMapId() == BLACK_TEMPLE_MAP_ID && GetSpiritbinderCastingHeal(botAI);
+}
+
 // Teron Gorefiend
 
 bool TeronGorefiendPullingBossTrigger::IsActive()

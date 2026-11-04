@@ -23,6 +23,7 @@ public:
         creators["icc ranged position lady deathwhisper"] = &RaidIccActionContext::icc_ranged_position_lady_deathwhisper;
         creators["icc adds lady deathwhisper"] = &RaidIccActionContext::icc_adds_lady_deathwhisper;
         creators["icc shade lady deathwhisper"] = &RaidIccActionContext::icc_shade_lady_deathwhisper;
+        creators["icc interrupt"] = &RaidIccActionContext::icc_interrupt;
 
         creators["icc rotting frost giant tank position"] = &RaidIccActionContext::icc_rotting_frost_giant_tank_position;
         creators["icc cannon fire"] = &RaidIccActionContext::icc_cannon_fire;
@@ -93,6 +94,7 @@ private:
     static Action* icc_dark_reckoning(PlayerbotAI* botAI) { return new IccDarkReckoningAction(botAI); }
     static Action* icc_ranged_position_lady_deathwhisper(PlayerbotAI* botAI) { return new IccRangedPositionLadyDeathwhisperAction(botAI); }
     static Action* icc_adds_lady_deathwhisper(PlayerbotAI* botAI) { return new IccAddsLadyDeathwhisperAction(botAI); }
+    static Action* icc_interrupt(PlayerbotAI* botAI) { return new IccInterruptAction(botAI); }
     static Action* icc_shade_lady_deathwhisper(PlayerbotAI* botAI) { return new IccShadeLadyDeathwhisperAction(botAI); }
 
     static Action* icc_rotting_frost_giant_tank_position(PlayerbotAI* botAI) { return new IccRottingFrostGiantTankPositionAction(botAI); }

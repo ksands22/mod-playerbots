@@ -32,6 +32,7 @@ namespace BlackwingLairHelpers
         // Chromaggus
         SPELL_BROOD_AFFLICTION_BRONZE = 23170,
         SPELL_HOURGLASS_SAND = 23645,
+        SPELL_TIME_LAPSE = 23310,
 
         // Nefarian
         SPELL_WILD_MAGIC = 23410,

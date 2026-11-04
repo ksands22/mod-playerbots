@@ -40,6 +40,10 @@ enum class MagSpells : uint32
     SPELL_DEBRIS_SPAWN      = 30630,
     SPELL_QUAKE             = 30657,
 
+    // Hellfire Channeler
+    SPELL_SHADOW_BOLT_VOLLEY = 30510,
+    SPELL_DARK_MENDING       = 30528,
+
     // Hunter
     SPELL_MISDIRECTION      = 34477,
     SPELL_MISDIRECTION_AURA = 35079, // the aura on the hunter
@@ -104,6 +108,8 @@ std::vector<CubeInfo> GetAllCubeInfosByDbGuids(Map* map, std::vector<uint32> con
 Creature* GetChanneler(Player* bot, uint32 dbGuid);
 GuidVector FindBurningAbyssalGuids(Player* bot);
 std::vector<Unit*> GetBurningAbyssals(PlayerbotAI* botAI);
+// A Hellfire Channeler casting Dark Mending (first) or Shadow Bolt Volley; guides interrupt both.
+Unit* GetChannelerToInterrupt(PlayerbotAI* botAI);
 bool IsMagtheridonActive(Unit* magtheridon);
 bool IsCubeClicker(Player* bot);
 bool IsBlastNovaCasting(Unit* magtheridon);

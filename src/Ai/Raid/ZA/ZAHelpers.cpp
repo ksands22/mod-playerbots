@@ -7,6 +7,8 @@
 #include "ZAHelpers.h"
 #include "EncounterHelpers.h"
 #include "Playerbots.h"
+#include "SpellInfo.h"
+#include "SpellMgr.h"
 #include <algorithm>
 #include <cmath>
 #include <limits>
@@ -289,6 +291,62 @@ bool GetZuljinSpreadSlotIndex(Player* bot, size_t slotCount, size_t& slotIndex)
         healers.size() + static_cast<size_t>(std::distance(rangedDps.begin(), dpsIt));
     slotIndex = ordinal % slotCount;
     return true;
+}
+
+Unit* GetMalacrassHealerToInterrupt(PlayerbotAI* botAI)
+{
+    for (ObjectGuid const guid : botAI->GetAiObjectContext()->GetValue<GuidVector>("possible targets")->Get())
+    {
+        Unit* unit = botAI->GetUnit(guid);
+        if (!unit || !unit->IsAlive())
+            continue;
+
+        if (unit->GetEntry() == Id(ZaNpcs::NPC_HEX_LORD_MALACRASS))
+        {
+            for (ZaSpells const heal : { ZaSpells::SPELL_HEX_LORD_HOLY_LIGHT, ZaSpells::SPELL_HEX_LORD_HEAL,
+                                         ZaSpells::SPELL_HEX_LORD_HEALING_WAVE })
+            {
+                if (unit->FindCurrentSpellBySpellId(Id(heal)))
+                    return unit;
+            }
+        }
+        else if (unit->GetEntry() == Id(ZaNpcs::NPC_ALYSON_ANTILLE) &&
+                 unit->FindCurrentSpellBySpellId(Id(ZaSpells::SPELL_ALYSON_FLASH_HEAL)))
+        {
+            return unit;
+        }
+    }
+    return nullptr;
+}
+
+Unit* GetZuljinColumnOfFireInRange(PlayerbotAI* botAI, float& safeDistance)
+{
+    // Read from the spell data; the fallback and margin are ours.
+    constexpr float fallbackRadius = 5.0f;
+    constexpr float margin = 2.0f;
+    float radius = 0.0f;
+    if (SpellInfo const* info = sSpellMgr->GetSpellInfo(Id(ZaSpells::SPELL_COLUMN_OF_FIRE_DAMAGE)))
+        for (uint8 i = 0; i < MAX_SPELL_EFFECTS; ++i)
+            radius = std::max(radius, info->Effects[i].CalcRadius());
+    safeDistance = (radius > 0.0f ? radius : fallbackRadius) + margin;
+
+    Player* bot = botAI->GetBot();
+    Unit* nearest = nullptr;
+    float nearestDistance = safeDistance;
+    for (ObjectGuid const guid : botAI->GetAiObjectContext()->GetValue<GuidVector>("nearest npcs")->Get())
+    {
+        Unit* unit = botAI->GetUnit(guid);
+        if (!unit || !unit->IsAlive() || unit->GetEntry() != Id(ZaNpcs::NPC_COLUMN_OF_FIRE))
+            continue;
+
+        float const distance = bot->GetExactDist2d(unit);
+        if (distance < nearestDistance)
+        {
+            nearest = unit;
+            nearestDistance = distance;
+        }
+    }
+    return nearest;
 }
 
 Player* GetZuljinCreepingParalysisDispelTarget(Player* bot)

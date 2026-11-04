@@ -33,6 +33,10 @@ enum class GruulSpells : uint32
     // High King Maulgar <Lord of the Ogres>
     SPELL_WHIRLWIND         = 33238,
 
+    // Blindeye the Seer
+    SPELL_HEAL              = 33144,
+    SPELL_PRAYER_OF_HEALING = 33152,
+
     // Krosh Firehand
     SPELL_SPELL_SHIELD      = 33054,
 

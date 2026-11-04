@@ -91,11 +91,19 @@ public:
         creators["uld freya sun beam"] = &RaidUlduarTriggerContext::uld_freya_sun_beam;
         creators["uld hodir toasty fire"] = &RaidUlduarTriggerContext::uld_hodir_toasty_fire;
         creators["uld hodir ice block"] = &RaidUlduarTriggerContext::uld_hodir_ice_block;
+        creators["uld hodir biting cold"] = &RaidUlduarTriggerContext::uld_hodir_biting_cold;
+        creators["uld thorim unbalancing strike"] = &RaidUlduarTriggerContext::uld_thorim_unbalancing_strike;
         creators["uld hodir frozen blows"] = &RaidUlduarTriggerContext::uld_hodir_frozen_blows;
         creators["uld kologarn crunch armor"] = &RaidUlduarTriggerContext::uld_kologarn_crunch_armor;
         creators["uld ignis melee"] = &RaidUlduarTriggerContext::uld_ignis_melee;
         creators["uld xt debuff"] = &RaidUlduarTriggerContext::uld_xt_debuff;
         creators["uld xt bot add"] = &RaidUlduarTriggerContext::uld_xt_bot_add;
+        creators["uld xt void zone"] = &RaidUlduarTriggerContext::uld_xt_void_zone;
+        creators["uld thorim sif frost nova"] = &RaidUlduarTriggerContext::uld_thorim_sif_frost_nova;
+        creators["uld thorim sif blizzard"] = &RaidUlduarTriggerContext::uld_thorim_sif_blizzard;
+        creators["uld mimiron flames"] = &RaidUlduarTriggerContext::uld_mimiron_flames;
+        creators["uld mimiron frost bomb"] = &RaidUlduarTriggerContext::uld_mimiron_frost_bomb;
+        creators["uld vezax saronite vapors"] = &RaidUlduarTriggerContext::uld_vezax_saronite_vapors;
         creators["uld auriaya stack"] = &RaidUlduarTriggerContext::uld_auriaya_stack;
         creators["uld interrupt"] = &RaidUlduarTriggerContext::uld_interrupt;
         creators["uld council tank"] = &RaidUlduarTriggerContext::uld_council_tank;
@@ -188,6 +196,11 @@ private:
     static Trigger* uld_freya_sun_beam(PlayerbotAI* botAI) { return new UldFreyaSunBeamTrigger(botAI); }
     static Trigger* uld_hodir_toasty_fire(PlayerbotAI* botAI) { return new UldHodirToastyFireTrigger(botAI); }
     static Trigger* uld_hodir_ice_block(PlayerbotAI* botAI) { return new UldHodirIceBlockTrigger(botAI); }
+    static Trigger* uld_hodir_biting_cold(PlayerbotAI* botAI) { return new UldHodirBitingColdTrigger(botAI); }
+    static Trigger* uld_thorim_unbalancing_strike(PlayerbotAI* botAI)
+    {
+        return new UldThorimUnbalancingStrikeTrigger(botAI);
+    }
     static Trigger* uld_hodir_frozen_blows(PlayerbotAI* botAI) { return new UldHodirFrozenBlowsTrigger(botAI); }
     static Trigger* uld_kologarn_crunch_armor(PlayerbotAI* botAI)
     {
@@ -196,6 +209,15 @@ private:
     static Trigger* uld_ignis_melee(PlayerbotAI* botAI) { return new UldIgnisMeleeTrigger(botAI); }
     static Trigger* uld_xt_debuff(PlayerbotAI* botAI) { return new UldXtDebuffTrigger(botAI); }
     static Trigger* uld_xt_bot_add(PlayerbotAI* botAI) { return new UldXtBotAddTrigger(botAI); }
+    static Trigger* uld_xt_void_zone(PlayerbotAI* botAI) { return new UldXtVoidZoneTrigger(botAI); }
+    static Trigger* uld_thorim_sif_frost_nova(PlayerbotAI* botAI) { return new UldThorimSifFrostNovaTrigger(botAI); }
+    static Trigger* uld_thorim_sif_blizzard(PlayerbotAI* botAI) { return new UldThorimSifBlizzardTrigger(botAI); }
+    static Trigger* uld_mimiron_flames(PlayerbotAI* botAI) { return new UldMimironFlamesTrigger(botAI); }
+    static Trigger* uld_mimiron_frost_bomb(PlayerbotAI* botAI) { return new UldMimironFrostBombTrigger(botAI); }
+    static Trigger* uld_vezax_saronite_vapors(PlayerbotAI* botAI)
+    {
+        return new UldVezaxSaroniteVaporsTrigger(botAI);
+    }
     static Trigger* uld_auriaya_stack(PlayerbotAI* botAI) { return new UldAuriayaStackTrigger(botAI); }
     static Trigger* uld_interrupt(PlayerbotAI* botAI) { return new UldInterruptTrigger(botAI); }
     static Trigger* uld_council_tank(PlayerbotAI* botAI) { return new UldCouncilTankTrigger(botAI); }

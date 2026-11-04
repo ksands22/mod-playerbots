@@ -103,6 +103,14 @@ private:
     bool const _frostTank;
 };
 
+class HydrossTheUnstableAttackSpawnOfHydrossAction : public AttackAction
+{
+public:
+    HydrossTheUnstableAttackSpawnOfHydrossAction(PlayerbotAI* botAI)
+        : AttackAction(botAI, "hydross the unstable attack spawn of hydross") {}
+    bool Execute(Event event) override;
+};
+
 class HydrossTheUnstableMisdirectToTankAction : public Action
 {
 public:
@@ -297,6 +305,14 @@ class FathomLordKarathressPositionCaribdisTankHealerAction : public MovementActi
 public:
     FathomLordKarathressPositionCaribdisTankHealerAction(PlayerbotAI* botAI)
         : MovementAction(botAI, "fathom-lord karathress position caribdis tank healer") {}
+    bool Execute(Event event) override;
+};
+
+class FathomLordKarathressInterruptCaribdisAction : public Action
+{
+public:
+    FathomLordKarathressInterruptCaribdisAction(PlayerbotAI* botAI)
+        : Action(botAI, "fathom-lord karathress interrupt caribdis") {}
     bool Execute(Event event) override;
 };
 

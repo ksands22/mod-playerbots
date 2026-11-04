@@ -24,6 +24,9 @@ void RaidMagtheridonStrategy::InitTriggers(std::vector<TriggerNode*>& triggers)
     triggers.push_back(new TriggerNode("magtheridon should assign dps priority",
         { NextAction("magtheridon assign dps priority", ACTION_RAID) }));
 
+    triggers.push_back(new TriggerNode("magtheridon channeler casting",
+        { NextAction("magtheridon interrupt channeler", ACTION_EMERGENCY + 1) }));
+
     triggers.push_back(new TriggerNode("magtheridon burning abyssal spawned",
         { NextAction("magtheridon warlock cc burning abyssal", ACTION_RAID + 2) }));
 

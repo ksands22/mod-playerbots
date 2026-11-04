@@ -41,6 +41,9 @@ public:
         creators["high king maulgar should stand back from krosh"] =
             &RaidGruulsLairTriggerContext::high_king_maulgar_should_stand_back_from_krosh;
 
+        creators["high king maulgar blindeye casts heal"] =
+            &RaidGruulsLairTriggerContext::high_king_maulgar_blindeye_casts_heal;
+
         creators["high king maulgar wild fel stalker spawned"] =
             &RaidGruulsLairTriggerContext::high_king_maulgar_wild_fel_stalker_spawned;
 
@@ -98,6 +101,11 @@ private:
     {
         return new HighKingMaulgarShouldStandBackFromKroshTrigger(botAI);
     }
+    static Trigger* high_king_maulgar_blindeye_casts_heal(PlayerbotAI* botAI)
+    {
+        return new HighKingMaulgarBlindeyeCastsHealTrigger(botAI);
+    }
+
     static Trigger* high_king_maulgar_wild_fel_stalker_spawned(PlayerbotAI* botAI)
     {
         return new HighKingMaulgarWildFelStalkerSpawnedTrigger(botAI);

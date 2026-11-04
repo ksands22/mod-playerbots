@@ -58,6 +58,7 @@ enum SpellIdsRS
 
     SPELL_CONFLAGRATION                 = 74452,
     SPELL_FLAME_BEACON                  = 74453,
+    SPELL_SAVIANA_ENRAGE                = 78722,
 
     RS_SPELL_TAUNT_WARRIOR              = 355,
     RS_SPELL_TAUNT_PALADIN              = 62124,
@@ -130,6 +131,13 @@ class RsSavianaConflagrationTrigger : public Trigger
 {
 public:
     RsSavianaConflagrationTrigger(PlayerbotAI* botAI) : Trigger(botAI, "rs saviana conflagration") {}
+    bool IsActive() override;
+};
+
+class RsSavianaEnrageTrigger : public Trigger
+{
+public:
+    RsSavianaEnrageTrigger(PlayerbotAI* botAI) : Trigger(botAI, "rs saviana enrage") {}
     bool IsActive() override;
 };
 

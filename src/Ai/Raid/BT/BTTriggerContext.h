@@ -55,6 +55,15 @@ public:
         creators["shade of akama killing channelers starts phase 2"] =
             &RaidBlackTempleTriggerContext::shade_of_akama_killing_channelers_starts_phase_2;
 
+        creators["shade of akama sorcerer is channeling"] =
+            &RaidBlackTempleTriggerContext::shade_of_akama_sorcerer_is_channeling;
+
+        creators["shade of akama defender is untanked"] =
+            &RaidBlackTempleTriggerContext::shade_of_akama_defender_is_untanked;
+
+        creators["shade of akama spiritbinder casts heal"] =
+            &RaidBlackTempleTriggerContext::shade_of_akama_spiritbinder_casts_heal;
+
         // Teron Gorefiend
         creators["teron gorefiend pulling boss"] =
             &RaidBlackTempleTriggerContext::teron_gorefiend_pulling_boss;
@@ -264,6 +273,21 @@ private:
     static Trigger* shade_of_akama_killing_channelers_starts_phase_2(PlayerbotAI* botAI)
     {
         return new ShadeOfAkamaKillingChannelersStartsPhase2Trigger(botAI);
+    }
+
+    static Trigger* shade_of_akama_sorcerer_is_channeling(PlayerbotAI* botAI)
+    {
+        return new ShadeOfAkamaSorcererIsChannelingTrigger(botAI);
+    }
+
+    static Trigger* shade_of_akama_defender_is_untanked(PlayerbotAI* botAI)
+    {
+        return new ShadeOfAkamaDefenderIsUntankedTrigger(botAI);
+    }
+
+    static Trigger* shade_of_akama_spiritbinder_casts_heal(PlayerbotAI* botAI)
+    {
+        return new ShadeOfAkamaSpiritbinderCastsHealTrigger(botAI);
     }
 
     // Teron Gorefiend

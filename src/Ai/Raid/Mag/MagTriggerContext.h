@@ -30,6 +30,9 @@ public:
         creators["magtheridon should assign dps priority"] =
             &RaidMagtheridonTriggerContext::magtheridon_should_assign_dps_priority;
 
+        creators["magtheridon channeler casting"] =
+            &RaidMagtheridonTriggerContext::magtheridon_channeler_casting;
+
         creators["magtheridon burning abyssal spawned"] =
             &RaidMagtheridonTriggerContext::magtheridon_burning_abyssal_spawned;
 
@@ -69,6 +72,10 @@ private:
     static Trigger* magtheridon_should_assign_dps_priority(PlayerbotAI* botAI)
     {
         return new MagtheridonShouldAssignDpsPriorityTrigger(botAI);
+    }
+    static Trigger* magtheridon_channeler_casting(PlayerbotAI* botAI)
+    {
+        return new MagtheridonChannelerCastingTrigger(botAI);
     }
     static Trigger* magtheridon_burning_abyssal_spawned(PlayerbotAI* botAI)
     {

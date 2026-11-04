@@ -21,6 +21,9 @@ public:
         creators["ony move to safe zone"] = &RaidOnyxiaActionContext::move_to_safe_zone;
         creators["ony kill whelps"] = &RaidOnyxiaActionContext::kill_whelps;
         creators["ony avoid eggs move"] = &RaidOnyxiaActionContext::avoid_eggs;
+        creators["ony set tremor totem"] = &RaidOnyxiaActionContext::set_tremor_totem;
+        creators["ony fear ward main tank"] = &RaidOnyxiaActionContext::fear_ward_main_tank;
+        creators["ony berserker rage"] = &RaidOnyxiaActionContext::berserker_rage;
     }
 
 private:
@@ -29,6 +32,9 @@ private:
     static Action* move_to_safe_zone(PlayerbotAI* botAI) { return new RaidOnyxiaMoveToSafeZoneAction(botAI); }
     static Action* kill_whelps(PlayerbotAI* botAI) { return new RaidOnyxiaKillWhelpsAction(botAI); }
     static Action* avoid_eggs(PlayerbotAI* botAI) { return new OnyxiaAvoidEggsAction(botAI); }
+    static Action* set_tremor_totem(PlayerbotAI* botAI) { return new OnyxiaSetTremorTotemAction(botAI); }
+    static Action* fear_ward_main_tank(PlayerbotAI* botAI) { return new OnyxiaFearWardMainTankAction(botAI); }
+    static Action* berserker_rage(PlayerbotAI* botAI) { return new OnyxiaBerserkerRageAction(botAI); }
 };
 
 #endif

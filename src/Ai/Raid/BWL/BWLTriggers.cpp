@@ -152,6 +152,24 @@ bool BwlAfflictionBronzeTrigger::IsActive()
     return bot->HasAura(static_cast<uint32>(BlackwingLairSpells::SPELL_BROOD_AFFLICTION_BRONZE));
 }
 
+bool BwlChromaggusOffTankTrigger::IsActive()
+{
+    // mod-individual-progression restores vanilla Time Lapse, which drops its target's threat for 8s, so
+    // Chromaggus turns to the next on his threat list; a tank without Time Lapse takes him back.
+    if (!PlayerbotAI::IsTank(bot))
+        return false;
+
+    Unit* chromaggus = AI_VALUE2(Unit*, "find target", "chromaggus");
+    Unit* victim = chromaggus ? chromaggus->GetVictim() : nullptr;
+    Player* victimPlayer = victim ? victim->ToPlayer() : nullptr;
+    if (!victimPlayer || PlayerbotAI::IsTank(victimPlayer))
+        return false;
+
+    return GetTakeoverTank(bot, nullptr, [](Player const* tank)
+        { return !tank->IsAlive() || tank->HasAura(static_cast<uint32>(BlackwingLairSpells::SPELL_TIME_LAPSE)); }) ==
+           bot;
+}
+
 // Nefarian
 
 bool BwlNefarianPositioningTrigger::IsActive()

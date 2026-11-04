@@ -97,6 +97,13 @@ public:
     bool IsActive() override;
 };
 
+class BwlChromaggusOffTankTrigger : public Trigger
+{
+public:
+    BwlChromaggusOffTankTrigger(PlayerbotAI* botAI) : Trigger(botAI, "bwl chromaggus off tank") {}
+    bool IsActive() override;
+};
+
 // Nefarian
 
 class BwlNefarianPositioningTrigger : public Trigger

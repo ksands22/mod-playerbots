@@ -115,6 +115,13 @@ public:
     bool Execute(Event event) override;
 };
 
+class BwlChromaggusTauntAction : public AttackAction
+{
+public:
+    BwlChromaggusTauntAction(PlayerbotAI* botAI) : AttackAction(botAI, "bwl chromaggus taunt") {}
+    bool Execute(Event event) override;
+};
+
 // Nefarian
 
 class BwlNefarianStopCorruptedHealAction : public Action

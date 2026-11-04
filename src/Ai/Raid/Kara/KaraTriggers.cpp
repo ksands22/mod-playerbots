@@ -8,6 +8,7 @@
 #include "EncounterHelpers.h"
 #include "KaraActions.h"
 #include "KaraHelpers.h"
+#include "Pet.h"
 #include "Playerbots.h"
 
 using namespace KaraHelpers;
@@ -82,6 +83,22 @@ bool MoroesShouldPrioritizeAddsTrigger::IsActive()
     return IsMechanicTrackerBot(bot, KARA_MAP_ID) && AI_VALUE2(Unit*, "find target", "moroes");
 }
 
+bool MoroesGougedTheTankTrigger::IsActive()
+{
+    // Guides keep a second tank ready to take Moroes while Gouge incapacitates his tank.
+    if (!PlayerbotAI::IsTank(bot))
+        return false;
+
+    Unit* moroes = AI_VALUE2(Unit*, "find target", "moroes");
+    Unit* victim = moroes ? moroes->GetVictim() : nullptr;
+    Player* victimPlayer = victim ? victim->ToPlayer() : nullptr;
+    if (!victimPlayer || PlayerbotAI::IsTank(victimPlayer))
+        return false;
+
+    return GetTakeoverTank(bot, nullptr, [](Player const* tank)
+        { return !tank->IsAlive() || tank->HasAura(Id(KaraSpells::SPELL_GOUGE)); }) == bot;
+}
+
 // Maiden of Virtue
 
 bool MaidenOfVirtueBossEngagedByTanksTrigger::IsActive()
@@ -133,6 +150,25 @@ bool RomuloAndJulianneBothBossesRevivedTrigger::IsActive()
     return AI_VALUE2(Unit*, "find target", "romulo") && AI_VALUE2(Unit*, "find target", "julianne");
 }
 
+bool JulianneCastsEternalAffectionTrigger::IsActive()
+{
+    // Guides interrupt Eternal Affection, her heal on herself or Romulo.
+    switch (bot->getClass())
+    {
+        case CLASS_WARRIOR:
+        case CLASS_ROGUE:
+        case CLASS_SHAMAN:
+        case CLASS_MAGE:
+        case CLASS_HUNTER:
+            break;
+        default:
+            return false;
+    }
+
+    Unit* julianne = AI_VALUE2(Unit*, "find target", "julianne");
+    return julianne && julianne->FindCurrentSpellBySpellId(Id(KaraSpells::SPELL_ETERNAL_AFFECTION));
+}
+
 // The Wizard of Oz
 
 bool WizardOfOzNeedTargetPriorityTrigger::IsActive()
@@ -152,6 +188,20 @@ bool WizardOfOzNeedTargetPriorityTrigger::IsActive()
 bool WizardOfOzStrawmanIsVulnerableToFireTrigger::IsActive()
 {
     return bot->getClass() == CLASS_MAGE && AI_VALUE2(Unit*, "find target", "strawman");
+}
+
+bool WizardOfOzCycloneIsNearbyTrigger::IsActive()
+{
+    // The Crone's cyclones wander and knock back whoever they touch.
+    if (!AI_VALUE2(Unit*, "find target", "the crone"))
+        return false;
+
+    // Read from the spell data; the fallback and margin are ours, the margin for their wandering.
+    constexpr float fallbackRadius = 5.0f;
+    constexpr float margin = 3.0f;
+    float const safeDistance =
+        GetSpellRadiusOrFallback(Id(KaraSpells::SPELL_CYCLONE_KNOCKBACK), fallbackRadius) + margin;
+    return GetNearestNpcOfEntry(botAI, Id(KaraNpcs::NPC_CYCLONE), safeDistance) != nullptr;
 }
 
 // The Curator
@@ -212,6 +262,31 @@ bool ShadeOfAranBossCastsCounterspellNearbyTrigger::IsActive()
         return false;
 
     return !IsAranCastingArcaneExplosion(aran) && !IsFlameWreathActive(bot);
+}
+
+bool ShadeOfAranBlizzardIsNearbyTrigger::IsActive()
+{
+    // Guides move out of Aran's Blizzard as it circles the room; never through a Flame Wreath.
+    if (!AI_VALUE2(Unit*, "find target", "shade of aran") || IsFlameWreathActive(bot))
+        return false;
+
+    // Read from the spell data; the fallback and margin are ours.
+    constexpr float fallbackRadius = 8.0f;
+    constexpr float margin = 2.0f;
+    float const safeDistance = GetSpellRadiusOrFallback(Id(KaraSpells::SPELL_BLIZZARD), fallbackRadius) + margin;
+    return GetNearestNpcOfEntry(botAI, Id(KaraNpcs::NPC_ARAN_BLIZZARD), safeDistance) != nullptr;
+}
+
+bool ShadeOfAranIsDrinkingTrigger::IsActive()
+{
+    // Guides leave Aran's drink alone until the raid is back to full health after Mass Polymorph.
+    constexpr float healthyPct = 90.0f;
+    Unit* aran = AI_VALUE2(Unit*, "find target", "shade of aran");
+    if (!aran || !IsAranDrinking(aran) || IsGroupHealthy(bot, healthyPct))
+        return false;
+
+    Pet* pet = bot->GetPet();
+    return bot->GetVictim() == aran || (pet && pet->GetVictim() == aran);
 }
 
 // Netherspite

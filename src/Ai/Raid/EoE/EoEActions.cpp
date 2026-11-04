@@ -71,6 +71,26 @@ bool MalygosPositionAction::Execute(Event /*event*/)
     return false;
 }
 
+bool MalygosKillPowerSparkAction::Execute(Event /*event*/)
+{
+    Unit* spark = GetPowerSparkNearMalygos(botAI, AI_VALUE2(Unit*, "find target", "malygos"));
+    return spark && Attack(spark);
+}
+
+bool MalygosMoveIntoArcaneOverloadAction::Execute(Event /*event*/)
+{
+    Unit* bubble = GetNewestArcaneOverload(botAI);
+    return bubble && MoveTo(bubble->GetMapId(), bubble->GetPositionX(), bubble->GetPositionY(), bubble->GetPositionZ(),
+                            false, false, false, true, MovementPriority::MOVEMENT_COMBAT, true, false);
+}
+
+bool MalygosAvoidStaticFieldAction::Execute(Event /*event*/)
+{
+    float safeDistance = 0.0f;
+    Unit* field = GetStaticFieldInRange(botAI, safeDistance);
+    return field && MoveAway(field, safeDistance);
+}
+
 bool MalygosTargetAction::Execute(Event /*event*/)
 {
     Unit* boss = AI_VALUE2(Unit*, "find target", "malygos");
@@ -103,6 +123,13 @@ bool MalygosTargetAction::Execute(Event /*event*/)
         // }
 
         Unit* currentTarget = AI_VALUE(Unit*, "current target");
+
+        // Bots on a Power Spark finish it first.
+        if (currentTarget && currentTarget->IsAlive() && currentTarget->GetEntry() == NPC_POWER_SPARK &&
+            !currentTarget->HasUnitFlag(UNIT_FLAG_NON_ATTACKABLE))
+        {
+            return false;
+        }
 
         if (!currentTarget || currentTarget->GetEntry() != newTarget->GetEntry())
         {

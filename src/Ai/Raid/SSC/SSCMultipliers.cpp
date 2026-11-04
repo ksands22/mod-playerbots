@@ -325,6 +325,11 @@ float HydrossTheUnstableWaitForDpsMultiplier::GetValueInEncounter(Action* action
     if (dynamic_cast<HydrossTheUnstablePositionAndSwapTanksAction*>(action))
         return 1.0f;
 
+    // The hold is for Hydross' threat reset; the Spawns summoned at the phase change die at once.
+    Unit* target = dynamic_cast<CastSpellAction*>(action) ? action->GetTarget() : AI_VALUE(Unit*, "current target");
+    if (IsSpawnOfHydross(target))
+        return 1.0f;
+
     Unit* hydross = AI_VALUE2(Unit*, "find target", "hydross the unstable");
     if (!hydross || GetHydrossDpsHoldWindow(hydross) == HydrossDpsHoldWindow::None)
         return 1.0f;

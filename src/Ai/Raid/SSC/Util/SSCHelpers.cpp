@@ -14,6 +14,7 @@
 #include "Playerbots.h"
 #include <algorithm>
 #include <cmath>
+#include <limits>
 #include <list>
 #include <mutex>
 #include <string>
@@ -326,6 +327,33 @@ bool IsHydrossPhaseTank(Player* bot)
 bool IsHydrossAddTank(Player* bot)
 {
     return PlayerbotAI::IsTank(bot) && !IsHydrossPhaseTank(bot);
+}
+
+bool IsSpawnOfHydross(Unit const* unit)
+{
+    return unit && (unit->GetEntry() == Id(SscNpcs::NPC_PURE_SPAWN_OF_HYDROSS) ||
+                    unit->GetEntry() == Id(SscNpcs::NPC_TAINTED_SPAWN_OF_HYDROSS));
+}
+
+Unit* GetNearestSpawnOfHydross(PlayerbotAI* botAI)
+{
+    Player* bot = botAI->GetBot();
+    Unit* nearest = nullptr;
+    float nearestDistance = std::numeric_limits<float>::max();
+    for (ObjectGuid const guid : botAI->GetAiObjectContext()->GetValue<GuidVector>("possible targets")->Get())
+    {
+        Unit* unit = botAI->GetUnit(guid);
+        if (!unit || !unit->IsAlive() || !IsSpawnOfHydross(unit))
+            continue;
+
+        float const distance = bot->GetExactDist2d(unit);
+        if (distance < nearestDistance)
+        {
+            nearest = unit;
+            nearestDistance = distance;
+        }
+    }
+    return nearest;
 }
 
 bool IsHydrossInFrostPhase(Unit* hydross)

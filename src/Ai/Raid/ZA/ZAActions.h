@@ -164,6 +164,14 @@ public:
     bool Execute(Event event) override;
 };
 
+class HexLordMalacrassInterruptHealAction : public Action
+{
+public:
+    HexLordMalacrassInterruptHealAction(PlayerbotAI* botAI)
+        : Action(botAI, "hex lord malacrass interrupt heal") {}
+    bool Execute(Event event) override;
+};
+
 class HexLordMalacrassMoveAwayFromFreezingTrapAction : public MovementAction
 {
 public:
@@ -187,6 +195,14 @@ class ZuljinPositionRangedForCyclonesAction : public MovementAction
 public:
     ZuljinPositionRangedForCyclonesAction(PlayerbotAI* botAI)
         : MovementAction(botAI, "zul'jin position ranged for cyclones") {}
+    bool Execute(Event event) override;
+};
+
+class ZuljinMoveOutOfColumnOfFireAction : public MovementAction
+{
+public:
+    ZuljinMoveOutOfColumnOfFireAction(PlayerbotAI* botAI)
+        : MovementAction(botAI, "zul'jin move out of column of fire") {}
     bool Execute(Event event) override;
 };
 

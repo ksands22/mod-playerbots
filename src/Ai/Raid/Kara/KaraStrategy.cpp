@@ -37,6 +37,9 @@ void RaidKarazhanStrategy::InitTriggers(std::vector<TriggerNode*>& triggers)
     triggers.push_back(new TriggerNode("moroes should prioritize adds",
         { NextAction("moroes mark target", ACTION_RAID) }));
 
+    triggers.push_back(new TriggerNode("moroes gouged the tank",
+        { NextAction("moroes taunt boss", ACTION_EMERGENCY + 1) }));
+
     // Maiden of Virtue
     triggers.push_back(new TriggerNode("maiden of virtue boss engaged by tanks",
         { NextAction("maiden of virtue tank position boss", ACTION_RAID) }));
@@ -58,12 +61,18 @@ void RaidKarazhanStrategy::InitTriggers(std::vector<TriggerNode*>& triggers)
     triggers.push_back(new TriggerNode("romulo and julianne both bosses revived",
         { NextAction("romulo and julianne mark target", ACTION_RAID) }));
 
+    triggers.push_back(new TriggerNode("julianne casts eternal affection",
+        { NextAction("julianne interrupt eternal affection", ACTION_EMERGENCY + 1) }));
+
     // The Wizard of Oz
     triggers.push_back(new TriggerNode("wizard of oz need target priority",
         { NextAction("wizard of oz mark target", ACTION_RAID) }));
 
     triggers.push_back(new TriggerNode("wizard of oz strawman is vulnerable to fire",
         { NextAction("wizard of oz scorch strawman", ACTION_RAID + 1) }));
+
+    triggers.push_back(new TriggerNode("wizard of oz cyclone is nearby",
+        { NextAction("wizard of oz avoid cyclone", ACTION_EMERGENCY + 5) }));
 
     // The Curator
     triggers.push_back(new TriggerNode("the curator astral flare spawned",
@@ -91,6 +100,12 @@ void RaidKarazhanStrategy::InitTriggers(std::vector<TriggerNode*>& triggers)
 
     triggers.push_back(new TriggerNode("shade of aran boss casts counterspell nearby",
         { NextAction("shade of aran ranged maintain distance", ACTION_RAID + 1) }));
+
+    triggers.push_back(new TriggerNode("shade of aran blizzard is nearby",
+        { NextAction("shade of aran avoid blizzard", ACTION_EMERGENCY + 5) }));
+
+    triggers.push_back(new TriggerNode("shade of aran is drinking",
+        { NextAction("shade of aran stop attacking while drinking", ACTION_EMERGENCY + 5) }));
 
     // Netherspite
     triggers.push_back(new TriggerNode("netherspite red beam is active",
@@ -153,6 +168,7 @@ void RaidKarazhanStrategy::InitMultipliers(std::vector<Multiplier*>& multipliers
     multipliers.push_back(new TheCuratorDisableCombatFormationMoveMultiplier(botAI));
     multipliers.push_back(new TheCuratorDelayBloodlustAndHeroismMultiplier(botAI));
     multipliers.push_back(new TerestianIllhoofDontDotFiendishImpsMultiplier(botAI));
+    multipliers.push_back(new ShadeOfAranWaitOutDrinkMultiplier(botAI));
     multipliers.push_back(new ShadeOfAranArcaneExplosionRunAwayMultiplier(botAI));
     multipliers.push_back(new ShadeOfAranFlameWreathDisableMovementMultiplier(botAI));
     multipliers.push_back(new NetherspiteKeepBlockingBeamMultiplier(botAI));

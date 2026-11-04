@@ -23,6 +23,8 @@ void RaidIccStrategy::InitTriggers(std::vector<TriggerNode*>& triggers)
                              NextAction("icc adds lady deathwhisper", ACTION_RAID + 3),
                              NextAction("icc shade lady deathwhisper", ACTION_RAID + 4) }));
 
+    triggers.push_back(new TriggerNode("icc interrupt", { NextAction("icc interrupt", ACTION_EMERGENCY + 1) }));
+
     //Gunship Battle
     triggers.push_back(new TriggerNode("icc rotting frost giant tank position",
         { NextAction("icc rotting frost giant tank position", ACTION_RAID + 5) }));

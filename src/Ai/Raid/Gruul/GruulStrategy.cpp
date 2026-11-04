@@ -36,6 +36,9 @@ void RaidGruulsLairStrategy::InitTriggers(std::vector<TriggerNode*>& triggers)
     triggers.push_back(new TriggerNode("high king maulgar should stand back from krosh",
         { NextAction("high king maulgar back away from krosh", ACTION_RAID + 3) }));
 
+    triggers.push_back(new TriggerNode("high king maulgar blindeye casts heal",
+        { NextAction("high king maulgar interrupt blindeye", ACTION_EMERGENCY + 1) }));
+
     triggers.push_back(new TriggerNode("high king maulgar wild fel stalker spawned",
         { NextAction("high king maulgar banish fel stalker", ACTION_RAID + 1) }));
 

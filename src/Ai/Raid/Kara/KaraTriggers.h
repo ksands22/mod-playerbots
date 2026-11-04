@@ -65,6 +65,14 @@ public:
     bool IsActive() override;
 };
 
+class MoroesGougedTheTankTrigger : public Trigger
+{
+public:
+    MoroesGougedTheTankTrigger(PlayerbotAI* botAI)
+        : Trigger(botAI, "moroes gouged the tank") {}
+    bool IsActive() override;
+};
+
 class MaidenOfVirtueBossEngagedByTanksTrigger : public Trigger
 {
 public:
@@ -113,6 +121,14 @@ public:
     bool IsActive() override;
 };
 
+class JulianneCastsEternalAffectionTrigger : public Trigger
+{
+public:
+    JulianneCastsEternalAffectionTrigger(PlayerbotAI* botAI)
+        : Trigger(botAI, "julianne casts eternal affection") {}
+    bool IsActive() override;
+};
+
 class WizardOfOzNeedTargetPriorityTrigger : public Trigger
 {
 public:
@@ -126,6 +142,14 @@ class WizardOfOzStrawmanIsVulnerableToFireTrigger : public Trigger
 public:
     WizardOfOzStrawmanIsVulnerableToFireTrigger(PlayerbotAI* botAI)
         : Trigger(botAI, "wizard of oz strawman is vulnerable to fire") {}
+    bool IsActive() override;
+};
+
+class WizardOfOzCycloneIsNearbyTrigger : public Trigger
+{
+public:
+    WizardOfOzCycloneIsNearbyTrigger(PlayerbotAI* botAI)
+        : Trigger(botAI, "wizard of oz cyclone is nearby") {}
     bool IsActive() override;
 };
 class TheCuratorAstralFlareSpawnedTrigger : public Trigger
@@ -189,6 +213,22 @@ class ShadeOfAranBossCastsCounterspellNearbyTrigger : public Trigger
 public:
     ShadeOfAranBossCastsCounterspellNearbyTrigger(PlayerbotAI* botAI)
         : Trigger(botAI, "shade of aran boss casts counterspell nearby") {}
+    bool IsActive() override;
+};
+
+class ShadeOfAranBlizzardIsNearbyTrigger : public Trigger
+{
+public:
+    ShadeOfAranBlizzardIsNearbyTrigger(PlayerbotAI* botAI)
+        : Trigger(botAI, "shade of aran blizzard is nearby") {}
+    bool IsActive() override;
+};
+
+class ShadeOfAranIsDrinkingTrigger : public Trigger
+{
+public:
+    ShadeOfAranIsDrinkingTrigger(PlayerbotAI* botAI)
+        : Trigger(botAI, "shade of aran is drinking") {}
     bool IsActive() override;
 };
 

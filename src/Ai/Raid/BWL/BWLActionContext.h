@@ -40,6 +40,7 @@ public:
         creators["bwl flamegor avoid breath"] = &RaidBwlActionContext::bwl_flamegor_avoid_breath;
 
         creators["bwl use hourglass sand"] = &RaidBwlActionContext::bwl_use_hourglass_sand;
+        creators["bwl chromaggus taunt"] = &RaidBwlActionContext::bwl_chromaggus_taunt;
         creators["bwl nefarian rear flank"] = &RaidBwlActionContext::bwl_nefarian_rear_flank;
         creators["bwl nefarian stop corrupted heal"] = &RaidBwlActionContext::bwl_nefarian_stop_corrupted_heal;
         creators["bwl nefarian mark corrupted totem"] = &RaidBwlActionContext::bwl_nefarian_mark_corrupted_totem;
@@ -64,6 +65,7 @@ private:
     static Action* bwl_flamegor_fire_resistance_action(PlayerbotAI* botAI) { return new BossFireResistanceAction(botAI, "flamegor"); }
     static Action* bwl_flamegor_avoid_breath(PlayerbotAI* botAI) { return new BwlBlackDrakeAvoidBreathAction(botAI, "flamegor"); }
     static Action* bwl_use_hourglass_sand(PlayerbotAI* botAI) { return new BwlUseHourglassSandAction(botAI); }
+    static Action* bwl_chromaggus_taunt(PlayerbotAI* botAI) { return new BwlChromaggusTauntAction(botAI); }
     static Action* bwl_nefarian_rear_flank(PlayerbotAI* botAI) { return new BossRearFlankAction(botAI, "nefarian"); }
     static Action* bwl_firemaw_hide_from_flame_buffet(PlayerbotAI* botAI) { return new BwlFiremawHideFromFlameBuffetAction(botAI); }
     static Action* bwl_firemaw_healer_position(PlayerbotAI* botAI) { return new BwlFiremawHideFromFlameBuffetAction(botAI, "bwl firemaw healer position", true); }

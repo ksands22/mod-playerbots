@@ -75,6 +75,14 @@ public:
     bool Execute(Event event) override;
 };
 
+class MoroesTauntBossAction : public AttackAction
+{
+public:
+    MoroesTauntBossAction(PlayerbotAI* botAI)
+        : AttackAction(botAI, "moroes taunt boss") {}
+    bool Execute(Event event) override;
+};
+
 class MaidenOfVirtueTankPositionBossAction : public AttackAction
 {
 public:
@@ -136,6 +144,14 @@ public:
     bool Execute(Event event) override;
 };
 
+class JulianneInterruptEternalAffectionAction : public Action
+{
+public:
+    JulianneInterruptEternalAffectionAction(PlayerbotAI* botAI)
+        : Action(botAI, "julianne interrupt eternal affection") {}
+    bool Execute(Event event) override;
+};
+
 class WizardOfOzMarkTargetAction : public Action
 {
 public:
@@ -149,6 +165,14 @@ class WizardOfOzScorchStrawmanAction : public Action
 public:
     WizardOfOzScorchStrawmanAction(PlayerbotAI* botAI)
         : Action(botAI, "wizard of oz scorch strawman") {}
+    bool Execute(Event event) override;
+};
+
+class WizardOfOzAvoidCycloneAction : public MovementAction
+{
+public:
+    WizardOfOzAvoidCycloneAction(PlayerbotAI* botAI)
+        : MovementAction(botAI, "wizard of oz avoid cyclone") {}
     bool Execute(Event event) override;
 };
 
@@ -213,6 +237,22 @@ class ShadeOfAranRangedMaintainDistanceAction : public MovementAction
 public:
     ShadeOfAranRangedMaintainDistanceAction(PlayerbotAI* botAI)
         : MovementAction(botAI, "shade of aran ranged maintain distance") {}
+    bool Execute(Event event) override;
+};
+
+class ShadeOfAranAvoidBlizzardAction : public MovementAction
+{
+public:
+    ShadeOfAranAvoidBlizzardAction(PlayerbotAI* botAI)
+        : MovementAction(botAI, "shade of aran avoid blizzard") {}
+    bool Execute(Event event) override;
+};
+
+class ShadeOfAranStopAttackingWhileDrinkingAction : public Action
+{
+public:
+    ShadeOfAranStopAttackingWhileDrinkingAction(PlayerbotAI* botAI)
+        : Action(botAI, "shade of aran stop attacking while drinking") {}
     bool Execute(Event event) override;
 };
 

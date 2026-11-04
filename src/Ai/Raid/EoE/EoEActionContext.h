@@ -18,6 +18,9 @@ public:
     {
         creators["malygos position"] = &RaidEoEActionContext::position;
         creators["malygos target"] = &RaidEoEActionContext::target;
+        creators["malygos kill power spark"] = &RaidEoEActionContext::kill_power_spark_near_boss;
+        creators["malygos move into arcane overload"] = &RaidEoEActionContext::move_into_arcane_overload;
+        creators["malygos avoid static field"] = &RaidEoEActionContext::avoid_static_field;
         // creators["pull power spark"] = &RaidEoEActionContext::pull_power_spark;
         // creators["kill power spark"] = &RaidEoEActionContext::kill_power_spark;
         creators["eoe fly drake"] = &RaidEoEActionContext::eoe_fly_drake;
@@ -27,6 +30,12 @@ public:
 private:
     static Action* position(PlayerbotAI* botAI) { return new MalygosPositionAction(botAI); }
     static Action* target(PlayerbotAI* botAI) { return new MalygosTargetAction(botAI); }
+    static Action* kill_power_spark_near_boss(PlayerbotAI* botAI) { return new MalygosKillPowerSparkAction(botAI); }
+    static Action* move_into_arcane_overload(PlayerbotAI* botAI)
+    {
+        return new MalygosMoveIntoArcaneOverloadAction(botAI);
+    }
+    static Action* avoid_static_field(PlayerbotAI* botAI) { return new MalygosAvoidStaticFieldAction(botAI); }
     // static Action* pull_power_spark(PlayerbotAI* botAI) { return new PullPowerSparkAction(botAI); }
     // static Action* kill_power_spark(PlayerbotAI* botAI) { return new KillPowerSparkAction(botAI); }
     static Action* eoe_fly_drake(PlayerbotAI* botAI) { return new EoEFlyDrakeAction(botAI); }

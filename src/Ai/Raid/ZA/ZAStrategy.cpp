@@ -82,6 +82,9 @@ void RaidZulAmanStrategy::InitTriggers(std::vector<TriggerNode*>& triggers)
     triggers.push_back(new TriggerNode("hex lord malacrass channeling whirlwind",
         { NextAction("hex lord malacrass run away from whirlwind", ACTION_EMERGENCY + 1) }));
 
+    triggers.push_back(new TriggerNode("hex lord malacrass heal cast",
+        { NextAction("hex lord malacrass interrupt heal", ACTION_EMERGENCY + 1) }));
+
     triggers.push_back(new TriggerNode("hex lord malacrass freezing trap placed",
         { NextAction("hex lord malacrass move away from freezing trap", ACTION_EMERGENCY + 1) }));
 
@@ -103,6 +106,9 @@ void RaidZulAmanStrategy::InitTriggers(std::vector<TriggerNode*>& triggers)
 
     triggers.push_back(new TriggerNode("zul'jin spread for dragonhawk aoe",
         { NextAction("zul'jin spread ranged", ACTION_RAID) }));
+
+    triggers.push_back(new TriggerNode("zul'jin standing in column of fire",
+        { NextAction("zul'jin move out of column of fire", ACTION_EMERGENCY + 2) }));
 }
 
 void RaidZulAmanStrategy::InitMultipliers(std::vector<Multiplier*>& multipliers)

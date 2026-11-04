@@ -302,6 +302,14 @@ public:
     bool IsActive() override;
 };
 
+// Lady Deathwhisper's Frostbolt and the Risen Archmages' Frostbolt Volley
+class IccInterruptTrigger : public Trigger
+{
+public:
+    IccInterruptTrigger(PlayerbotAI* botAI) : Trigger(botAI, "icc interrupt") {}
+    bool IsActive() override;
+};
+
 //Gunship Battle
 class IccRottingFrostGiantTankPositionTrigger : public Trigger
 {

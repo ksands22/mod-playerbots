@@ -94,6 +94,25 @@ GuidVector FindBurningAbyssalGuids(Player* bot)
     return guids;
 }
 
+Unit* GetChannelerToInterrupt(PlayerbotAI* botAI)
+{
+    Unit* volleyCaster = nullptr;
+    for (ObjectGuid const guid : botAI->GetAiObjectContext()->GetValue<GuidVector>("possible targets")->Get())
+    {
+        Unit* unit = botAI->GetUnit(guid);
+        if (!unit || !unit->IsAlive() || unit->GetEntry() != Id(MagNpcs::NPC_HELLFIRE_CHANNELER))
+            continue;
+
+        if (unit->FindCurrentSpellBySpellId(Id(MagSpells::SPELL_DARK_MENDING)))
+            return unit;
+
+        if (!volleyCaster && unit->FindCurrentSpellBySpellId(Id(MagSpells::SPELL_SHADOW_BOLT_VOLLEY)))
+            volleyCaster = unit;
+    }
+
+    return volleyCaster;
+}
+
 std::vector<Unit*> GetBurningAbyssals(PlayerbotAI* botAI)
 {
     GuidVector const& guids =

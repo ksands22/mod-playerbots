@@ -38,6 +38,9 @@ public:
         creators["hydross the unstable frost phase spread ranged"] =
             &RaidSscActionContext::hydross_the_unstable_frost_phase_spread_ranged;
 
+        creators["hydross the unstable attack spawn of hydross"] =
+            &RaidSscActionContext::hydross_the_unstable_attack_spawn_of_hydross;
+
         creators["hydross the unstable misdirect to tank"] =
             &RaidSscActionContext::hydross_the_unstable_misdirect_to_tank;
 
@@ -112,6 +115,9 @@ public:
 
         creators["fathom-lord karathress position caribdis tank healer"] =
             &RaidSscActionContext::fathom_lord_karathress_position_caribdis_tank_healer;
+
+        creators["fathom-lord karathress interrupt caribdis"] =
+            &RaidSscActionContext::fathom_lord_karathress_interrupt_caribdis;
 
         creators["fathom-lord karathress misdirect to tanks"] =
             &RaidSscActionContext::fathom_lord_karathress_misdirect_to_tanks;
@@ -263,6 +269,10 @@ private:
             botAI, "hydross the unstable frost phase spread ranged",
             SscHelpers::HYDROSS_FROST_RANGED_SPREAD_DISTANCE);
     }
+    static Action* hydross_the_unstable_attack_spawn_of_hydross(PlayerbotAI* botAI)
+    {
+        return new HydrossTheUnstableAttackSpawnOfHydrossAction(botAI);
+    }
     static Action* hydross_the_unstable_misdirect_to_tank(PlayerbotAI* botAI)
     {
         return new HydrossTheUnstableMisdirectToTankAction(botAI);
@@ -368,6 +378,10 @@ private:
     static Action* fathom_lord_karathress_position_caribdis_tank_healer(PlayerbotAI* botAI)
     {
         return new FathomLordKarathressPositionCaribdisTankHealerAction(botAI);
+    }
+    static Action* fathom_lord_karathress_interrupt_caribdis(PlayerbotAI* botAI)
+    {
+        return new FathomLordKarathressInterruptCaribdisAction(botAI);
     }
     static Action* fathom_lord_karathress_misdirect_to_tanks(PlayerbotAI* botAI)
     {
